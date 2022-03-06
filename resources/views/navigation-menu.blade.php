@@ -18,7 +18,7 @@
                     <x-jet-nav-link href="{{ route('cms') }}" :active="request()->routeIs('cms')">
                         {{ __('Manage Content') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('gaming') }}" :active="request()->routeIs('gaming')">
+                    <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.*')">
                         {{ __('Gaming') }}
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('customers') }}" :active="request()->routeIs('customers.*')">

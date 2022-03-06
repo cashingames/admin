@@ -13,4 +13,9 @@ class User extends Model
         {
                 return $this->hasOne(Profile::class);
         }
+
+        public function gameSessions()
+        {
+                return $this->hasMany(GameSession::class);
+        }
 }

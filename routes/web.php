@@ -24,8 +24,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['auth:sanctum', 'verified'], function () {
     Route::view('/cms', 'cms')->name('cms');
-    Route::view('/gaming', 'gaming')->name('gaming');
+
+    Route::redirect('/gaming', '/gaming/dashboard')->name('gaming');
+    Route::view('/gaming/dashboard', 'gaming.dashboard')->name('gaming.dashboard');
+    Route::view('/gaming/sessions', 'gaming.sessions')->name('gaming.sessions');
+
     Route::view('/customers', 'customers')->name('customers');
+
     Route::redirect('/finance', '/finance/transactions')->name('finance');
     Route::view('/finance/transactions', 'finance.transactions')->name('finance.transactions');
 });
