@@ -1,4 +1,4 @@
-name: Staging
+name: admin-pipeline
 
 on:
   push:
