@@ -18,20 +18,39 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-Route::group(['auth:sanctum', 'verified'], function () {
-    Route::view('/cms', 'cms')->name('cms');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-    Route::redirect('/gaming', '/gaming/dashboard')->name('gaming');
-    Route::view('/gaming/dashboard', 'gaming.dashboard')->name('gaming.dashboard');
-    Route::view('/gaming/sessions', 'gaming.sessions')->name('gaming.sessions');
+    Route::get('/cms', function () {
+        return view('cms');
+    })->name('cms');
 
-    Route::view('/customers', 'customers')->name('customers');
+    Route::get('/gaming', function () {
+        return redirect()->route('gaming.dashboard');
+    })->name('gaming');
 
-    Route::redirect('/finance', '/finance/transactions')->name('finance');
-    Route::view('/finance/transactions', 'finance.transactions')->name('finance.transactions');
+    Route::get('/gaming/dashboard', function () {
+        return view('gaming.dashboard');
+    })->name('gaming.dashboard');
+
+    Route::get('/gaming/sessions', function () {
+        return view('gaming.sessions');
+    })->name('gaming.sessions');
+
+    Route::get('/finance', function () {
+        return redirect()->route('finance.transactions');
+    })->name('finance');
+
+    Route::get('/finance/transactions', function () {
+        return view('finance.transactions');
+    })->name('finance.transactions');
+
+    Route::get('/customers', function () {
+        return view('customers');
+    })->name('customers');
 });
+
 
