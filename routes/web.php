@@ -28,6 +28,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms');
     })->name('cms');
 
+    Route::get('/cms/questions', function () {
+        return view('cms.questions');
+    })->name('cms.questions');
+
     Route::get('/gaming', function () {
         return redirect()->route('gaming.dashboard');
     })->name('gaming');

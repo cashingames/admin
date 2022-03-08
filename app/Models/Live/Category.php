@@ -22,4 +22,10 @@ class Category extends Model
   {
     return $this->belongsToMany(Category::class, 'game_sessions')->withPivot('points_gained', 'user_id');
   }
+
+  public function questions()
+  {
+    return $this->hasMany(Question::class);
+  }
+
 }
