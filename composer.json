@@ -16,7 +16,8 @@
         "lecturize/laravel-taxonomies": "^1.0",
         "livewire/livewire": "^2.5",
         "mediconesystems/livewire-datatables": "^0.6.8",
-        "rappasoft/laravel-livewire-tables": "^1.24"
+        "rappasoft/laravel-livewire-tables": "^1.24",
+        "wire-elements/modal": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

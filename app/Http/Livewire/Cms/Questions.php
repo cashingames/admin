@@ -40,6 +40,12 @@ class Questions extends LivewireDatatable
             ->hideable()
             ->filterable()
             ->editable(),
+
+            Column::callback(['id', 'level', 'label','category.name'], 
+            function ($id, $level, $label, $subcategory) {
+                return view('components.table-actions', ['id' => $id, 'level' => $level, 
+                'label' => $label, 'category.name' => $subcategory]);
+            })->unsortable()
         ];
     }
 
