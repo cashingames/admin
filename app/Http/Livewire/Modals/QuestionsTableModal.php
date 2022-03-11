@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Modals;
 
 use App\Models\Live\Question;
 use LivewireUI\Modal\ModalComponent;
@@ -15,16 +15,9 @@ class QuestionsTableModal extends ModalComponent
         $this->question = Question::find($id);
     }
 
-    public static function modalMaxWidth(): string
-    {
-        return '7xl';
-    }
-
     public function render()
     {
-        // return view('livewire.questions-table-modal');
-
-        return view('livewire.questions-table-modal', [
+        return view('livewire.modals.questions-table-modal', [
             'question' =>$this->question,
         ]);
     }

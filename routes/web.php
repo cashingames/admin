@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CmsController;
 use App\Http\Livewire\Finance\Transactions;
-use App\Http\Livewire\QuestionsTableModal;
+use App\Http\Livewire\Modals\QuestionsTableModal;
 
 /*
 |--------------------------------------------------------------------------
