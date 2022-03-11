@@ -34,8 +34,13 @@
         </label>
         <div class="relative">
             @foreach ($question->options as $option)
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  type="text" placeholder="Level" value={{$option->title}}>
+                @if ($option->is_correct)
+                     <input class="appearance-none block w-full bg-green-500 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  type="text" placeholder="Level" value={{$option->title}}>
+                @else
+                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  type="text" placeholder="Level" value={{$option->title}}>
+                @endif
             @endforeach
+
         </div>
       </div>
     </div>
