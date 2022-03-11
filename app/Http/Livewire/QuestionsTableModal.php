@@ -15,6 +15,11 @@ class QuestionsTableModal extends ModalComponent
         $this->question = Question::find($id);
     }
 
+    public static function modalMaxWidth(): string
+    {
+        return '7xl';
+    }
+
     public function render()
     {
         // return view('livewire.questions-table-modal');
