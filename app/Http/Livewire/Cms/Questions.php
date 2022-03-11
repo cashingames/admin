@@ -25,21 +25,18 @@ class Questions extends LivewireDatatable
            ,
             Column::name('level')
             ->searchable()
-            ->filterable()
-            ->editable(),
+            ->filterable(),
 
             Column::name('label')
             ->label('Question')
             ->filterable()
-            ->searchable()
-            ->editable(),
+            ->searchable(),
 
             Column::name('category.name')
             ->label('Subcategory')
             ->searchable()
             ->hideable()
-            ->filterable()
-            ->editable(),
+            ->filterable(),
 
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {

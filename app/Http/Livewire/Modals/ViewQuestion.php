@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Modals;
 use App\Models\Live\Question;
 use LivewireUI\Modal\ModalComponent;
 
-class QuestionsTableModal extends ModalComponent
+class ViewQuestion extends ModalComponent
 {
 
     public $question;
@@ -17,7 +17,7 @@ class QuestionsTableModal extends ModalComponent
 
     public function render()
     {
-        return view('livewire.modals.questions-table-modal', [
+        return view('livewire.modals.view-question', [
             'question' =>$this->question,
         ]);
     }

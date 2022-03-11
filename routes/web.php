@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CmsController;
 use App\Http\Livewire\Finance\Transactions;
-use App\Http\Livewire\Modals\QuestionsTableModal;
+use App\Http\Livewire\Modals\ViewQuestion;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms.questions');
     })->name('cms.questions');
 
-    Route::get('/cms/question/view/{id}', QuestionsTableModal::class)->name('question.view');
+    Route::get('/cms/question/view/{id}', ViewQuestion::class)->name('question.view');
 
     Route::get('/gaming', function () {
         return redirect()->route('gaming.dashboard');
