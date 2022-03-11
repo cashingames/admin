@@ -12,10 +12,16 @@ module.exports = {
 
     theme: {
         colors: {
-            green: colors.green,
+            black: colors.black,
+            white: colors.white,
+            gray: colors.gray,
             red: colors.red,
+            yellow: colors.yellow,
+            green: colors.green,
             blue: colors.blue,
-        },
+            indigo: colors.indigo,
+            purple: colors.purple,
+          },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
