@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -15,8 +18,7 @@
         "laravel/tinker": "^2.5",
         "lecturize/laravel-taxonomies": "^1.0",
         "livewire/livewire": "^2.5",
-        "mediconesystems/livewire-datatables": "^0.6.8",
-        "rappasoft/laravel-livewire-tables": "^1.24"
+        "mediconesystems/livewire-datatables": "^0.6.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
