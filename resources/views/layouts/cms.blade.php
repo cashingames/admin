@@ -5,7 +5,15 @@
                 {{ __('Manage Content') }}
             </h2>
             <div class="basis-3/4 text-right">
-                @livewire('cms.nav-menu')
+                 <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-end" >
+                    <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('cms.questions') }}" :active="request()->routeIs('cms.questions')">
+                        {{ __('Questions Manager') }}
+                    </x-jet-nav-link>
+                </div>
             </div>
         </div>
     </x-slot>
