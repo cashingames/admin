@@ -1,12 +1,14 @@
-<form class="w-full max-w-lg pt-6">
+<form class="w-full max-w-lg pt-6"method="post" action="{{url('/cms/question/edit')}}">
+    @csrf
     <div class="mb-6">
+        <input type="hidden" name="question_id" value={{$question->id}}>
         <div class="w-full  px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                 QUESTION
             </label>
             <textarea rows="4" , cols="54"
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                type="text" placeholder="Question"> {{$question->label}}</textarea>
+                type="text" placeholder="Question" name="label"> {{$question->label}}</textarea>
         </div>
         <div class="w-full  px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -14,7 +16,7 @@
             </label>
             <div class="relative ">
                 <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="level">
                     <option>easy</option>
                     <option>medium</option>
                     <option>hard</option>
@@ -29,7 +31,7 @@
             </label>
             <select
                 class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-state">
+                name="subcategory">
                 @foreach ($subcategories as $s)
                 <option>{{$s->name}}</option>
                 @endforeach
@@ -43,18 +45,18 @@
             </label>
             <div class="relative">
                 
-                @foreach ($question->options as $option)
+                @foreach ($question->options as $key=>$option)
                 @if ($option->is_correct)
                 <textarea rows="2", cols="54"
                     class="appearance-none block w-full bg-green-500 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" >{{$option->title}}</textarea>
+                    type="text" placeholder="option" name='option[{{$loop->index}}][title]' >{{$option->title}}</textarea>
                 <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                     is this the Correct Option ?
                 </label>
                 <div class="relative mb-2 border-b-4 border-blue-500">
                     <select
                         class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="grid-state">
+                        name='option[{{$loop->index}}][is_correct]'>
                         <option>yes</option>
                         <option>no</option>
                     </select>
@@ -62,14 +64,14 @@
                 @else
                 <textarea rows="2", cols="54"
                     class="appearance-none block w-full bg-gray-200 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" >{{$option->title}}</textarea>
+                    type="text" placeholder="option" name='option[{{$loop->index}}][title]' >{{$option->title}}</textarea>
                 <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                     is this the Correct Option ?
                 </label>
                 <div class="relative mb-2 border-b-4 border-blue-500">
                     <select
                         class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="grid-state">
+                        name='option[{{$loop->index}}][is_correct]'>
                         <option>yes</option>
                         <option>no</option>
                     </select>
@@ -79,11 +81,9 @@
             </div>
         </div>
     </div>
-    <div class="flex-no-wrap justify-between">
-        <div class="md:items-center mb-4">
-            <button class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded" type="button">
-                Save
-            </button>
-        </div>
+    <div class="md:items-center mb-4">
+        <button type="submit" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+            Save
+        </button>
     </div>
 </form>
