@@ -62,7 +62,7 @@
             </button>
         </div>
         <div class="md:items-center mb-4">
-            <button class="shadow bg-red-600 text-white font-bold ml-4 py-2 px-4 rounded" type="button">
+            <button wire:click="$emit('openModal', 'modals.confirm-delete-question', {{ json_encode(["question" => $question->id]) }})" class="shadow bg-red-600 text-white font-bold ml-4 py-2 px-4 rounded" type="button">
                 Delete
             </button>
 

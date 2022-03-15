@@ -4,7 +4,10 @@ namespace App\Http\Livewire\Modals;
 
 use App\Models\Live\Question;
 use App\Models\Live\Category;
+use App\Models\Live\Option;
 use LivewireUI\Modal\ModalComponent;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EditQuestion extends ModalComponent
 {   
@@ -15,6 +18,34 @@ class EditQuestion extends ModalComponent
     {  
         $this->question = Question::find($question);
         $this->subcategories = Category::where('category_id' ,'>', 0)->get();
+    }
+
+    public function editQuestion(Request $request){
+    
+        $question = Question::find($request->question_id);
+        $question->label = $request->label;
+        $question->level = $request->level;
+
+        $category = Category::where('name',$request->subcategory)->first();
+
+        if($category !== null){
+            $question->category_id = $category->id;
+        }
+        $options = $question->options()->get();
+
+        foreach($options as $key=>$_option){
+                $_option->title = $request->option[$key]['title'];
+                
+                if($request->option[$key]['is_correct'] === 'yes'){
+                    $_option->is_correct = true;
+                }else{
+                    $_option->is_correct = false;
+                }
+                $_option->save();
+        }
+        
+        $question->save();
+        return redirect()->to('/cms/questions');
     }
 
     public function render()
