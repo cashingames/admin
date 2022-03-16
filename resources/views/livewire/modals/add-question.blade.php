@@ -2,7 +2,8 @@
     <div class="text-center border-b-4 mt-4 mb-4 border-gray-500">
         <span class="font-bold mb-4 ">Add A Question</span>
     </div>
-    <form class="w-full max-w-lg">
+    <form class="w-full max-w-lg" method="post" action="{{url('/cms/question/add')}}">
+        @csrf
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Question Type

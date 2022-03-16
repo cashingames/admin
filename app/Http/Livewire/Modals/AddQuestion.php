@@ -10,17 +10,8 @@ use LivewireUI\Modal\ModalComponent;
 
 class AddQuestion extends ModalComponent
 {
-    //to handle options,
-    //create a variable as an array here tag it as wire model to option div in blade
-    //create another wire model and tag it to the add button in blade
-    //on click of add option, call a function here that adds the value(wire model say new option title, new option iscorrect) of the input 
-    //to the array here
-    //on submit, the options here is what is submitted
-    //the options div in the blade will show the list of the array from here
 
     public $subcategories , $gameTypes;
-    public $questionOptions = array();
-    public $newOptionTitle, $newOptionIsCorrect;
 
     public function mount()
     {  
@@ -28,13 +19,38 @@ class AddQuestion extends ModalComponent
         $this->gameTypes = GameType::all();
     }
 
-    public function addOption()
-    {   
-        // $data[$key] = $value;
-        // $this->questionOptions = array_merge($this->questionOptions, ['title' => $this->newOptionTitle]);
-        // $this->questionOptions = array_merge($this->questionOptions, ['is_correct' => $this->newOptionIsCorrect]);
-        $this->questionOptions['title'] = $this->newOptionTitle;
-        $this->questionOptions['is_correct'] = $this->newOptionIsCorrect;
+    public function addQuestion(Request $request)
+    {  
+
+        $data = $request->validate([
+            'type' => ['required', 'string'],
+            'subcategory' => ['required', 'string', 'max:20'],
+            'level' => ['required', 'string'],
+            'label' => ['required', 'string'],
+        ]);
+
+        $question = new Question;
+        $gameType = GameType::where('display_name', $data['type'])->first();
+        $subcategory = Category::where('name', $data['subcategory'])->first();
+        $question->level = $data['level'];
+        $question->label = $data['label'];
+        $question->game_type_id = $gameType->id;
+        $question->category_id = $subcategory->id;
+        $question->save();
+
+        foreach($request->options as $key=>$inputOption){
+            $option = new Option;
+            $option->question_id = $question->id;
+            $option->title = $inputOption[$key]['title'];
+            if($inputOption[$key]['is_correct'] === 'yes' || $inputOption[$key]['is_correct'] === null){
+                $option->is_correct = true;
+            }else{
+                $option->is_correct = false;
+            }
+            $option->save();
+        }
+
+        return redirect()->to('/cms/questions');
        
     }
 

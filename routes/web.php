@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CmsController;
 use App\Http\Livewire\Finance\Transactions;
+use App\Http\Livewire\Modals\AddQuestion;
 use App\Http\Livewire\Modals\ViewQuestion;
 use App\Http\Livewire\Modals\EditQuestion;
 use App\Http\Livewire\Modals\ConfirmDeleteQuestion;
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/cms/question/view/{id}', ViewQuestion::class)->name('question.view');
     Route::post('/cms/question/edit', [EditQuestion::class, 'editQuestion']);
     Route::post('/cms/question/delete', [ConfirmDeleteQuestion::class, 'deleteQuestion']);
+    Route::post('/cms/question/add', [AddQuestion::class, 'addQuestion']);
 
     Route::get('/gaming', function () {
         return redirect()->route('gaming.dashboard');
