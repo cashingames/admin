@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Live;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class GameType extends Model
 {
-    use HasFactory;
+    protected $connection = 'mysqllive';
+
 
     protected $fillable = ['name', 'description', 'instruction', 'category_id'];
 
