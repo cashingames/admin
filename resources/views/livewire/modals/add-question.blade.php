@@ -49,26 +49,13 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     type="text" placeholder="Question" name="label" required> </textarea>
             </div>
-            {{-- <div class="w-full mb-6 md:mb-0" wire:model="questionOptions">
-                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                    Options
-                </label>
-                @foreach ($questionOptions as $key=> $value )
-                <div
-                    class=" border-b-4 border-blue-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-                    <span>option: {{$value}}</span>
-
-                </div>
-                @endforeach
-
-            </div> --}}
             <div class="w-full mb-6 md:mb-0">
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">
                     Add Option
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[0]['title']">
+                    type="text" placeholder="90210" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 correct ?
@@ -76,7 +63,7 @@
             <div class="relative mb-2">
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="options[0]['is_correct']">
+                    name="isCorrect[]">
                     <option>yes</option>
                     <option>no</option>
                 </select>
@@ -87,7 +74,7 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[1]['title']">
+                    type="text" placeholder="90210" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 correct ?
@@ -95,7 +82,7 @@
             <div class="relative mb-2">
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="options[1]['is_correct']">
+                    name="isCorrect[]">
                     <option>yes</option>
                     <option>no</option>
                 </select>
@@ -106,7 +93,7 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[2]['title']">
+                    type="text" placeholder="90210" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 correct ?
@@ -114,7 +101,7 @@
             <div class="relative mb-2">
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="options[2]['is_correct']">
+                    name="isCorrect[]">
                     <option>yes</option>
                     <option>no</option>
                 </select>
@@ -125,7 +112,7 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[3]['title']">
+                    type="text" placeholder="90210" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 correct ?
@@ -133,7 +120,7 @@
             <div class="relative mb-2">
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="options[3]['is_correct']">
+                    name="isCorrect[]">
                     <option>yes</option>
                     <option>no</option>
                 </select>
