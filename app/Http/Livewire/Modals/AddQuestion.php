@@ -38,11 +38,13 @@ class AddQuestion extends ModalComponent
         $question->category_id = $subcategory->id;
         $question->save();
 
-        foreach($request->options as $inputOption){
+        $inputOptions = array_combine ( $request->options , $request->isCorrect );
+       
+        foreach( $inputOptions as $key=>$value){
             $option = new Option;
             $option->question_id = $question->id;
-            $option->title = $inputOption['title'];
-            if($inputOption['is_correct'] === 'yes' || $inputOption['is_correct'] === null){
+            $option->title = $key;
+            if($value === 'yes' || $value=== null){
                 $option->is_correct = true;
             }else{
                 $option->is_correct = false;
