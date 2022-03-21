@@ -55,10 +55,10 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[]">
+                    type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
-                correct ?
+                is this the Correct Option ?
             </label>
             <div class="relative mb-2">
                 <select
@@ -74,10 +74,10 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[]">
+                    type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
-                correct ?
+                is this the Correct Option ?
             </label>
             <div class="relative mb-2">
                 <select
@@ -93,10 +93,10 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[]">
+                    type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
-                correct ?
+                is this the Correct Option ?
             </label>
             <div class="relative mb-2">
                 <select
@@ -112,10 +112,10 @@
                 </label>
                 <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="90210" name="options[]">
+                    type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
-                correct ?
+                is this the Correct Option ?
             </label>
             <div class="relative mb-2">
                 <select

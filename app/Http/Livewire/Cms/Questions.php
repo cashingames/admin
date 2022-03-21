@@ -8,6 +8,7 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\Action;
 use App\Models\Live\Question;
+use App\Models\Live\Category;
 
 class Questions extends LivewireDatatable
 {
@@ -31,6 +32,14 @@ class Questions extends LivewireDatatable
             ->label('Question')
             ->filterable()
             ->searchable(),
+
+            Column::callback(['category_id'], function ($category_id) {
+                $parentCategory = Category::find($category_id)->category_id;
+                return Category::find($parentCategory)->name;
+            })->label('Category')
+            ->searchable()
+            ->hideable()
+            ->filterable(),
 
             Column::name('category.name')
             ->label('Subcategory')
