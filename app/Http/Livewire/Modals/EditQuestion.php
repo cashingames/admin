@@ -28,7 +28,6 @@ class EditQuestion extends ModalComponent
             'level' => 'required',
             'subcategory' => 'required',
         ]);
-
         $correctOptions = array();
 
         foreach($request->option as $o){
