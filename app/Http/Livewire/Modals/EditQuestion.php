@@ -21,9 +21,35 @@ class EditQuestion extends ModalComponent
     }
 
     public function editQuestion(Request $request){
-    
+
+       
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+            'level' => 'required',
+            'subcategory' => 'required',
+        ]);
+        $correctOptions = array();
+
+        foreach($request->option as $o){
+            $correctOptions[]= $o['is_correct'];
+        }
+
+        $hasDuplicateCorrectAnswers = $this->has_duplicate_correct_options($correctOptions);
+        
+        $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers ) {
+            if ($hasDuplicateCorrectAnswers) {
+                $validator->errors()->add(
+                    'correctOptions', 'A question should not have more than one correct option'
+                );
+            }
+        });
+
+        if($validator->fails()) {
+            return redirect()->to('/cms/questions')->withErrors($validator);
+        }
+
         $question = Question::find($request->question_id);
-        $question->label = $request->label;
+        $question->label = $request->question;
         $question->level = $request->level;
 
         $category = Category::where('name',$request->subcategory)->first();
@@ -52,4 +78,14 @@ class EditQuestion extends ModalComponent
     {
         return view('livewire.modals.edit-question');
     }
+
+    private function has_duplicate_correct_options($array) {
+        if(count(array_keys($array, "yes")) > 1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
 }
