@@ -31,11 +31,12 @@ class AddQuestion extends ModalComponent
             'isCorrect' => 'required'
         ]);
  
-        
-        $validator->after(function ($validator, Request $request) {
-            if ($this->has_duplicate_correct_options($request->isCorrect)) {
+        $hasDuplicateCorrectAnswers = $this->has_duplicate_correct_options($request->isCorrect);
+       
+        $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers ) {
+            if ($hasDuplicateCorrectAnswers) {
                 $validator->errors()->add(
-                    'correctOptions', 'You cannot have more than one correct option'
+                    'correctOptions', 'A question should not have more than one correct option'
                 );
             }
         });
@@ -77,6 +78,11 @@ class AddQuestion extends ModalComponent
     }
 
     private function has_duplicate_correct_options($array) {
-        return count($array) !== count(array_unique($array));
+        if(count(array_keys($array, "yes")) > 1){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
