@@ -8,6 +8,11 @@ class Question extends Model
 {
     protected $connection = 'mysqllive';
 
+    protected $fillable = ['created_by','is_published'];
+
+    protected $casts = [
+        'is_published' => 'boolean'];
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');

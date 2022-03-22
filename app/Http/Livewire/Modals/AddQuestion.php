@@ -7,6 +7,7 @@ use App\Models\Live\GameType;
 use App\Models\Live\Option;
 use Illuminate\Http\Request;
 use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\Validator;
 
 class AddQuestion extends ModalComponent
 {
@@ -22,18 +23,32 @@ class AddQuestion extends ModalComponent
     public function addQuestion(Request $request)
     {  
 
-        $data = $request->validate([
-            'type' => ['required', 'string'],
-            'subcategory' => ['required', 'string', 'max:20'],
-            'level' => ['required', 'string'],
-            'label' => ['required', 'string'],
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+            'level' => 'required',
+            'subcategory' => 'required',
+            'options' => 'required',
+            'isCorrect' => 'required'
         ]);
+ 
+        
+        $validator->after(function ($validator, Request $request) {
+            if ($this->has_duplicate_correct_options($request->isCorrect)) {
+                $validator->errors()->add(
+                    'correctOptions', 'You cannot have more than one correct option'
+                );
+            }
+        });
+
+        if($validator->fails()) {
+            return redirect()->to('/cms/questions')->withErrors($validator);
+        }
 
         $question = new Question;
-        $gameType = GameType::where('display_name', $data['type'])->first();
-        $subcategory = Category::where('name', $data['subcategory'])->first();
-        $question->level = $data['level'];
-        $question->label = $data['label'];
+        $gameType = GameType::where('display_name', $request->type)->first();
+        $subcategory = Category::where('name', $request->subcategory)->first();
+        $question->level = $request->level;
+        $question->label = $request->question;
         $question->game_type_id = $gameType->id;
         $question->category_id = $subcategory->id;
         $question->save();
@@ -59,5 +74,9 @@ class AddQuestion extends ModalComponent
     public function render()
     {
         return view('livewire.modals.add-question');
+    }
+
+    private function has_duplicate_correct_options($array) {
+        return count($array) !== count(array_unique($array));
     }
 }

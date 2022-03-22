@@ -4,7 +4,7 @@
     </div>
     <form class="w-full max-w-lg" method="post" action="{{url('/cms/question/add')}}">
         @csrf
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <div class="w-full px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Question Type
             </label>
@@ -47,7 +47,7 @@
                 </label>
                 <textarea rows="4" , cols="54"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="text" placeholder="Question" name="label" required> </textarea>
+                    type="text" placeholder="Question" name="question" required> </textarea>
             </div>
             <div class="w-full mb-6 md:mb-0">
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">

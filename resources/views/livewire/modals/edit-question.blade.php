@@ -1,6 +1,15 @@
-<form class="w-full max-w-lg pt-6"method="post" action="{{url('/cms/question/edit')}}">
+<form class="w-full max-w-lg pt-6" method="post" action="{{url('/cms/question/edit')}}">
     @csrf
     <div class="mb-6">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <input type="hidden" name="question_id" value={{$question->id}}>
         <div class="w-full  px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -8,7 +17,7 @@
             </label>
             <textarea rows="4" , cols="54"
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                type="text" placeholder="Question" name="label"> {{$question->label}}</textarea>
+                type="text" placeholder="Question" name="question"> {{$question->label}}</textarea>
         </div>
         <div class="w-full  px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -16,7 +25,8 @@
             </label>
             <div class="relative ">
                 <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="level">
+                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    name="level">
                     <option>easy</option>
                     <option>medium</option>
                     <option>hard</option>
@@ -44,12 +54,13 @@
                 OPTIONS
             </label>
             <div class="relative">
-                
+
                 @foreach ($question->options as $key=>$option)
                 @if ($option->is_correct)
-                <textarea rows="2", cols="54"
+                <textarea rows="2" , cols="54"
                     class="appearance-none block w-full bg-green-500 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" name='option[{{$loop->index}}][title]' >{{$option->title}}</textarea>
+                    type="text" placeholder="option"
+                    name='option[{{$loop->index}}][title]'>{{$option->title}}</textarea>
                 <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                     is this the Correct Option ?
                 </label>
@@ -62,9 +73,10 @@
                     </select>
                 </div>
                 @else
-                <textarea rows="2", cols="54"
+                <textarea rows="2" , cols="54"
                     class="appearance-none block w-full bg-gray-200 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" name='option[{{$loop->index}}][title]' >{{$option->title}}</textarea>
+                    type="text" placeholder="option"
+                    name='option[{{$loop->index}}][title]'>{{$option->title}}</textarea>
                 <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                     is this the Correct Option ?
                 </label>

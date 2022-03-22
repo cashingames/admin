@@ -21,9 +21,22 @@ class EditQuestion extends ModalComponent
     }
 
     public function editQuestion(Request $request){
-    
+
+       
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+            'level' => 'required',
+            'subcategory' => 'required',
+            'option.title' => 'required',
+            'option.is_correct' => 'required'
+        ]);
+ 
+        if($validator->fails()) {
+            return redirect()->to('/cms/questions')->withErrors($validator);
+        }
+
         $question = Question::find($request->question_id);
-        $question->label = $request->label;
+        $question->label = $request->question;
         $question->level = $request->level;
 
         $category = Category::where('name',$request->subcategory)->first();
@@ -52,4 +65,5 @@ class EditQuestion extends ModalComponent
     {
         return view('livewire.modals.edit-question');
     }
+    
 }
