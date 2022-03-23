@@ -31,7 +31,6 @@ class ViewQuestion extends ModalComponent
         if($user->hasTeamPermission($team, 'cms:publish')){
             $this->canPublish = true;
         }
-
         return;
     }
 }
