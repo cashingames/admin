@@ -15,8 +15,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
-
+    'default' => env('APP_IS_STAGING') ? env('DB_CONNECTION_STG', 'mysqlstg') : env('DB_CONNECTION_PROD', 'mysqlprod'),
+    
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -71,6 +71,46 @@ return [
             'database' => env('DB_DATABASE_LIVE', 'forge'),
             'username' => env('DB_USERNAME_LIVE', 'forge'),
             'password' => env('DB_PASSWORD_LIVE', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
+        'mysqlstg' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL_STG'),
+            'host' => env('DB_HOST_STG', '127.0.0.1'),
+            'port' => env('DB_PORT_STG', '3306'),
+            'database' => env('DB_DATABASE_STG', 'forge'),
+            'username' => env('DB_USERNAME_STG', 'forge'),
+            'password' => env('DB_PASSWORD_STG', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
+        'mysqlprod' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL_PROD'),
+            'host' => env('DB_HOST_PROD', '127.0.0.1'),
+            'port' => env('DB_PORT_PROD', '3306'),
+            'database' => env('DB_DATABASE_PROD', 'forge'),
+            'username' => env('DB_USERNAME_PROD', 'forge'),
+            'password' => env('DB_PASSWORD_PROD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
