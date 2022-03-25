@@ -47,6 +47,14 @@ class Questions extends LivewireDatatable
             ->hideable()
             ->filterable(),
 
+            Column::callback(['id'], function ($id) {
+                $q = Question::find($id);
+                if($q->is_published){
+                    return 'Published';
+                }
+                    return 'Unpublished';
+            })->label('Status'),
+
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {
                 return view('components.table-actions', ['id' => $id, 'level' => $level, 
