@@ -6,7 +6,7 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
-use Mediconesystems\LivewireDatatables\Action;
+// use Mediconesystems\LivewireDatatables\Action;
 use App\Models\Live\Question;
 use App\Models\Live\Category;
 
@@ -47,13 +47,9 @@ class Questions extends LivewireDatatable
             ->hideable()
             ->filterable(),
 
-            Column::callback(['id'], function ($id) {
-                $q = Question::find($id);
-                if($q->is_published){
-                    return 'Published';
-                }
-                    return 'Unpublished';
-            })->label('Status'),
+            BooleanColumn::name('is_published')
+            ->label('Published')
+            ->filterable(),
 
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {

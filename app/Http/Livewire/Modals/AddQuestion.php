@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Livewire\Modals;
-use App\Models\Live\Question;
+use App\Models\Question as AdminQuestion;
+use App\Models\Live\Question as LiveQuestion;
 use App\Models\Live\Category;
 use App\Models\Live\GameType;
 use App\Models\Live\Option;
@@ -45,14 +46,20 @@ class AddQuestion extends ModalComponent
             return redirect()->to('/cms/questions')->withErrors($validator);
         }
 
-        $question = new Question;
+        $question = new LiveQuestion;
         $gameType = GameType::where('display_name', $request->type)->first();
         $subcategory = Category::where('name', $request->subcategory)->first();
         $question->level = $request->level;
         $question->label = $request->question;
         $question->game_type_id = $gameType->id;
         $question->category_id = $subcategory->id;
+        $question->created_by = auth()->user()->id;
         $question->save();
+
+        $adminQuestion = new AdminQuestion;
+        $adminQuestion->user_id = auth()->user()->id;
+        $adminQuestion->question_id = $question->id;
+        $adminQuestion->save();
 
         $inputOptions = array_combine ( $request->options , $request->isCorrect );
        
