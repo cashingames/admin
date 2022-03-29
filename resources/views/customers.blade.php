@@ -6,7 +6,7 @@
             </h2>
         </div>
     </x-slot>
-
+    @can('admin-access')
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         <livewire:datatable 
             name="all-users"
@@ -20,5 +20,10 @@
             exportable
         />
     </div>
+    @else
+    <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+        You are not authorised to access this data.
+    </div>
+    @endcan
         
 </x-app-layout>
