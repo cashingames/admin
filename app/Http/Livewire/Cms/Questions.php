@@ -6,15 +6,19 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
-// use Mediconesystems\LivewireDatatables\Action;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Live\Question;
 use App\Models\Live\Category;
+use App\Models\User;
 
 class Questions extends LivewireDatatable
 {
     public function builder()
     {
-        return Question::query();
+        if (Gate::allows('admin-access')) {
+            return Question::query();
+        }
+        return Question::query()->where('created_by', auth()->user()->id);
     }
 
     public function columns()
@@ -46,6 +50,14 @@ class Questions extends LivewireDatatable
             ->searchable()
             ->hideable()
             ->filterable(),
+            
+            Column::callback(['created_by'], function ($created_by) {
+                $creator = User::find($created_by);
+                if($creator === null){
+                    return 'Admin';
+                }
+                return $creator->name;
+            })->label('Created By'),
 
             BooleanColumn::name('is_published')
             ->label('Published')

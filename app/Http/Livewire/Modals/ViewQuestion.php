@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Modals;
 
 use App\Models\Live\Question;
 use LivewireUI\Modal\ModalComponent;
-
+use Illuminate\Support\Facades\Gate;
 class ViewQuestion extends ModalComponent
 {
 
@@ -25,12 +25,10 @@ class ViewQuestion extends ModalComponent
     }
 
     private function getUserPermissions(){
-        $user = auth()->user();
-        $team = $user->currentTeam;
-
-        if($user->hasTeamPermission($team, 'cms:publish')){
-            $this->canPublish = true;
+        
+        if (Gate::allows('admin-access')) {
+           return $this->canPublish = true;
         }
-        return;
+        return $this->canPublish = false;
     }
 }
