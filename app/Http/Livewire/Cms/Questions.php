@@ -18,9 +18,10 @@ class Questions extends LivewireDatatable
         
         if (Gate::allows('super-admin-access') ||
         Gate::allows('content-admin-access')) {
-            return Question::query();
+            return Question::query()->whereNull('deleted_at');
         }
-        return Question::query()->where('created_by', auth()->user()->id);
+        return Question::query()->whereNull('deleted_at')
+        ->where('created_by', auth()->user()->id);
     }
 
     public function columns()
