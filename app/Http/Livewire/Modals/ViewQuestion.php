@@ -26,7 +26,8 @@ class ViewQuestion extends ModalComponent
 
     private function getUserPermissions(){
         
-        if (Gate::allows('admin-access')) {
+        if (Gate::allows('super-admin-access')||
+        Gate::allows('content-admin-access') ) {
            return $this->canPublish = true;
         }
         return $this->canPublish = false;

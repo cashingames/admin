@@ -33,7 +33,7 @@
 
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-            @can('admin-access')
+            @can('super-admin-access')
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">

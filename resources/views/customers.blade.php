@@ -6,7 +6,7 @@
             </h2>
         </div>
     </x-slot>
-    @can('admin-access')
+    @can('super-admin-access')
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         <livewire:datatable 
             name="all-users"

@@ -26,6 +26,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'is_admin'=>['nullable'],
+            'is_content_admin'=>['nullable'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
@@ -40,6 +41,10 @@ class CreateNewUser implements CreatesNewUsers
                 
                 if (isset($input['is_admin']) ) {
                     $user->is_admin = $input['is_admin']=="on"??true;
+                    $user->save();
+                }
+                if (isset($input['is_content_admin']) ) {
+                    $user->is_content_admin = $input['is_content_admin']=="on"??true;
                     $user->save();
                 }
             });

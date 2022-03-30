@@ -1,5 +1,5 @@
 <x-finance-layout>
-    @can('admin-access')
+    @can('super-admin-access')
         <livewire:datatable 
         model="App\Models\Live\WalletTransaction" 
         name="all-transactions"

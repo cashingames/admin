@@ -14,8 +14,10 @@ use App\Models\User;
 class Questions extends LivewireDatatable
 {
     public function builder()
-    {
-        if (Gate::allows('admin-access')) {
+    {   
+        
+        if (Gate::allows('super-admin-access') ||
+        Gate::allows('content-admin-access')) {
             return Question::query();
         }
         return Question::query()->where('created_by', auth()->user()->id);
