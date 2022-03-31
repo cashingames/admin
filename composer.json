@@ -19,6 +19,7 @@
         "lecturize/laravel-taxonomies": "^1.0",
         "livewire/livewire": "^2.5",
         "mediconesystems/livewire-datatables": "^0.6.8",
+        "phpoffice/phpspreadsheet": "^1.22",
         "wire-elements/modal": "^1.0"
     },
     "require-dev": {
