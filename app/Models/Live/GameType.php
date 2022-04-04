@@ -3,9 +3,12 @@
 namespace App\Models\Live;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GameType extends Model
 {
+    use SoftDeletes;
+
     protected $connection = 'mysqllive';
 
 

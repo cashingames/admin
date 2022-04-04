@@ -57,7 +57,8 @@ class Questions extends LivewireDatatable
             Column::callback(['created_by'], function ($created_by) {
                 $creator = User::find($created_by);
                 if($creator === null){
-                    return 'Admin';
+                    $admin = User::where('is_content_admin',true)->first();
+                    return $admin->name;
                 }
                 return $creator->name;
             })->label('Created By'),
