@@ -3,9 +3,12 @@
 namespace App\Models\Live;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
+    use SoftDeletes;
+    
     protected $connection = 'mysqllive';
 
     protected $fillable = ['created_by','is_published'];
