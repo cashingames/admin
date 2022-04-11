@@ -8,6 +8,7 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Live\Question;
+use App\Models\Question as AdminQuestion;
 use App\Models\Live\Category;
 use App\Models\User;
 
@@ -58,6 +59,9 @@ class Questions extends LivewireDatatable
                 $creator = User::find($created_by);
                 if($creator === null){
                     $admin = User::where('is_content_admin',true)->first();
+                    if($admin == null){
+                        return '';
+                    }
                     return $admin->name;
                 }
                 return $creator->name;
@@ -66,6 +70,14 @@ class Questions extends LivewireDatatable
             BooleanColumn::name('is_published')
             ->label('Published')
             ->filterable(),
+
+            Column::callback(['id'], function ($id) {
+                $question = AdminQuestion::where('question_id',$id)->first();
+                if($question === null){
+                    return '';
+                }
+                return $question->comment;
+            })->label('Comment'),
 
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {
