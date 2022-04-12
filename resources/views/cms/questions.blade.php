@@ -15,4 +15,19 @@
     <div class="mt-4">
         <livewire:cms.questions />
     </div>
+    @can('super-admin-access')
+    <div class="mt-16 text-center">
+        <span class="font-bold text-lg"> CREATOR MANAGEMENT</span>
+    </div>
+    <div class="mt-2">
+        <livewire:cms.user-manager />
+    </div>
+    @elsecan('content-admin-access')
+    <div class="mt-16 text-center">
+        <span class="font-bold text-lg"> CREATOR MANAGEMENT</span>
+    </div>
+    <div class="mt-2">
+        <livewire:cms.user-manager />
+    </div>
+    @endcan
 </x-cms-layout>
