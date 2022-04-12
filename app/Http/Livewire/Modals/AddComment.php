@@ -37,6 +37,7 @@ class AddComment extends ModalComponent
 
     public function render()
     {
+        
         return view('livewire.modals.add-comment', [
             'questionId' =>$this->questionId,
         ]);
