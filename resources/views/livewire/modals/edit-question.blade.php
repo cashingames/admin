@@ -27,6 +27,7 @@
                 <select
                     class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="level">
+                    <option>{{$question->level}}</option>
                     <option>easy</option>
                     <option>medium</option>
                     <option>hard</option>
@@ -42,6 +43,7 @@
             <select
                 class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 name="subcategory">
+                <option>{{$question->category->name}}</option>
                 @foreach ($subcategories as $s)
                 <option>{{$s->name}}</option>
                 @endforeach
