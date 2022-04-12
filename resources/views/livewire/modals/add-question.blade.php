@@ -64,8 +64,8 @@
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="isCorrect[]">
-                    <option>yes</option>
                     <option>no</option>
+                    <option>yes</option>
                 </select>
             </div>
             <div class="w-full mb-6 md:mb-0">
@@ -83,8 +83,8 @@
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="isCorrect[]">
-                    <option>yes</option>
                     <option>no</option>
+                    <option>yes</option>
                 </select>
             </div>
             <div class="w-full mb-6 md:mb-0">
@@ -102,8 +102,8 @@
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="isCorrect[]">
-                    <option>yes</option>
                     <option>no</option>
+                    <option>yes</option>
                 </select>
             </div>
             <div class="w-full mb-6 md:mb-0">
@@ -121,8 +121,8 @@
                 <select
                     class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     name="isCorrect[]">
-                    <option>yes</option>
                     <option>no</option>
+                    <option>yes</option>
                 </select>
             </div>
         </div>
