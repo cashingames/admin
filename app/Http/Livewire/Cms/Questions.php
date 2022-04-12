@@ -67,10 +67,27 @@ class Questions extends LivewireDatatable
                 return $creator->name;
             })->label('Created By'),
 
+            Column::callback(['id', 'level', 'label','category.name'], 
+            function ($id, $level, $label, $subcategory) {
+                return view('components.table-actions', ['id' => $id, 'level' => $level, 
+                'label' => $label, 'category.name' => $subcategory]);
+            })->unsortable(),
+
             BooleanColumn::name('is_published')
             ->label('Published')
             ->filterable(),
 
+            Column::callback(['id','created_by'], function ($id, $created_by) {
+                $question = AdminQuestion::where('question_id',$id)->first();
+                if($question === null){
+                    return '';
+                }
+                if($question->is_approved){
+                    return '';
+                }
+                return 'REJECTED';
+            })->label('Status'),
+            
             Column::callback(['id'], function ($id) {
                 $question = AdminQuestion::where('question_id',$id)->first();
                 if($question === null){
@@ -78,12 +95,6 @@ class Questions extends LivewireDatatable
                 }
                 return $question->comment;
             })->label('Comment'),
-
-            Column::callback(['id', 'level', 'label','category.name'], 
-            function ($id, $level, $label, $subcategory) {
-                return view('components.table-actions', ['id' => $id, 'level' => $level, 
-                'label' => $label, 'category.name' => $subcategory]);
-            })->unsortable()
         ];
     }
 

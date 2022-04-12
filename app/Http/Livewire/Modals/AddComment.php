@@ -31,6 +31,7 @@ class AddComment extends ModalComponent
         }
 
         $_question->comment = $request->comment;
+        $_question->is_approved = false;
         $_question->save();
         return redirect()->to('/cms/questions');
     }
