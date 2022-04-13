@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Modals;
 
 use LivewireUI\Modal\ModalComponent;
 use App\Models\Live\Question;
+use App\Models\Question as AdminQuestion;
 
 class PublishQuestion extends ModalComponent
 {   
@@ -18,6 +19,7 @@ class PublishQuestion extends ModalComponent
             $this->question->update(['is_published' => false]);
         }else{
             $this->question->update(['is_published' => true]);
+            AdminQuestion::where('question_id', $this->question->id)->update(['is_approved'=>true]);
         }
 
         return redirect()->to('/cms/questions');

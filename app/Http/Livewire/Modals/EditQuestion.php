@@ -10,19 +10,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class EditQuestion extends ModalComponent
-{   
+{
     public $question;
     public $subcategories;
+    public $addOption;
+    public $newOptionIndex = -1;
 
     public function mount($question)
-    {  
+    {
         $this->question = Question::find($question);
-        $this->subcategories = Category::where('category_id' ,'>', 0)->get();
+        $this->subcategories = Category::where('category_id', '>', 0)->get();
+        $this->addOption = false;
     }
 
-    public function editQuestion(Request $request){
+    public function editQuestion(Request $request)
+    {
 
-       
+
         $validator = Validator::make($request->all(), [
             'question' => 'required',
             'level' => 'required',
@@ -30,21 +34,22 @@ class EditQuestion extends ModalComponent
         ]);
         $correctOptions = array();
 
-        foreach($request->option as $o){
-            $correctOptions[]= $o['is_correct'];
+        foreach ($request->option as $o) {
+            $correctOptions[] = $o['is_correct'];
         }
 
         $hasDuplicateCorrectAnswers = $this->has_duplicate_correct_options($correctOptions);
-        
-        $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers ) {
+
+        $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers) {
             if ($hasDuplicateCorrectAnswers) {
                 $validator->errors()->add(
-                    'correctOptions', 'A question should not have more than one correct option'
+                    'correctOptions',
+                    'A question should not have more than one correct option'
                 );
             }
         });
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->to('/cms/questions')->withErrors($validator);
         }
 
@@ -52,26 +57,47 @@ class EditQuestion extends ModalComponent
         $question->label = $request->question;
         $question->level = $request->level;
 
-        $category = Category::where('name',$request->subcategory)->first();
+        $category = Category::where('name', $request->subcategory)->first();
 
-        if($category !== null){
+        if ($category !== null) {
             $question->category_id = $category->id;
         }
         $options = $question->options()->get();
 
-        foreach($options as $key=>$_option){
-                $_option->title = $request->option[$key]['title'];
-                
-                if($request->option[$key]['is_correct'] === 'yes'){
-                    $_option->is_correct = true;
-                }else{
-                    $_option->is_correct = false;
-                }
-                $_option->save();
+        foreach ($options as $key => $_option) {
+            $_option->title = $request->option[$key]['title'];
+
+            if ($request->option[$key]['is_correct'] === 'yes') {
+                $_option->is_correct = true;
+            } else {
+                $_option->is_correct = false;
+            }
+            $_option->save();
         }
-        
+
+        if ($request->has('newOption')) {
+            foreach ($request->newOption as $key => $o) {
+                $newOption = new Option;
+                $newOption->question_id = $question->id;
+                $newOption->title = $request->newOption[$key]['title'];
+    
+                if ($request->newOption[$key]['is_correct'] === 'yes') {
+                    $newOption->is_correct = true;
+                } else {
+                    $newOption->is_correct = false;
+                }
+                $newOption->save();
+            }
+        }
+
         $question->save();
         return redirect()->to('/cms/questions');
+    }
+
+    public function shouldAddOption()
+    {
+        $this->addOption = true;
+        $this->newOptionIndex += 1;
     }
 
     public function render()
@@ -79,13 +105,12 @@ class EditQuestion extends ModalComponent
         return view('livewire.modals.edit-question');
     }
 
-    private function has_duplicate_correct_options($array) {
-        if(count(array_keys($array, "yes")) > 1){
+    private function has_duplicate_correct_options($array)
+    {
+        if (count(array_keys($array, "yes")) > 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
 }
