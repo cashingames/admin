@@ -26,8 +26,8 @@ class Reports extends Component
 
     private function getCountOfUserGames()
     {
-        $_startDate = Carbon::CreateFromFormat('d/m/Y'.'00:00',$this->startDate)->format('Y-m-d') ;
-        $_endDate = Carbon::CreateFromFormat('d/m/Y'.'00:00',$this->endDate)->format('Y-m-d') ;
+        $_startDate = Carbon::CreateFromFormat('d/m/Y',$this->startDate)->format('Y-m-d') ;
+        $_endDate = Carbon::CreateFromFormat('d/m/Y',$this->endDate)->format('Y-m-d') ;
         
         $sql = GameSession::where('created_at','>=', Carbon::createFromTimestamp($_startDate))
         ->where('created_at','<', Carbon::createFromTimestamp($_endDate))->get()->count();
