@@ -15,7 +15,7 @@ class Reports extends Component
 
     public function mount()
     {
-        $this->userPlayedCount = GameSession::all()->count();
+        $this->userPlayedCount = GameSession::all()->groupBy('user_id')->count();
      
     }
 
@@ -26,11 +26,11 @@ class Reports extends Component
 
     private function getCountOfUserGames()
     {
-        $_startDate = Carbon::CreateFromFormat('d/m/Y',$this->startDate)->format('Y-m-d') ;
-        $_endDate = Carbon::CreateFromFormat('d/m/Y',$this->endDate)->format('Y-m-d') ;
+        $_startDate = Carbon::parse($this->startDate) ;
+        $_endDate = Carbon::parse($this->endDate) ;
         
-        $sql = GameSession::where('created_at','>=', Carbon::createFromTimestamp($_startDate))
-        ->where('created_at','<', Carbon::createFromTimestamp($_endDate))->get()->count();
+        $sql = GameSession::where('created_at','>=',$_startDate)
+        ->where('created_at','<', $_endDate)->get()->groupBy('user_id')->count();
 
         $this->userPlayedCount = $sql;
      
