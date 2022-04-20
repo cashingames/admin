@@ -1,3 +1,4 @@
+@can('super-admin-access')
 <div>
     <div date-rangepicker class="flex items-center">
         <div class="relative">
@@ -51,3 +52,8 @@
     </div>
    
 </div>
+@else
+<div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+    You are not authorised to access this data.
+</div>
+@endcan
