@@ -37,6 +37,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms.questions');
     })->name('cms.questions');
 
+    Route::get('/cms/dashboard', function () {
+        return view('cms.dashboard');
+    })->name('cms.dashboard');
+
     Route::get('/cms/question/view/{id}', ViewQuestion::class)->name('question.view');
     Route::post('/cms/question/edit', [EditQuestion::class, 'editQuestion']);
     Route::post('/cms/question/delete', [ConfirmDeleteQuestion::class, 'deleteQuestion']);
@@ -64,9 +68,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.transactions');
     })->name('finance.transactions');
 
+    Route::get('/finance/dashboard', function () {
+        return view('finance.dashboard');
+    })->name('finance.dashboard');
+
+
     Route::get('/customers', function () {
         return view('customers');
     })->name('customers');
+    Route::get('/customers/dashboard', function () {
+        return view('customers.dashboard');
+    })->name('customers.dashboard');
 });
 
 

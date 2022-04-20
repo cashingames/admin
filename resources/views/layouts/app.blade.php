@@ -17,6 +17,7 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="https://unpkg.com/flowbite@1.4.1/dist/datepicker.js"></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
