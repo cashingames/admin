@@ -68,6 +68,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.transactions');
     })->name('finance.transactions');
 
+    Route::get('/finance/dashboard', function () {
+        return view('finance.dashboard');
+    })->name('finance.dashboard');
+
+
     Route::get('/customers', function () {
         return view('customers');
     })->name('customers');

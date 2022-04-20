@@ -5,18 +5,18 @@ namespace App\Models\Live;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserPlan extends Model
+class UserBoost extends Model
 {
     protected $connection = 'mysqllive';
-   
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function plan()
+    public function boost()
     {
-        return $this->belongsTo(Plan::class);
+        return $this->belongsTo(Boost::class);
     }
 
 }
