@@ -21,7 +21,10 @@ class Reports extends Component
         $gamePriceSum = 0;
         $userPlans = UserPlan::where('plan_id','>',$this->freePlan->id)->get() ;
         foreach($userPlans as $_plan){
-            $gamePriceSum +=  $_plan->plan->price;
+            if($_plan->plan !== null){
+                $gamePriceSum +=  $_plan->plan->price;
+            }
+            
         }
         
         $this->boughtGamesFunds =  $gamePriceSum; 
@@ -31,7 +34,9 @@ class Reports extends Component
         $userBoosts = UserBoost::all();
 
         foreach($userBoosts as $b){
-            $boostPriceSum +=  ($b->boost->currency_value * $b->boost->pack_count );
+            if($b->boost !== null){
+                $boostPriceSum +=  ($b->boost->currency_value * $b->boost->pack_count );
+            }
         }
         
         $this->boughtBoostsFunds =  $boostPriceSum; 
@@ -55,7 +60,10 @@ class Reports extends Component
                     ->get() ;
 
         foreach($userPlan as $_plan){
-            $gamesPriceSum +=  $_plan->plan->price;
+            if($_plan->plan !== null){
+                $gamesPriceSum +=  $_plan->plan->price;
+            }
+           
         }
         
         $this->boughtGamesFunds =  $gamesPriceSum; 
@@ -71,7 +79,10 @@ class Reports extends Component
                     ->get() ;
                     
         foreach($userBoosts as $b){
-            $boostPriceSum +=  ($b->boost->currency_value * $b->boost->pack_count );
+            if($b->boost !== null){
+                $boostPriceSum +=  ($b->boost->currency_value * $b->boost->pack_count );
+            };
+            
         }
         
         $this->boughtBoostsFunds =  $boostPriceSum; 
