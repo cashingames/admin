@@ -1,4 +1,4 @@
 <x-cms-layout>
-   Dashboard
+  <livewire:cms.reports />
  </x-cms-layout>
  

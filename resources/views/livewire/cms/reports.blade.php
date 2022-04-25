@@ -36,18 +36,24 @@
     </div>
     <div class="flex flex-row flex-wrap justify-between">
         <div class=" text-center text-gray-600 text-lg font-bold mt-16">
-            <span>Subscribed Games Funds</span>
+            <span>Total Uploaded Questions Count</span>
             <x-reports-layout >
-                <span wire:model='boughtGamesFunds'>₦{{$boughtGamesFunds}}</span>
+                <span wire:model='questionsCount'>{{$questionsCount}}</span>
+            </x-reports-layout>
+        </div>
+        <div class=" text-center text-gray-600 text-lg font-bold mt-16">
+            <span>Number of Published Questions</span>
+            <x-reports-layout >
+                <span wire:model='publishedQuestions'>{{$publishedQuestions}}</span>
+            </x-reports-layout>
+        </div>
+        <div class=" text-center text-gray-600 text-lg font-bold mt-16">
+            <span>Number of UnPublished Questions</span>
+            <x-reports-layout >
+                <span wire:model='unPublishedQuestions'>{{$unPublishedQuestions}}</span>
             </x-reports-layout>
         </div>
 
-        <div class=" text-center text-gray-600 text-lg font-bold mt-16">
-            <span>Subscribed Boosts Funds</span>
-            <x-reports-layout >
-                <span wire:model='boughtBoostsFunds'>₦{{$boughtBoostsFunds}}</span>
-            </x-reports-layout>
-        </div>
        
     </div>
    

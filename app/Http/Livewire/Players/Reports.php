@@ -24,8 +24,9 @@ class Reports extends Component
         $this->freePlan = Plan::where('is_free',true)->first();
         $this->userPlayedCount = GameSession::all()->groupBy('user_id')->count();
         
-        $this->userExhaustedFreeGameCount =  UserPlan::where('id',$this->freePlan->id)
-        ->where('used_count','>=', 'plan_count')
+        $this->userExhaustedFreeGameCount =  UserPlan::where('plan_id',$this->freePlan->id)
+        ->where('is_active',false)
+        ->where('used_count','>=', ($this->freePlan->game_count * (int)'plan_count'))
         ->get()->groupBy('user_id')->count();
 
         $this->referredUserCount = Profile::whereNotNull('referrer')->get()->groupBy('referrer')->count();
@@ -64,8 +65,9 @@ class Reports extends Component
         
         $sql = UserPlan::where('created_at','>=',$_startDate)
         ->where('created_at','<', $_endDate)
-        ->where('id',$this->freePlan->id)
-        ->where('used_count','>=', 'plan_count')
+        ->where('plan_id',$this->freePlan->id)
+        ->where('is_active',false)
+        ->where('used_count','>=', ($this->freePlan->game_count * (int)'plan_count'))
         ->get()->groupBy('user_id')->count();
 
         $this->userExhaustedFreeGameCount = $sql;
