@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('APP_IS_STAGING') ? env('DB_CONNECTION_STG', 'mysqlstg') : env('DB_CONNECTION_PROD', 'mysqlprod'),
+    'default' => env('DB_CONNECTION', 'mysql'),
     
     /*
     |--------------------------------------------------------------------------
@@ -88,8 +88,8 @@ return [
             'url' => env('DATABASE_URL_STG'),
             'host' => env('DB_HOST_STG', '127.0.0.1'),
             'port' => env('DB_PORT_STG', '3306'),
-            'database' => env('DB_DATABASE_STG', 'forge'),
-            'username' => env('DB_USERNAME_STG', 'forge'),
+            'database' => env('DB_DATABASE_STG', 'forge1'),
+            'username' => env('DB_USERNAME_STG', 'forge1'),
             'password' => env('DB_PASSWORD_STG', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
@@ -108,8 +108,8 @@ return [
             'url' => env('DATABASE_URL_PROD'),
             'host' => env('DB_HOST_PROD', '127.0.0.1'),
             'port' => env('DB_PORT_PROD', '3306'),
-            'database' => env('DB_DATABASE_PROD', 'forge'),
-            'username' => env('DB_USERNAME_PROD', 'forge'),
+            'database' => env('DB_DATABASE_PROD', 'forge2'),
+            'username' => env('DB_USERNAME_PROD', 'forge2'),
             'password' => env('DB_PASSWORD_PROD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
