@@ -1,25 +1,25 @@
 <?php
 
 namespace App\Http\Livewire\Finance;
-use App\Models\Live\WalletTransaction;
 
 use Livewire\Component;
 use App\Models\Live\Plan;
 use App\Models\Live\UserPlan;
 use App\Models\Live\UserBoost;
+use App\Models\Live\WalletTransaction;
 use Illuminate\Support\Carbon;
 
 class Reports extends Component
 {   
-    public $startDate, $endDate, $freePlan;
-    public $boughtGamesFunds, $boughtBoostsFunds;
+    public $startDate, $endDate;
+    public $boughtGamesFunds, $boughtBoostsFunds, $totalWalletDeposit;
 
     public function mount(){
-        $this->freePlan = Plan::where('is_free',true)->first();
+        $freePlan = Plan::where('is_free',true)->first();
         
         //get total amount of games without filter
         $gamePriceSum = 0;
-        $userPlans = UserPlan::where('plan_id','>',$this->freePlan->id)->get() ;
+        $userPlans = UserPlan::where('plan_id','>',$freePlan->id)->get() ;
         foreach($userPlans as $_plan){
             if($_plan->plan !== null){
                 $gamePriceSum +=  $_plan->plan->price;
@@ -41,20 +41,19 @@ class Reports extends Component
         
         $this->boughtBoostsFunds =  $boostPriceSum; 
 
+        //total wallet deposit
+        $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")->sum('amount');
+
     }
 
-    public function filterReports()
-    {
-        $this->getTotalGamesAmount();
-        $this->getTotalBoostsAmount();
-    }
 
     private function getTotalGamesAmount(){
         $_startDate = Carbon::parse($this->startDate) ;
         $_endDate = Carbon::parse($this->endDate) ;
 
         $gamesPriceSum = 0;
-        $userPlan = UserPlan::where('plan_id','>',$this->freePlan->id)
+        $freePlan = Plan::where('is_free',true)->first();
+        $userPlan = UserPlan::where('plan_id','>',$freePlan->id)
                     ->where('created_at','>=',$_startDate)
                     ->where('created_at','<', $_endDate)
                     ->get() ;
@@ -88,6 +87,23 @@ class Reports extends Component
         $this->boughtBoostsFunds =  $boostPriceSum; 
     }
 
+    private function getTotalWalletDeopsit(){
+        $_startDate = Carbon::parse($this->startDate) ;
+        $_endDate = Carbon::parse($this->endDate) ;
+
+        $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")
+                                    ->where('created_at','>=',$_startDate)
+                                    ->where('created_at','<', $_endDate)
+                                    ->sum('amount');
+    }
+    
+    public function filterReports()
+    {   
+        $this->getTotalWalletDeopsit();
+        $this->getTotalGamesAmount();
+        $this->getTotalBoostsAmount();
+      
+    }
 
     public function render()
     {

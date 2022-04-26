@@ -13,6 +13,9 @@
                     <x-jet-nav-link href="{{ route('cms.questions') }}" :active="request()->routeIs('cms.questions')">
                         {{ __('Questions Manager') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('cms.categories') }}" :active="request()->routeIs('cms.categories')">
+                        {{ __('Categories Manager') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
         </div>
