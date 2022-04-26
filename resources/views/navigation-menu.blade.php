@@ -25,7 +25,7 @@
                      <x-jet-nav-link href="{{ route('customers') }}" :active="request()->routeIs('customers.*')">
                         {{ __('Players') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('finance.transactions') }}" :active="request()->routeIs('finance.*')">
+                    <x-jet-nav-link href="{{ route('finance.dashboard') }}" :active="request()->routeIs('finance.*')">
                         {{ __('Finance') }}
                     </x-jet-nav-link>
                 </div>

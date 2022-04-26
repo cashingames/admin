@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class Reports extends Component
 {
-    public $startDate, $endDate, $freePlan;
+    public $startDate, $endDate;
     public $userPlayedCount,$userExhaustedFreeGameCount,
     $referredUserCount, $boughtGamesCount, 
     $boughtBoostsCount, $usedBoostsCount;
@@ -21,28 +21,18 @@ class Reports extends Component
     public function mount()
     {   
         //get reports without filter on page load
-        $this->freePlan = Plan::where('is_free',true)->first();
+        $freePlan = Plan::where('is_free',true)->first();
         $this->userPlayedCount = GameSession::all()->groupBy('user_id')->count();
         
-        $this->userExhaustedFreeGameCount =  UserPlan::where('plan_id',$this->freePlan->id)
+        $this->userExhaustedFreeGameCount =  UserPlan::where('plan_id',$freePlan->id)
         ->where('is_active',false)
-        ->where('used_count','>=', ($this->freePlan->game_count * (int)'plan_count'))
+        ->where('used_count','>=', ($freePlan->game_count * (int)'plan_count'))
         ->get()->groupBy('user_id')->count();
 
         $this->referredUserCount = Profile::whereNotNull('referrer')->get()->groupBy('referrer')->count();
-        $this->boughtGamesCount = UserPlan::where('plan_id', '>',$this->freePlan->id)->get()->groupBy('user_id')->count();
+        $this->boughtGamesCount = UserPlan::where('plan_id', '>',$freePlan->id)->get()->groupBy('user_id')->count();
         $this->boughtBoostsCount = UserBoost::all()->groupBy('user_id')->count();
         $this->usedBoostsCount = UserBoost::where('used_count', '>', 0)->get()->groupBy('user_id')->count();
-    }
-
-    public function filterReports()
-    {
-        $this->getCountOfUserGames();
-        $this->getCountOfUserExhaustedFreeGames();
-        $this->getCountOfRefferedUsers();
-        $this->getCountOfBoughtGames();
-        $this->getCountOfBoughtBoosts();
-        $this->getCountOfUsedBoosts();
     }
 
     private function getCountOfUserGames()
@@ -62,12 +52,13 @@ class Reports extends Component
       
         $_startDate = Carbon::parse($this->startDate) ;
         $_endDate = Carbon::parse($this->endDate) ;
-        
+        $freePlan = Plan::where('is_free',true)->first();
+
         $sql = UserPlan::where('created_at','>=',$_startDate)
         ->where('created_at','<', $_endDate)
-        ->where('plan_id',$this->freePlan->id)
+        ->where('plan_id',$freePlan->id)
         ->where('is_active',false)
-        ->where('used_count','>=', ($this->freePlan->game_count * (int)'plan_count'))
+        ->where('used_count','>=', ($freePlan->game_count * (int)'plan_count'))
         ->get()->groupBy('user_id')->count();
 
         $this->userExhaustedFreeGameCount = $sql;
@@ -89,8 +80,9 @@ class Reports extends Component
     {
         $_startDate = Carbon::parse($this->startDate) ;
         $_endDate = Carbon::parse($this->endDate) ;
+        $freePlan = Plan::where('is_free',true)->first();
 
-        $sql = UserPlan::where('plan_id', '>',$this->freePlan->id)
+        $sql = UserPlan::where('plan_id', '>',$freePlan->id)
                 ->where('created_at','>=',$_startDate)
                 ->where('created_at','<', $_endDate)
                 ->get()->groupBy('user_id')->count();
@@ -120,6 +112,16 @@ class Reports extends Component
                 ->get()->groupBy('user_id')->count();
                 
         $this->usedBoostsCount = $sql;
+    }
+
+    public function filterReports()
+    {
+        $this->getCountOfUserGames();
+        $this->getCountOfUserExhaustedFreeGames();
+        $this->getCountOfRefferedUsers();
+        $this->getCountOfBoughtGames();
+        $this->getCountOfBoughtBoosts();
+        $this->getCountOfUsedBoosts();
     }
 
 

@@ -30,8 +30,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::get('/cms', function () {
-        return view('cms');
+        return redirect()->route('cms.dashboard');
     })->name('cms');
+
+    Route::get('/cms/categories', function () {
+        return view('cms');
+    })->name('cms.categories');
 
     Route::get('/cms/questions', function () {
         return view('cms.questions');
@@ -72,10 +76,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.dashboard');
     })->name('finance.dashboard');
 
-
     Route::get('/customers', function () {
-        return view('customers');
+        return redirect()->route('customers.dashboard');
     })->name('customers');
+
+    Route::get('/customers/list', function () {
+        return view('customers');
+    })->name('customers.list');
+
     Route::get('/customers/dashboard', function () {
         return view('customers.dashboard');
     })->name('customers.dashboard');

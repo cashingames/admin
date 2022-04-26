@@ -10,6 +10,9 @@
                     <x-jet-nav-link href="{{ route('customers.dashboard') }}" :active="request()->routeIs('customers.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('customers.list') }}" :active="request()->routeIs('customers.list')">
+                        {{ __('Players') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
         </div>
