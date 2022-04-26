@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserPlan extends Model
 {
     protected $connection = 'mysqllive';
+    
    
     public function user()
     {
