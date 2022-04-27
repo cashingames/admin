@@ -1,4 +1,4 @@
-@can('super-admin-access')
+@canany(['super-admin-access','content-admin-access'])
 <div>
     <div class="flex items-center">
         <span class="mx-2 text-gray-500">select date range</span>
@@ -77,8 +77,6 @@
                 <span wire:model='rejectedQuestions'>{{$rejectedQuestions}}</span>
             </x-reports-layout>
         </div>
-
-
     </div>
 
 </div>
@@ -86,4 +84,4 @@
 <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
     You are not authorised to access this data.
 </div>
-@endcan
+@endcanany
