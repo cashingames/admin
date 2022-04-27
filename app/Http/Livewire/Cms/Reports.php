@@ -37,16 +37,36 @@ class Reports extends Component
             $_subCategory = Category::where('name',$this->subcategory)->first();
             $_creator = User::where('name',$this->creator)->first();
 
-            if($_subCategory !== null || $_creator !== null){
+            if($_subCategory === null && $_creator === null ){
+                
+                $sql = Question::where('created_at','>=',$_startDate)
+                ->where('created_at','<=', $_endDate)->get()->count();
+        
+                $this->questionsCount = $sql;
+            }
+            elseif($_subCategory === null && $_creator !== null ){
                 $sql = Question::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)
-                ->where('category_id',$_subCategory->id)
                 ->where('created_by', $_creator->id)
                 ->get()->count();
         
                 $this->questionsCount = $sql;
+            }
+            elseif($_creator === null && $_subCategory !== null){
+                $sql = Question::where('created_at','>=',$_startDate)
+                ->where('created_at','<=', $_endDate)
+                ->where('category_id', $_subCategory->id)
+                ->get()->count();
+        
+                $this->questionsCount = $sql;
             }else{
-                $this->questionsCount = 0;
+                $sql = Question::where('created_at','>=',$_startDate)
+                ->where('created_at','<=', $_endDate)
+                ->where('created_by', $_creator->id)
+                ->where('category_id', $_subCategory->id)
+                ->get()->count();
+        
+                $this->questionsCount = $sql;
             }
         }
        
@@ -68,16 +88,37 @@ class Reports extends Component
             $_subCategory = Category::where('name',$this->subcategory)->first();
             $_creator = User::where('name',$this->creator)->first();
             
-            if($_subCategory !== null || $_creator !== null){
+            if($_subCategory === null && $_creator === null ){
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->where('category_id',$_subCategory->id)
+                ->where('is_published', true)->get()->count();
+ 
+                $this->publishedQuestions = $sql;
+            }
+            elseif($_subCategory === null && $_creator !== null ){
+                $sql = Question::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
                 ->where('created_by', $_creator->id)
                 ->where('is_published', true)->get()->count();
     
                 $this->publishedQuestions = $sql;
-            }else{
-                $this->publishedQuestions = 0;
+            }
+            elseif($_creator === null && $_subCategory !== null){
+                $sql = Question::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('category_id', $_subCategory->id)
+                ->where('is_published', true)->get()->count();
+    
+                $this->publishedQuestions = $sql;
+            }
+            else{
+                $sql = Question::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('category_id', $_subCategory->id)
+                ->where('created_by', $_creator->id)
+                ->where('is_published', true)->get()->count();
+    
+                $this->publishedQuestions = $sql;
             }
           
         }
@@ -91,22 +132,43 @@ class Reports extends Component
             $sql = Question::where('updated_at','>=',$_startDate)
             ->where('updated_at','<=', $_endDate)
             ->where('is_published', false)->get()->count();
-
+ 
             $this->unPublishedQuestions = $sql;
         }else{
             $_subCategory = Category::where('name',$this->subcategory)->first();
             $_creator = User::where('name',$this->creator)->first();
             
-            if($_subCategory !== null || $_creator !== null){
+            if($_subCategory === null && $_creator === null ){
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->where('category_id',$_subCategory->id)
+                ->where('is_published', false)->get()->count();
+     
+                $this->unPublishedQuestions = $sql;
+            }
+            elseif($_subCategory === null && $_creator !== null ){
+                $sql = Question::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
                 ->where('created_by', $_creator->id)
                 ->where('is_published', false)->get()->count();
 
                 $this->unPublishedQuestions = $sql;
-            }else {
-                $this->unPublishedQuestions = 0;
+            }
+            elseif($_creator === null && $_subCategory !== null){
+                $sql = Question::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('category_id', $_subCategory->id)
+                ->where('is_published', false)->get()->count();
+
+                $this->unPublishedQuestions = $sql;
+            }
+            else {
+                $sql = Question::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('category_id', $_subCategory->id)
+                ->where('created_by', $_creator->id)
+                ->where('is_published', false)->get()->count();
+               
+                $this->unPublishedQuestions = $sql;
             }
         }
      
@@ -127,15 +189,34 @@ class Reports extends Component
             $_subCategory = Category::where('name',$this->subcategory)->first();
             $_creator = User::where('name',$this->creator)->first();
             
-            if($_subCategory !== null || $_creator !== null){
+            if($_subCategory === null && $_creator === null ){
+                $sql = AdminQuestion::where('is_approved',false)->where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)->get()->count();
+    
+                $this->rejectedQuestions = $sql;
+            }
+
+            elseif($_subCategory === null && $_creator !== null ){
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('user_id', $_creator->id)
                 ->where('is_approved', false)->get()->count();
 
                 $this->rejectedQuestions = $sql;
-            }else {
-                $this->rejectedQuestions = 0; 
+            }
+            elseif($_creator === null && $_subCategory !== null){
+                $sql = AdminQuestion::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('is_approved', false)->get()->count();
+
+                $this->rejectedQuestions = $sql;
+            }
+            else {
+                $sql = AdminQuestion::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('is_approved', false)->get()->count();
+
+                $this->rejectedQuestions = $sql;
             }
         }
      
