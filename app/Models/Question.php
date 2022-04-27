@@ -10,7 +10,7 @@ class Question extends Model
     use HasFactory;
 
     protected $fillable = [
-        'question_id', 'user_id','comment','status'
+        'question_id', 'user_id','comment','status','is_approved'
     ];
 
 }

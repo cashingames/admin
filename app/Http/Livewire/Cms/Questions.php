@@ -13,7 +13,8 @@ use App\Models\Live\Category;
 use App\Models\User;
 
 class Questions extends LivewireDatatable
-{
+{   
+
     public function builder()
     {   
         
@@ -77,7 +78,7 @@ class Questions extends LivewireDatatable
             ->label('Published')
             ->filterable(),
 
-            Column::callback(['id','created_by'], function ($id, $created_by) {
+            BooleanColumn::callback(['id','is_published'], function ($id, $created_by) {
                 $question = AdminQuestion::where('question_id',$id)->first();
                 if($question === null){
                     return '';
@@ -86,7 +87,7 @@ class Questions extends LivewireDatatable
                     return '';
                 }
                 return 'REJECTED';
-            })->label('Status'),
+            })->label('Rejected')->filterable(),
             
             Column::callback(['id'], function ($id) {
                 $question = AdminQuestion::where('question_id',$id)->first();

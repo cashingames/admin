@@ -40,7 +40,7 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate) ;
         
         $sql = GameSession::where('created_at','>=',$_startDate)
-        ->where('created_at','<', $_endDate)->get()->groupBy('user_id')->count();
+        ->where('created_at','<=', $_endDate)->get()->groupBy('user_id')->count();
 
         $this->userPlayedCount = $sql;
      
@@ -54,7 +54,7 @@ class Reports extends Component
         $freePlan = Plan::where('is_free',true)->first();
 
         $sql = UserPlan::where('created_at','>=',$_startDate)
-        ->where('created_at','<', $_endDate)
+        ->where('created_at','<=', $_endDate)
         ->where('plan_id',$freePlan->id)
         ->where('is_active',false)
         ->where('used_count','>=', $freePlan->game_count )
@@ -70,7 +70,7 @@ class Reports extends Component
 
         $sql = Profile::whereNotNull('referrer')
                 ->where('created_at','>=',$_startDate)
-                ->where('created_at','<', $_endDate)
+                ->where('created_at','<=', $_endDate)
                 ->get()->groupBy('referrer')->count();
                 
         $this->referredUserCount = $sql;
@@ -83,7 +83,7 @@ class Reports extends Component
 
         $sql = UserPlan::where('plan_id', '>',$freePlan->id)
                 ->where('created_at','>=',$_startDate)
-                ->where('created_at','<', $_endDate)
+                ->where('created_at','<=', $_endDate)
                 ->get()->groupBy('user_id')->count();
                 
         $this->boughtGamesCount = $sql;
@@ -95,7 +95,7 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate) ;
 
         $sql = UserBoost::where('created_at','>=',$_startDate)
-                ->where('created_at','<', $_endDate)
+                ->where('created_at','<=', $_endDate)
                 ->get()->groupBy('user_id')->count();
                 
         $this->boughtBoostsCount = $sql;
@@ -107,7 +107,7 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate) ;
 
         $sql = UserBoost::where('created_at','>=',$_startDate)
-                ->where('created_at','<', $_endDate)->where('used_count', '>', 0)
+                ->where('created_at','<=', $_endDate)->where('used_count', '>', 0)
                 ->get()->groupBy('user_id')->count();
                 
         $this->usedBoostsCount = $sql;

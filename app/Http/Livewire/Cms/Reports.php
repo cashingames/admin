@@ -4,13 +4,14 @@ namespace App\Http\Livewire\Cms;
 
 use Livewire\Component;
 use App\Models\Live\Question;
+use App\Models\Question as AdminQuestion;
 use App\Models\Live\Category;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 class Reports extends Component
 {
     public $startDate, $endDate;
-    public $questionsCount, $unPublishedQuestions, $publishedQuestions;
+    public $questionsCount, $unPublishedQuestions, $publishedQuestions, $rejectedQuestions;
     public $subcategories, $creators, $subcategory, $creator, $addExtraFilters = false;
 
     public function mount(){
@@ -19,6 +20,7 @@ class Reports extends Component
         $this->unPublishedQuestions = Question::where('is_published', false)->get()->count();
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->creators = User::where('is_admin',false)->get();
+        $this->rejectedQuestions = AdminQuestion::where('is_approved',false)->get()->count();
     }
 
     private function getTotalQuestionsCount()
@@ -28,7 +30,7 @@ class Reports extends Component
         
         if(!$this->addExtraFilters){
             $sql = Question::where('created_at','>=',$_startDate)
-            ->where('created_at','<', $_endDate)->get()->count();
+            ->where('created_at','<=', $_endDate)->get()->count();
     
             $this->questionsCount = $sql;
         } else {
@@ -37,7 +39,7 @@ class Reports extends Component
 
             if($_subCategory !== null || $_creator !== null){
                 $sql = Question::where('created_at','>=',$_startDate)
-                ->where('created_at','<', $_endDate)
+                ->where('created_at','<=', $_endDate)
                 ->where('category_id',$_subCategory->id)
                 ->where('created_by', $_creator->id)
                 ->get()->count();
@@ -58,9 +60,9 @@ class Reports extends Component
         
         if(!$this->addExtraFilters){
             $sql = Question::where('updated_at','>=',$_startDate)
-            ->where('updated_at','<', $_endDate)
+            ->where('updated_at','<=', $_endDate)
             ->where('is_published', true)->get()->count();
-
+ 
             $this->publishedQuestions = $sql;
         }else{
             $_subCategory = Category::where('name',$this->subcategory)->first();
@@ -68,7 +70,7 @@ class Reports extends Component
             
             if($_subCategory !== null || $_creator !== null){
                 $sql = Question::where('updated_at','>=',$_startDate)
-                ->where('updated_at','<', $_endDate)
+                ->where('updated_at','<=', $_endDate)
                 ->where('category_id',$_subCategory->id)
                 ->where('created_by', $_creator->id)
                 ->where('is_published', true)->get()->count();
@@ -87,7 +89,7 @@ class Reports extends Component
         
         if(!$this->addExtraFilters){
             $sql = Question::where('updated_at','>=',$_startDate)
-            ->where('updated_at','<', $_endDate)
+            ->where('updated_at','<=', $_endDate)
             ->where('is_published', false)->get()->count();
 
             $this->unPublishedQuestions = $sql;
@@ -97,7 +99,7 @@ class Reports extends Component
             
             if($_subCategory !== null || $_creator !== null){
                 $sql = Question::where('updated_at','>=',$_startDate)
-                ->where('updated_at','<', $_endDate)
+                ->where('updated_at','<=', $_endDate)
                 ->where('category_id',$_subCategory->id)
                 ->where('created_by', $_creator->id)
                 ->where('is_published', false)->get()->count();
@@ -105,6 +107,35 @@ class Reports extends Component
                 $this->unPublishedQuestions = $sql;
             }else {
                 $this->unPublishedQuestions = 0;
+            }
+        }
+     
+    }
+
+    private function getTotalRejectedQuestionsCount()
+    {
+        $_startDate = Carbon::parse($this->startDate) ;
+        $_endDate = Carbon::parse($this->endDate) ;
+        
+        if(!$this->addExtraFilters){
+
+            $sql = AdminQuestion::where('is_approved',false)->where('updated_at','>=',$_startDate)
+            ->where('updated_at','<=', $_endDate)->get()->count();
+
+            $this->rejectedQuestions = $sql;
+        }else{
+            $_subCategory = Category::where('name',$this->subcategory)->first();
+            $_creator = User::where('name',$this->creator)->first();
+            
+            if($_subCategory !== null || $_creator !== null){
+                $sql = AdminQuestion::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('user_id', $_creator->id)
+                ->where('is_approved', false)->get()->count();
+
+                $this->rejectedQuestions = $sql;
+            }else {
+                $this->rejectedQuestions = 0; 
             }
         }
      
@@ -123,7 +154,7 @@ class Reports extends Component
         $this->getTotalQuestionsCount();
         $this->getTotalPublishedQuestionsCount();
         $this->getTotalUnPublishedQuestionsCount();
-
+        $this->getTotalRejectedQuestionsCount();
     }
    
     public function render()

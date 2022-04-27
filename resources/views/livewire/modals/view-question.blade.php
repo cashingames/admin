@@ -84,13 +84,25 @@
         @endif
         @endif
         @can('super-admin-access')
-        <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-4 rounded" onclick='Livewire.emit("openModal", "modals.confrim-reject-question", {{ json_encode(["id" => $question->id]) }})'>
-            Reject
-        </button>
+        @if ($isApproved)
+            <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-4 rounded" onclick='Livewire.emit("openModal", "modals.confrim-reject-question", {{ json_encode(["id" => $question->id]) }})'>
+            Reject 
+            </button>
+        @else
+            <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-4 rounded" onclick='Livewire.emit("openModal", "modals.confirm-approve-question", {{ json_encode(["id" => $question->id]) }})'>
+            Un-Reject 
+            </button>
+        @endif
         @elsecan('content-admin-access')
-        <button class="p-4 text-teal-600 hover:bg-teal-600 hover:text-white rounded" onclick='Livewire.emit("openModal", "modals.confrim-reject-question", {{ json_encode(["id" => $question->id]) }})'>
-           Reject
-        </button>
+        @if ($isApproved)
+            <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-4 rounded" onclick='Livewire.emit("openModal", "modals.confrim-reject-question", {{ json_encode(["id" => $question->id]) }})'>
+            Reject 
+            </button>
+        @else
+            <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-4 rounded" onclick='Livewire.emit("openModal", "modals.confirm-approve-question", {{ json_encode(["id" => $question->id]) }})'>
+            Un-Reject 
+            </button>
+        @endif
         @endcan
     </div>
 </div>

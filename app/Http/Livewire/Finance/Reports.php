@@ -55,7 +55,7 @@ class Reports extends Component
         $freePlan = Plan::where('is_free',true)->first();
         $userPlan = UserPlan::where('plan_id','>',$freePlan->id)
                     ->where('created_at','>=',$_startDate)
-                    ->where('created_at','<', $_endDate)
+                    ->where('created_at','<=', $_endDate)
                     ->get() ;
 
         foreach($userPlan as $_plan){
@@ -74,7 +74,7 @@ class Reports extends Component
 
         $boostPriceSum = 0;
         $userBoosts = UserBoost::where('created_at','>=',$_startDate)
-                    ->where('created_at','<', $_endDate)
+                    ->where('created_at','<=', $_endDate)
                     ->get() ;
                     
         foreach($userBoosts as $b){
@@ -93,7 +93,7 @@ class Reports extends Component
 
         $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")
                                     ->where('created_at','>=',$_startDate)
-                                    ->where('created_at','<', $_endDate)
+                                    ->where('created_at','<=', $_endDate)
                                     ->sum('amount');
     }
     
