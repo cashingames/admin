@@ -18,7 +18,7 @@ class Reports extends Component
         $this->publishedQuestions = Question::where('is_published', true)->get()->count();
         $this->unPublishedQuestions = Question::where('is_published', false)->get()->count();
         $this->subcategories = Category::where('category_id', '>', 0)->get();
-        $this->creators = User::all();
+        $this->creators = User::where('is_admin',false)->get();
     }
 
     private function getTotalQuestionsCount()
