@@ -13,6 +13,9 @@
                     <x-jet-nav-link href="{{ route('gaming.sessions') }}" :active="request()->routeIs('gaming.sessions')">
                         {{ __('Game Sessions') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('gaming.trivia') }}" :active="request()->routeIs('gaming.trivia')">
+                        {{ __('Manage Trivia') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
         </div>
