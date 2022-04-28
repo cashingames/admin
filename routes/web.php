@@ -63,6 +63,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/gaming/sessions', function () {
         return view('gaming.sessions');
     })->name('gaming.sessions');
+ 
+    Route::get('/gaming/trivia', function () {
+        return view('gaming.trivia');
+    })->name('gaming.trivia');
 
     Route::get('/finance', function () {
         return redirect()->route('finance.transactions');
