@@ -35,11 +35,17 @@ class TriviaTable extends LivewireDatatable
                     ->searchable()
                     ->filterable(),
 
+                Column::name('grand_price')
+                    ->label('Grand Prize'),
+
                 Column::name('point_eligibility')
                     ->label('Points Required'),
 
                 Column::name('game_duration')
                     ->label('Game Duration (Seconds)'),
+
+                Column::name('question_count')
+                    ->label('Number of Questions'),
 
                 Column::name('start_time')
                     ->label('Start Time'),
