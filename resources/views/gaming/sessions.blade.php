@@ -1,4 +1,5 @@
 <x-gaming-layout>
+    @can('super-admin-access')
     <livewire:datatable 
             name="all-users"
             model="App\Models\Live\GameSession"
@@ -10,4 +11,9 @@
             hideable="select"
             exportable
         />
+    @else
+        You are not authorised to access this data.
+   
+    @endcan
+        
 </x-gaming-layout>
