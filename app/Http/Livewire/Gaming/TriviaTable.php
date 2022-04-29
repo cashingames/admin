@@ -60,7 +60,7 @@ class TriviaTable extends LivewireDatatable
                     ) {
                         return 'Active';
                     }
-                    return 'Expired';
+                    return 'Closed';
                 })->label('Status')->filterable(),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
