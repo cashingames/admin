@@ -64,6 +64,8 @@ class TriviaTable extends LivewireDatatable
                 })->label('Status')->filterable(),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
+               
+                DateColumn::name('updated_at')->label('Date Edited')->filterable(),
                 
                 Column::callback(['id'], function ($id) {
                     return view('gaming.trivia-table-actions', ['id' => $id]);
