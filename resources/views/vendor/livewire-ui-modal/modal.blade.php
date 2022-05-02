@@ -17,7 +17,7 @@
             class="fixed inset-0 z-10 overflow-y-auto"
             style="display: none;"
     >
-        <div class="flex items-end justify-center pt-4 px-4 pb-4 text-center sm:p-0">
+        <div class="items-end justify-center pt-4 px-4 pb-4 text-center sm:p-0">
             <div
                     x-show="show"
                     x-on:click="closeModalOnClickAway()"

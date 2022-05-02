@@ -7,7 +7,7 @@
             <div class="mt-10 text-gray-700">
                 {{ __('Are you sure?')}}
             </div>
-            <div class="mt-10 flex justify-center">
+            <div class="mt-10 mb-2 flex justify-center">
                 <span class="mr-2">
                     <button wire:click="$emit('closeModal')" class="w-32 shadow-sm inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:border-gray-700 focus:shadow-outline-teal active:bg-gray-700 transition ease-in-out duration-150">
                         {{ __('No')}}
