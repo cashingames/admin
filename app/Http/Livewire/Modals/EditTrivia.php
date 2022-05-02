@@ -20,8 +20,8 @@ class EditTrivia extends ModalComponent
         $this->grand_price = $this->trivia->grand_price;
         $this->question_count = $this->trivia->question_count;
         $this->game_duration = $this->trivia->game_duration;
-        $this->start_time = $this->trivia->start_time;
-        $this->end_time = $this->trivia->end_time;
+        $this->start_time =date("Y-m-d\TH:i:s", strtotime($this->trivia->start_time)); 
+        $this->end_time = date("Y-m-d\TH:i:s", strtotime($this->trivia->end_time));
         $this->points_required = $this->trivia->point_eligibility;
         $this->subcategory = Category::where('id', $this->trivia->category_id)->first()->name;
     }
