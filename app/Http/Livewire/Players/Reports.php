@@ -101,10 +101,11 @@ class Reports extends Component
 
         $sql = WalletTransaction::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)
-                ->where('description','Bought TIME FREEZE boosts')
-                ->orWhere('description','Bought SKIP boosts')
-                ->orWhere('description','Bought BOMB boosts')
-                ->get()->groupBy('wallet_id')->count();
+                ->where(function ($query) {
+                    $query->where('description','Bought TIME FREEZE boosts')
+                        ->orWhere('description','Bought SKIP boosts')
+                        ->orWhere('description','Bought BOMB boosts');
+                })->get()->groupBy('wallet_id')->count();
 
         $this->boughtBoostsCount = $sql;
     }
