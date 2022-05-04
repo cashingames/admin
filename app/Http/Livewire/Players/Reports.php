@@ -7,6 +7,7 @@ use App\Models\Live\Plan;
 use App\Models\Live\UserPlan;
 use App\Models\Live\UserBoost;
 use App\Models\Live\Profile;
+use App\Models\Live\WalletTransaction;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
@@ -30,14 +31,18 @@ class Reports extends Component
 
         $this->referredUserCount = Profile::whereNotNull('referrer')->get()->groupBy('referrer')->count();
         $this->boughtGamesCount = UserPlan::where('plan_id', '>',$freePlan->id)->get()->groupBy('user_id')->count();
-        $this->boughtBoostsCount = UserBoost::all()->groupBy('user_id')->count();
+        $this->boughtBoostsCount = WalletTransaction::where('description','Bought TIME FREEZE boosts')
+        ->orWhere('description','Bought SKIP boosts')
+        ->orWhere('description','Bought BOMB boosts')
+        ->get()->groupBy('wallet_id')->count();
+
         $this->usedBoostsCount = UserBoost::where('used_count', '>', 0)->get()->groupBy('user_id')->count();
     }
 
     private function getCountOfUserGames()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
         $sql = GameSession::where('created_at','>=',$_startDate)
         ->where('created_at','<=', $_endDate)->get()->groupBy('user_id')->count();
@@ -48,9 +53,8 @@ class Reports extends Component
 
     private function getCountOfUserExhaustedFreeGames()
     {
-      
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         $freePlan = Plan::where('is_free',true)->first();
 
         $sql = UserPlan::where('created_at','>=',$_startDate)
@@ -65,8 +69,8 @@ class Reports extends Component
     }
     private function getCountOfRefferedUsers()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
 
         $sql = Profile::whereNotNull('referrer')
                 ->where('created_at','>=',$_startDate)
@@ -77,8 +81,9 @@ class Reports extends Component
     }
     private function getCountOfBoughtGames()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
+
         $freePlan = Plan::where('is_free',true)->first();
 
         $sql = UserPlan::where('plan_id', '>',$freePlan->id)
@@ -91,20 +96,23 @@ class Reports extends Component
 
     private function getCountOfBoughtBoosts()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
 
-        $sql = UserBoost::where('created_at','>=',$_startDate)
+        $sql = WalletTransaction::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)
-                ->get()->groupBy('user_id')->count();
-                
+                ->where('description','Bought TIME FREEZE boosts')
+                ->orWhere('description','Bought SKIP boosts')
+                ->orWhere('description','Bought BOMB boosts')
+                ->get()->groupBy('wallet_id')->count();
+
         $this->boughtBoostsCount = $sql;
     }
 
     private function getCountOfUsedBoosts()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
 
         $sql = UserBoost::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)->where('used_count', '>', 0)
