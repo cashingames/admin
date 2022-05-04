@@ -26,20 +26,14 @@ class Reports extends Component
             }
             
         }
-        
         $this->boughtGamesFunds =  $gamePriceSum; 
         
         //get amount of boosts without filter
-        $boostPriceSum = 0;
-        $userBoosts = UserBoost::all();
-
-        foreach($userBoosts as $b){
-            if($b->boost !== null){
-                $boostPriceSum +=  ($b->boost->currency_value * $b->boost->pack_count );
-            }
-        }
-        
-        $this->boughtBoostsFunds =  $boostPriceSum; 
+       
+        $this->boughtBoostsFunds = WalletTransaction::where('description','Bought TIME FREEZE boosts')
+        ->orWhere('description','Bought SKIP boosts')
+        ->orWhere('description','Bought BOMB boosts')
+        ->sum('amount');
 
         //total wallet deposit
         $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")->sum('amount');
@@ -48,8 +42,8 @@ class Reports extends Component
 
 
     private function getTotalGamesAmount(){
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
 
         $gamesPriceSum = 0;
         $freePlan = Plan::where('is_free',true)->first();
@@ -69,27 +63,19 @@ class Reports extends Component
     }
 
     private function getTotalBoostsAmount(){
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
-
-        $boostPriceSum = 0;
-        $userBoosts = UserBoost::where('created_at','>=',$_startDate)
-                    ->where('created_at','<=', $_endDate)
-                    ->get() ;
-                    
-        foreach($userBoosts as $b){
-            if($b->boost !== null){
-                $boostPriceSum +=  ($b->boost->currency_value * $b->boost->pack_count );
-            };
-            
-        }
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
-        $this->boughtBoostsFunds =  $boostPriceSum; 
+        $this->boughtBoostsFunds =  WalletTransaction::where('created_at','>=',$_startDate)
+        ->where('created_at','<=', $_endDate)->where('description','Bought TIME FREEZE boosts')
+        ->orWhere('description','Bought SKIP boosts')
+        ->orWhere('description','Bought BOMB boosts')
+        ->sum('amount');
     }
 
     private function getTotalWalletDeopsit(){
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
 
         $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")
                                     ->where('created_at','>=',$_startDate)

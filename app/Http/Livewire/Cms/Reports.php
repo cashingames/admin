@@ -25,8 +25,8 @@ class Reports extends Component
 
     private function getTotalQuestionsCount()
     {   
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
         if(!$this->addExtraFilters){
             $sql = Question::where('created_at','>=',$_startDate)
@@ -75,8 +75,8 @@ class Reports extends Component
 
     private function getTotalPublishedQuestionsCount()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
         if(!$this->addExtraFilters){
             $sql = Question::where('updated_at','>=',$_startDate)
@@ -125,8 +125,8 @@ class Reports extends Component
     }
     private function getTotalUnPublishedQuestionsCount()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
         if(!$this->addExtraFilters){
             $sql = Question::where('updated_at','>=',$_startDate)
@@ -176,8 +176,8 @@ class Reports extends Component
 
     private function getTotalRejectedQuestionsCount()
     {
-        $_startDate = Carbon::parse($this->startDate) ;
-        $_endDate = Carbon::parse($this->endDate) ;
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
         if(!$this->addExtraFilters){
 
