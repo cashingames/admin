@@ -7,6 +7,7 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
+use Mediconesystems\LivewireDatatables\BooleanColumn;
 use App\Models\Live\Trivia;
 use Illuminate\Support\Carbon;
 
@@ -63,12 +64,16 @@ class TriviaTable extends LivewireDatatable
                     return 'Closed';
                 })->label('Status')->filterable(),
 
+                BooleanColumn::name('is_published')
+                ->label('Published')
+                ->filterable(),
+
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
                
                 DateColumn::name('updated_at')->label('Date Edited')->filterable(),
                 
-                Column::callback(['id'], function ($id) {
-                    return view('gaming.trivia-table-actions', ['id' => $id]);
+                Column::callback(['id','is_published'], function ($id,$is_published) {
+                    return view('gaming.trivia-table-actions', ['id' => $id, 'is_published'=>$is_published]);
                 })->unsortable(),
 
             ];
