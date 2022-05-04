@@ -66,11 +66,13 @@ class Reports extends Component
         $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
         $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
         
-        $this->boughtBoostsFunds =  WalletTransaction::where('created_at','>=',$_startDate)
-        ->where('created_at','<=', $_endDate)->where('description','Bought TIME FREEZE boosts')
-        ->orWhere('description','Bought SKIP boosts')
-        ->orWhere('description','Bought BOMB boosts')
-        ->sum('amount');
+        $this->boughtBoostsFunds = WalletTransaction::where('created_at','>=',$_startDate)
+                ->where('created_at','<=', $_endDate)
+                ->where(function ($query) {
+                    $query->where('description','Bought TIME FREEZE boosts')
+                        ->orWhere('description','Bought SKIP boosts')
+                        ->orWhere('description','Bought BOMB boosts');
+                })->sum('amount');
     }
 
     private function getTotalWalletDeopsit(){
