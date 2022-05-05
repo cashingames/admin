@@ -14,7 +14,7 @@
                 placeholder="Select date end">
         </div>
         <div class="md:items-center">
-            <button wire:click='filterReports' class="shadow bg-blue-500 text-white font-bold ml-4 px-4 rounded">
+            <button wire:click='filterReports' wire:poll.60000='loadReports' class="shadow bg-blue-500 text-white font-bold ml-4 px-4 rounded">
                 filter
             </button>
         </div>
