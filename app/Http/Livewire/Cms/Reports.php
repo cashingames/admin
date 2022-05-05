@@ -15,12 +15,10 @@ class Reports extends Component
     public $subcategories, $creators, $subcategory, $creator, $addExtraFilters = false;
 
     public function mount(){
-        $this->questionsCount =  Question::all()->count();
-        $this->publishedQuestions = Question::where('is_published', true)->get()->count();
-        $this->unPublishedQuestions = Question::where('is_published', false)->get()->count();
-        $this->subcategories = Category::where('category_id', '>', 0)->get();
-        $this->creators = User::where('is_admin',false)->get();
-        $this->rejectedQuestions = AdminQuestion::where('is_approved',false)->get()->count();
+        $this->startDate = Carbon::today()->toDateString();
+        $this->endDate = Carbon::today()->toDateString();
+        
+        $this->filterReports();
     }
 
     private function getTotalQuestionsCount()

@@ -22,24 +22,10 @@ class Reports extends Component
 
     public function mount()
     {   
-        //get reports without filter on page load
-        $freePlan = Plan::where('is_free',true)->first();
-
-        $this->registeredUserCount = User::all()->count();
-        $this->userPlayedCount = GameSession::all()->groupBy('user_id')->count();
+        $this->startDate = Carbon::today()->toDateString();
+        $this->endDate = Carbon::today()->toDateString();
         
-        $this->userExhaustedFreeGameCount =  UserPlan::where('plan_id',$freePlan->id)
-        ->where('is_active',false)
-        ->where('used_count','>=', $freePlan->game_count )->get()->groupBy('user_id')->count();
-
-        $this->referredUserCount = Profile::whereNotNull('referrer')->get()->groupBy('referrer')->count();
-        $this->boughtGamesCount = UserPlan::where('plan_id', '>',$freePlan->id)->get()->groupBy('user_id')->count();
-        $this->boughtBoostsCount = WalletTransaction::where('description','Bought TIME FREEZE boosts')
-        ->orWhere('description','Bought SKIP boosts')
-        ->orWhere('description','Bought BOMB boosts')
-        ->get()->groupBy('wallet_id')->count();
-
-        $this->usedBoostsCount = UserBoost::where('used_count', '>', 0)->get()->groupBy('user_id')->count();
+        $this->filterReports();
     }
 
     private function getCountOfRegisteredUsers()

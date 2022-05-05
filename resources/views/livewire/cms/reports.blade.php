@@ -1,5 +1,5 @@
 @canany(['super-admin-access','content-admin-access'])
-<div>
+<div wire:poll.300000ms='filterReports' >
     <div class="flex items-center">
         <span class="mx-2 text-gray-500">select date range</span>
         <div class="relative">

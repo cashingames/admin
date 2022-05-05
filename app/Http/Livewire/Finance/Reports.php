@@ -15,29 +15,10 @@ class Reports extends Component
     public $boughtGamesFunds, $boughtBoostsFunds, $totalWalletDeposit;
 
     public function mount(){
-        $freePlan = Plan::where('is_free',true)->first();
+         $this->startDate = Carbon::today()->toDateString();
+        $this->endDate = Carbon::today()->toDateString();
         
-        //get total amount of games without filter
-        $gamePriceSum = 0;
-        $userPlans = UserPlan::where('plan_id','>',$freePlan->id)->get() ;
-        foreach($userPlans as $_plan){
-            if($_plan->plan !== null){
-                $gamePriceSum +=  $_plan->plan->price;
-            }
-            
-        }
-        $this->boughtGamesFunds =  $gamePriceSum; 
-        
-        //get amount of boosts without filter
-       
-        $this->boughtBoostsFunds = WalletTransaction::where('description','Bought TIME FREEZE boosts')
-        ->orWhere('description','Bought SKIP boosts')
-        ->orWhere('description','Bought BOMB boosts')
-        ->sum('amount');
-
-        //total wallet deposit
-        $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")->sum('amount');
-
+        $this->filterReports();
     }
 
 
