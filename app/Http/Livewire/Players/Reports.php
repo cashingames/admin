@@ -7,6 +7,7 @@ use App\Models\Live\Plan;
 use App\Models\Live\UserPlan;
 use App\Models\Live\UserBoost;
 use App\Models\Live\Profile;
+use App\Models\Live\User;
 use App\Models\Live\WalletTransaction;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
@@ -16,13 +17,15 @@ class Reports extends Component
 {
     public $startDate, $endDate;
     public $userPlayedCount,$userExhaustedFreeGameCount,
-    $referredUserCount, $boughtGamesCount, 
+    $referredUserCount, $boughtGamesCount, $registeredUserCount, 
     $boughtBoostsCount, $usedBoostsCount;
 
     public function mount()
     {   
         //get reports without filter on page load
         $freePlan = Plan::where('is_free',true)->first();
+
+        $this->registeredUserCount = User::all()->count();
         $this->userPlayedCount = GameSession::all()->groupBy('user_id')->count();
         
         $this->userExhaustedFreeGameCount =  UserPlan::where('plan_id',$freePlan->id)
@@ -37,6 +40,18 @@ class Reports extends Component
         ->get()->groupBy('wallet_id')->count();
 
         $this->usedBoostsCount = UserBoost::where('used_count', '>', 0)->get()->groupBy('user_id')->count();
+    }
+
+    private function getCountOfRegisteredUsers()
+    {
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
+
+        $sql =  User::where('created_at','>=',$_startDate)
+                    ->where('created_at','<=', $_endDate)
+                    ->get()->count();
+                
+        $this->registeredUserCount = $sql;
     }
 
     private function getCountOfUserGames()
@@ -123,7 +138,8 @@ class Reports extends Component
     }
 
     public function filterReports()
-    {
+    {   
+        $this->getCountOfRegisteredUsers();
         $this->getCountOfUserGames();
         $this->getCountOfUserExhaustedFreeGames();
         $this->getCountOfRefferedUsers();
