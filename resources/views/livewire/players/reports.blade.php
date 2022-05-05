@@ -21,57 +21,52 @@
     </div>
     <div class="flex flex-row flex-wrap justify-between">
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users who have played a game</span>
+            <span>Number of Registered Users </span>
+            <x-reports-layout>
+                <span wire:model='registeredUserCount'>{{$registeredUserCount}}</span>
+            </x-reports-layout>
+        </div>
+
+        <div class=" text-center text-gray-600 text-lg font-bold m-2">
+            <span>Number of Users Who Played A Game</span>
             <x-reports-layout>
                 <span wire:model='userPlayedCount'>{{$userPlayedCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users who have exhausted free game</span>
+            <span>Number of Users Who Exhausted Free Game</span>
             <x-reports-layout>
                 <span wire:model='userExhaustedFreeGameCount'>{{$userExhaustedFreeGameCount}}</span>
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users who have referrals</span>
+            <span>Number of Users Who Have Referrals</span>
             <x-reports-layout>
                 <span wire:model='referredUserCount'>{{$referredUserCount}}</span>
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users who have bought games</span>
+            <span>Number of Users Who Have Bought Games</span>
             <x-reports-layout>
                 <span wire:model='boughtGamesCount'>{{$boughtGamesCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users who have bought boosts</span>
+            <span>Number of Users Who Have Bought Boosts</span>
             <x-reports-layout>
                 <span wire:model='boughtBoostsCount'>{{$boughtBoostsCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users who have used boosts</span>
+            <span>Number of Users Who Have Used Boosts</span>
             <x-reports-layout>
                 <span wire:model='usedBoostsCount'>{{$usedBoostsCount}}</span>
             </x-reports-layout>
         </div>
-        {{--
-        <div class=" text-center text-gray-600 text-lg font-bold mt-16">
-            <span>Referred User Count</span>
-            <x-reports-layout>
-                <span wire:model='referredUserCount'>{{$referredUserCount}}</span>
-            </x-reports-layout>
-        </div> --}}
-        {{-- <div class=" text-center text-gray-600 text-lg font-bold mt-16">
-            <span>Bought Games Count</span>
-            <x-reports-layout>
-                <span wire:model='boughtGamesCount'>{{$boughtGamesCount}}</span>
-            </x-reports-layout>
-        </div> --}}
+    
     </div>
 </div>
 @else
