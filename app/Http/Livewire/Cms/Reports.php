@@ -18,6 +18,8 @@ class Reports extends Component
         $this->startDate = Carbon::today()->toDateString();
         $this->endDate = Carbon::today()->toDateString();
         
+        $this->subcategories = Category::where('category_id', '>', 0)->get();
+        $this->creators = User::where('is_admin', false)->get();
         $this->filterReports();
     }
 
