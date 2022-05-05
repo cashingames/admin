@@ -1,7 +1,7 @@
-name: admin-pipeline
+name: admin-production-pipeline
 
 on:
-  push:
+  release:
     branches:
       - master
 
@@ -31,12 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      # - name: deploy-staging
-      #   uses: SamKirkland/FTP-Deploy-Action@2.0.0
-      #   env:
-      #     FTP_SERVER: ${{ secrets.FTP_HOST }}
-      #     FTP_USERNAME: user@stg-admin.cashingames.com
-      #     FTP_PASSWORD: ${{ secrets.FTP_PASSWORD_STG }}
       - name: deploy-production
         uses: SamKirkland/FTP-Deploy-Action@2.0.0
         env:
