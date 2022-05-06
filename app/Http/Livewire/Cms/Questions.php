@@ -87,7 +87,7 @@ class Questions extends LivewireDatatable
                     return '';
                 }
                 return 'REJECTED';
-            })->label('IsActive')->filterable(),
+            })->label('IsApproved')->filterable(),
             
             Column::callback(['id'], function ($id) {
                 $question = AdminQuestion::where('question_id',$id)->first();
