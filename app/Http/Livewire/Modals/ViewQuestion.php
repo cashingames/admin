@@ -48,15 +48,9 @@ class ViewQuestion extends ModalComponent
                 $q->user_id = $this->question->created_by;
             }
             $q->question_id = $this->question->id;
-
-            if($this->question->is_published){
-               $q->is_approved = true;
-            }else{
-                $q->is_approved = false;
-            }
             $q->save();
            
-            return $this->isApproved = false;;
+            return $this->isApproved = true;
         }
 
         if ( $question->is_approved) {
