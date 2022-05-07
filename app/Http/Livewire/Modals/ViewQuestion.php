@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Modals;
 
 use App\Models\Live\Question;
 use App\Models\Question as AdminQuestion;
+use App\Models\User;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Gate;
 class ViewQuestion extends ModalComponent
@@ -38,6 +39,25 @@ class ViewQuestion extends ModalComponent
     
     private function checkIsRejected(){
         $question = AdminQuestion::where('question_id', $this->question->id)->first();
+        if ( $question === null) {
+           
+            $q = new AdminQuestion;
+            if( $this->question->created_by === null){
+                $q->user_id = User::where('is_content_admin',true)->first()->id;
+            }else{
+                $q->user_id = $this->question->created_by;
+            }
+            $q->question_id = $this->question->id;
+
+            if($this->question->is_published){
+               $q->is_approved = true;
+            }else{
+                $q->is_approved = false;
+            }
+            $q->save();
+           
+            return $this->isApproved = false;;
+        }
 
         if ( $question->is_approved) {
            return $this->isApproved = true;
