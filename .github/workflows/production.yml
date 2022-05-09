@@ -2,6 +2,7 @@ name: admin-production-pipeline
 
 on:
   release:
+    types: [published]
     branches:
       - master
 
