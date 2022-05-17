@@ -11,6 +11,7 @@ use App\Models\Live\Question;
 use App\Models\Question as AdminQuestion;
 use App\Models\Live\Category;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class Questions extends LivewireDatatable
 {   
@@ -68,6 +69,11 @@ class Questions extends LivewireDatatable
                 return $creator->name;
             })->label('Created By'),
 
+            Column::callback(['created_at'], function ($created_at) {
+                return Carbon::parse($created_at)
+                ->setTimezone('Africa/Lagos');  
+            })->label('Time Uploaded'),
+            
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {
                 return view('components.table-actions', ['id' => $id, 'level' => $level, 
