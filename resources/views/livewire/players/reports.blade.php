@@ -35,6 +35,13 @@
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
+            <span>Number of users Who Have Not Played A Game</span>
+            <x-reports-layout>
+                <span wire:model='userNotPlayedCount'>{{$userNotPlayedCount}}</span>
+            </x-reports-layout>
+        </div>
+
+        <div class=" text-center text-gray-600 text-lg font-bold m-2">
             <span>Number of users Who Exhausted Free Game</span>
             <x-reports-layout>
                 <span wire:model='userExhaustedFreeGameCount'>{{$userExhaustedFreeGameCount}}</span>
