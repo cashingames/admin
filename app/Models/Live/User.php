@@ -8,6 +8,9 @@ use App\Models\Live\Profile;
 class User extends Model
 {
         protected $connection = 'mysqllive';
+        protected $with = [
+                'profile'
+              ];
 
         public function profile()
         {
