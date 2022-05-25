@@ -1,6 +1,6 @@
 <div>
-    <div class="w-full max-w-lg pt-6" >
-    
+    <div class="w-full max-w-lg pt-6">
+
         <div class="mb-6">
             <div class="w-full  px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -8,7 +8,7 @@
                 </label>
                 <textarea rows="1" , cols="54" wire:model="name"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="text" placeholder="Trivia Name" ></textarea>
+                    type="text" placeholder="Trivia Name"></textarea>
             </div>
             <div class="w-full  px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -24,8 +24,8 @@
                 </label>
                 <select
                     class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                   wire:model="subcategory">
-                   <option>select subcategory</option>
+                    wire:model="subcategory">
+                    <option>select subcategory</option>
                     @foreach ($subcategories as $s)
                     <option>{{$s->name}}</option>
                     @endforeach
@@ -45,7 +45,7 @@
                 </label>
                 <input wire:model="question_count" type="number"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                   placeholder="Number of Questions">
+                    placeholder="Number of Questions">
             </div>
             <div class="w-full  px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -53,8 +53,8 @@
                 </label>
                 <select
                     class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                   wire:model="game_duration">
-                   <option>select duration</option>
+                    wire:model="game_duration">
+                    <option>select duration</option>
                     <option>60</option>
                     <option>120</option>
                     <option>180</option>
@@ -65,11 +65,11 @@
         </div>
         <div class="w-full  px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-               Start Time
+                Start Time
             </label>
             <input wire:model="start_time" type="datetime-local"
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              placeholder="Start Time" >
+                placeholder="Start Time">
         </div>
         <div class="w-full  px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
@@ -77,14 +77,78 @@
             </label>
             <input wire:model="end_time" type="datetime-local"
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                placeholder="End Time"  >
+                placeholder="End Time">
         </div>
-        <div class="md:items-center mb-4">
-           
-            <button wire:click="addTrivia" wire:loading.attr="disabled" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
-                Save
+        <div class="flex flex-row w-full  px-3 mb-6 md:mb-0">
+            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                check the box to manually add questions.
+            </label>
+            <input class="mt-4 mb-2 ml-2" wire:click="toggleCanChooseQuestions" type="checkbox">
+        </div>
+        @if ($notifyError)
+        <span class="block uppercase tracking-wide text-red-500 text-center text-xs font-bold mb-2"> Please select a
+            subcategory before adding questions</span>
+        @endif
+        @if ($canChooseQuestions)
+        <div class='flex flex-row items-center justify-center'>
+            <input wire:model="searchKeyword" type="text"
+                class="appearance-none block bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                placeholder="enter questions keyword">
+            <button wire:click='fetchQuestions' class="shadow bg-blue-500 text-white font-bold ml-1 px-4 rounded">
+                search
             </button>
-           
-    </div>
+        </div>
+        @endif
+        @if ($hasSearchedQuestion)
+        <div class="w-full  px-3 mb-6 md:mb-0">
+            <div class="w-full  px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                    You have selected {{count($selectedQuestions)}} questions.
+                </label>
+                <ul class="px-2">
+                    @foreach ($selectedQuestions as $i=>$q)
+                    <div class="flex flex-row">
+                        <li class="mx-4">◉ {{$q}}</li>
+                        <button wire:click="removeFromSelectedQuestions({{ $i }})"
+                            class="text-red-500 font-bold text-lg px-1 ml-1">
+                            x
+                        </button>
+                    </div>
+                    @endforeach
+                </ul>
+            </div>
+            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                Eligible Questions
+            </label>
+            <select
+                class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                wire:model="selectedQuestion">
+                <option>select question</option>
+                @foreach ($questions as $q)
+                <option wire:click="addToSelectedQuestions"> {{$q->label}}</option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+        @if($canChooseQuestions)
+            @if (count($selectedQuestions) < ($question_count + 10)) 
+                <p class="text-center text-red-500 font-bold"> Select at least {{($question_count + 10) - count($selectedQuestions) }} more questions</p>
+            @else
+            <div class="md:items-center mb-4">
+                <button wire:click="addTrivia" wire:loading.attr="disabled"
+                    class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+                    Save
+                </button>
+            </div>
+            @endif
+        @else
+            <div class="md:items-center mb-4">
+                <button wire:click="addTrivia" wire:loading.attr="disabled"
+                    class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+                    Save
+                </button>
 
-</div>
+            </div>
+        @endif
+
+    </div>
