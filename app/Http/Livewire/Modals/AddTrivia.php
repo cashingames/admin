@@ -46,11 +46,11 @@ class AddTrivia extends ModalComponent
         $trivia->save();
 
         if (count($this->selectedQuestions) > 0) {
-            foreach($this->selectedQuestions as $q){
-                $question = Question::where('category_id', $category->id)->where('label',$q)
-                ->whereNull('deleted_at')->where('is_published', true)->first();
+            foreach ($this->selectedQuestions as $q) {
+                $question = Question::where('category_id', $category->id)->where('label', $q)
+                    ->whereNull('deleted_at')->where('is_published', true)->first();
 
-                if ($question !== null){
+                if ($question !== null) {
                     TriviaQuestion::create([
                         'trivia_id' => $trivia->id,
                         'question_id' => $question->id
@@ -69,7 +69,7 @@ class AddTrivia extends ModalComponent
                 ]);
             }
         }
-    
+
         return redirect()->to('/gaming/trivia');
     }
 
@@ -100,17 +100,19 @@ class AddTrivia extends ModalComponent
     {
         $category = Category::where('name', $this->subcategory)->first();
 
-        $this->questions = Question::select('id','label')->where('category_id', $category->id)
-        ->whereNull('deleted_at')->where('is_published', true)->where('label', 'LIKE', '%' . $this->searchKeyword . '%')
-        ->inRandomOrder()->limit(500)->get();
+        $this->questions = Question::select('id', 'label')->where('category_id', $category->id)
+            ->whereNull('deleted_at')->where('is_published', true)->where('label', 'LIKE', '%' . $this->searchKeyword . '%')
+            ->inRandomOrder()->limit(500)->get();
 
         $this->hasSearchedQuestion = true;
+        $this->selectedQuestion = $this->questions->first()->label;
     }
 
     public function addToSelectedQuestions()
-    {   
-      
-        array_push($this->selectedQuestions, $this->selectedQuestion);
+    {
+        if (count(array_keys($this->selectedQuestions, $this->selectedQuestion)) == 0) {
+            array_push($this->selectedQuestions, $this->selectedQuestion);
+        }   
     }
 
     public function removeFromSelectedQuestions($index)
