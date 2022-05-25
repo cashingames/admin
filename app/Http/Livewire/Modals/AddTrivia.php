@@ -20,6 +20,7 @@ class AddTrivia extends ModalComponent
     public $canChooseQuestions = false;
     public $hasSearchedQuestion = false;
     public $notifyError = false;
+    public $searchError = false;
     public $selectedQuestions = [];
 
     public function mount()
@@ -80,6 +81,13 @@ class AddTrivia extends ModalComponent
         }
     }
 
+    public function updatedSearchKeyWord()
+    {
+        if ($this->searchError) {
+            $this->searchError = false;
+        }
+    }
+
     public function toggleCanChooseQuestions()
     {
         if ($this->canChooseQuestions) {
@@ -105,7 +113,12 @@ class AddTrivia extends ModalComponent
             ->inRandomOrder()->limit(500)->get();
 
         $this->hasSearchedQuestion = true;
-        $this->selectedQuestion = $this->questions->first()->label;
+        
+        if($this->questions->first() !== null){
+            $this->selectedQuestion = $this->questions->first()->label;
+        }else{
+            $this->searchError = true;
+        }
     }
 
     public function addToSelectedQuestions()
