@@ -24,7 +24,6 @@ class AddTrivia extends ModalComponent
 
     public function mount()
     {
-        $this->value = 2;
         $this->subcategories = Category::where('category_id', '>', 0)->get();
     }
 
@@ -44,11 +43,20 @@ class AddTrivia extends ModalComponent
         $trivia->is_published = false;
         $trivia->game_duration = $this->game_duration;
         $trivia->question_count = $this->question_count;
+        $trivia->save();
 
         if (count($this->selectedQuestions) > 0) {
-            $triviaQuestions = new TriviaQuestion;
-            //to do : selected questions should be an array both id and label . display only the label to the front end
-            //addToSelectedQuestions function should take parameters id and label
+            foreach($this->selectedQuestions as $q){
+                $question = Question::where('category_id', $category->id)->where('label',$q)
+                ->whereNull('deleted_at')->where('is_published', true)->first();
+
+                if ($question !== null){
+                    TriviaQuestion::create([
+                        'trivia_id' => $trivia->id,
+                        'question_id' => $question->id
+                    ]);
+                }
+            }
         } else {
             $questions = $trivia->category->questions()
                 ->whereNull('deleted_at')
@@ -61,26 +69,8 @@ class AddTrivia extends ModalComponent
                 ]);
             }
         }
-        $trivia->save();
-
-        // $response = Http::acceptJson()->post(config('app.api_url') . '/v3/trivia/create', [
-        //     'name' => $this->name,
-        //     'category' => $this->subcategory,
-        //     'grand_price' => $this->grand_price,
-        //     'point_eligibility' => $this->points_required,
-        //     'start_time' => strval(Carbon::parse($this->start_time)),
-        //     'end_time' => strval(Carbon::parse($this->end_time)),
-        //     'game_duration' => $this->game_duration,
-        //     'question_count' => $this->question_count
-        // ]);
-
-
-        // if ($response->successful()) {
-        //     return redirect()->to('/gaming/trivia');
-        // }
-        // if ($response->failed()) {
-        //     $response->throw();
-        // }
+    
+        return redirect()->to('/gaming/trivia');
     }
 
     public function updatedSubcategory()
@@ -109,14 +99,17 @@ class AddTrivia extends ModalComponent
     public function fetchQuestions()
     {
         $category = Category::where('name', $this->subcategory)->first();
+
         $this->questions = Question::select('id','label')->where('category_id', $category->id)
-            ->where('label', 'LIKE', '%' . $this->searchKeyword . '%')->inRandomOrder()->limit(500)->get();
+        ->whereNull('deleted_at')->where('is_published', true)->where('label', 'LIKE', '%' . $this->searchKeyword . '%')
+        ->inRandomOrder()->limit(500)->get();
 
         $this->hasSearchedQuestion = true;
     }
 
     public function addToSelectedQuestions()
-    {
+    {   
+      
         array_push($this->selectedQuestions, $this->selectedQuestion);
     }
 
