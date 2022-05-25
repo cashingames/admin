@@ -125,7 +125,7 @@
                 wire:model="selectedQuestion">
                 <option>select question</option>
                 @foreach ($questions as $q)
-                <option wire:click="addToSelectedQuestions"> {{$q->id}} : {{$q->label}}</option>
+                <option wire:click="addToSelectedQuestions"> {{$q->label}}</option>
                 @endforeach
             </select>
         </div>

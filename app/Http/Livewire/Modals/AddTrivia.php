@@ -47,6 +47,8 @@ class AddTrivia extends ModalComponent
 
         if (count($this->selectedQuestions) > 0) {
             $triviaQuestions = new TriviaQuestion;
+            //to do : selected questions should be an array both id and label . display only the label to the front end
+            //addToSelectedQuestions function should take parameters id and label
         } else {
             $questions = $trivia->category->questions()
                 ->whereNull('deleted_at')
