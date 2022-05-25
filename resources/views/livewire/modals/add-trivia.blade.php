@@ -98,6 +98,9 @@
                 search
             </button>
         </div>
+        @if ($searchError)
+        <span class="block uppercase tracking-wide text-red-500 text-center text-xs font-bold mb-2"> No {{$searchKeyword}} questions found.
+        @endif
         @endif
         @if ($hasSearchedQuestion)
         <div class="w-full  px-3 mb-6 md:mb-0">
