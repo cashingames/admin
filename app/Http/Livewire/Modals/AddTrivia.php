@@ -92,6 +92,8 @@ class AddTrivia extends ModalComponent
     {
         if ($this->canChooseQuestions) {
             $this->canChooseQuestions = false;
+            $this->selectedQuestions = array();
+            $this->hasSearchedQuestion = false;
         } else {
             $category = Category::where('name', $this->subcategory)->first();
             if ($category === null) {
@@ -113,10 +115,10 @@ class AddTrivia extends ModalComponent
             ->inRandomOrder()->limit(500)->get();
 
         $this->hasSearchedQuestion = true;
-        
-        if($this->questions->first() !== null){
+
+        if ($this->questions->first() !== null) {
             $this->selectedQuestion = $this->questions->first()->label;
-        }else{
+        } else {
             $this->searchError = true;
         }
     }
@@ -125,7 +127,7 @@ class AddTrivia extends ModalComponent
     {
         if (count(array_keys($this->selectedQuestions, $this->selectedQuestion)) == 0) {
             array_push($this->selectedQuestions, $this->selectedQuestion);
-        }   
+        }
     }
 
     public function removeFromSelectedQuestions($index)

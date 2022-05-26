@@ -80,10 +80,18 @@
                 placeholder="End Time">
         </div>
         <div class="flex flex-row w-full  px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                check the box to manually add questions.
+            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2" checked>
+                Manually add questions?
             </label>
-            <input class="mt-4 mb-2 ml-2" wire:click="toggleCanChooseQuestions" type="checkbox">
+            @if (!$canChooseQuestions)
+            <button wire:click="toggleCanChooseQuestions" class="shadow mt-2 mb-2 ml-2 bg-blue-500 text-white font-bold px-4 rounded">
+                yes
+            </button>
+            @else
+            <button wire:click="toggleCanChooseQuestions" class="shadow mt-2 mb-2 ml-2 bg-blue-500 text-white font-bold px-4 rounded">
+                no
+            </button>
+            @endif
         </div>
         @if ($notifyError)
         <span class="block uppercase tracking-wide text-red-500 text-center text-xs font-bold mb-2"> Please select a
