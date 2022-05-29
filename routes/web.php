@@ -68,6 +68,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.trivia');
     })->name('gaming.trivia');
 
+    
+    Route::get('/gaming/trivia/create', function () {
+        return view('gaming.add-trivia');
+    })->name('trivia.create');
+
+
     Route::get('/finance', function () {
         return redirect()->route('finance.transactions');
     })->name('finance');

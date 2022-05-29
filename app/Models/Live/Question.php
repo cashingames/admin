@@ -26,5 +26,13 @@ class Question extends Model
         return $this->hasMany(Option::class)->inRandomOrder();
     }
 
+    public static function search($search){
+        return empty($search) ? static::query()
+            : static::where('id','like','%'.$search.'%')
+                    ->orWhere('label','like','%'.$search.'%')
+                    ->orWhere('level','like','%'.$search.'%')
+                    ->orWhere('category_id','like','%'.$search.'%');
+    }
+
 
 }
