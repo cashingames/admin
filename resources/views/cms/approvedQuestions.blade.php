@@ -26,5 +26,8 @@
     <div class="mt-4 uppercase text-center font-bold text-gray-700">
         Approved Questions
     </div>
+    <div class="mt-4 ">
+        <livewire:cms.approved-questions />
+    </div>
 
 </x-cms-layout>

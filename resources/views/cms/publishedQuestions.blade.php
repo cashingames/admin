@@ -26,5 +26,7 @@
     <div class="mt-4 uppercase text-center font-bold text-gray-700">
        Published Questions
     </div>
-
+    <div class="mt-4 ">
+        <livewire:cms.published-questions />
+    </div>
 </x-cms-layout>

@@ -21,87 +21,81 @@ class UnreviewedQuestions extends LivewireDatatable
         
         if (Gate::allows('super-admin-access') ||
         Gate::allows('content-admin-access')) {
-            return Question::query()->whereNull('deleted_at');
+            return  AdminQuestion::query()->whereNull('deleted_at')
+                    ->whereNull('approved_at')->whereNull('rejected_at')
+                    ->whereNull('published_at');
         }
-        return Question::query()->whereNull('deleted_at')
-        ->where('created_by', auth()->user()->id);
+        return  AdminQuestion::query()->whereNull('deleted_at')
+                    ->whereNull('approved_at')->whereNull('rejected_at')
+                    ->whereNull('published_at')->where('user_id', auth()->user()->id);
     }
 
     public function columns()
     {
         return
         [
-            NumberColumn::name('id')
-            ->label('ID')
-           ,
-            Column::name('level')
+            Column::callback(['question_id'], function ($question_id) {
+                return Question::find($question_id)->id;
+            })->label('Id')
             ->searchable()
+            ->hideable()
             ->filterable(),
 
-            Column::name('label')
-            ->label('Question')
-            ->filterable()
-            ->searchable(),
+            Column::callback(['question_id'], function ($question_id) {
+                return Question::find($question_id)->level;
+            },'level')->label('level')
+            ->searchable()
+            ->hideable()
+            ->filterable(),
 
-            Column::callback(['category_id'], function ($category_id) {
-                $parentCategory = Category::find($category_id)->category_id;
+            Column::callback(['question_id'], function ($question_id) {
+                return Question::find($question_id)->label;
+            },'label')->label('label')
+            ->searchable()
+            ->hideable()
+            ->filterable(),
+
+            Column::callback(['question_id'], function ($question_id) {
+                $question = Question::find($question_id);
+                $parentCategory = Category::find($question->category_id)->category_id;
                 return Category::find($parentCategory)->name;
-            })->label('Category')
+            },'category')->label('Category')
             ->searchable()
             ->hideable()
             ->filterable(),
 
-            Column::name('category.name')
-            ->label('Subcategory')
+            Column::callback(['question_id'], function ($question_id) {
+                $question = Question::find($question_id);
+                return Category::find($question->category_id)->name;
+            },'subcategory')->label('Subcategory')
             ->searchable()
             ->hideable()
             ->filterable(),
-            
-            Column::callback(['created_by'], function ($created_by) {
-                $creator = User::find($created_by);
-                if($creator === null){
-                    $admin = User::where('is_content_admin',true)->first();
-                    if($admin == null){
+
+            Column::callback(['user_id'], function ($user_id) {
+                $creator = User::find($user_id);
+                    if($creator === null){
                         return '';
                     }
-                    return $admin->name;
-                }
-                return $creator->name;
-            })->label('Created By'),
+                    return $creator->name;
+            })->label('Created By')
+            ->searchable()
+            ->hideable()
+            ->filterable(),
 
             Column::callback(['created_at'], function ($created_at) {
                 return Carbon::parse($created_at)
                 ->setTimezone('Africa/Lagos');  
             })->label('Time Uploaded'),
-            
-            Column::callback(['id', 'level', 'label','category.name'], 
-            function ($id, $level, $label, $subcategory) {
-                return view('components.table-actions', ['id' => $id, 'level' => $level, 
-                'label' => $label, 'category.name' => $subcategory]);
-            })->unsortable(),
 
-            BooleanColumn::name('is_published')
-            ->label('Published')
-            ->filterable(),
+            Column::callback(['question_id'], 
+            function ($question_id) {
+                $question = Question::find($question_id);
+                $subcategory = Category::find($question->category_id);
+                return view('components.table-actions', ['id' => $question->id, 'level' => $question->level, 
+                'label' => $question->label, 'subcategory' => $subcategory->name]);
+            },'actions')->unsortable(),
 
-            BooleanColumn::callback(['id','is_published'], function ($id, $created_by) {
-                $question = AdminQuestion::where('question_id',$id)->first();
-                if($question === null){
-                    return '';
-                }
-                if($question->is_approved){
-                    return '';
-                }
-                return 'REJECTED';
-            })->label('IsApproved')->filterable(),
-            
-            Column::callback(['id'], function ($id) {
-                $question = AdminQuestion::where('question_id',$id)->first();
-                if($question === null){
-                    return '';
-                }
-                return $question->comment;
-            })->label('Comment'),
         ];
     }
 
