@@ -91,7 +91,7 @@ class EditQuestion extends ModalComponent
         }
 
         $question->save();
-        return redirect()->to('/cms/questions');
+        return redirect()->to('/cms/questions/unreviewed');
     }
 
     public function shouldAddOption()

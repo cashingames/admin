@@ -10,7 +10,7 @@
                     <x-jet-nav-link href="{{ route('cms.dashboard') }}" :active="request()->routeIs('cms.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('cms.questions') }}" :active="request()->routeIs('cms.questions')">
+                    <x-jet-nav-link href="{{ route('cms.unreviewedQuestions') }}" :active="request()->routeIs('cms.unreviewedQuestions')">
                         {{ __('Questions Manager') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('cms.categories') }}" :active="request()->routeIs('cms.categories')">

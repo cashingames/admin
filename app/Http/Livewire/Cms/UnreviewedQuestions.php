@@ -13,8 +13,8 @@ use App\Models\Live\Category;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
-class Questions extends LivewireDatatable
-{   
+class UnreviewedQuestions extends LivewireDatatable
+{  
 
     public function builder()
     {   

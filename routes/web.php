@@ -37,9 +37,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms');
     })->name('cms.categories');
 
-    Route::get('/cms/questions', function () {
-        return view('cms.questions');
-    })->name('cms.questions');
+    Route::get('/cms/questions/unreviewed', function () {
+        return view('cms.unreviewedQuestions');
+    })->name('cms.unreviewedQuestions');
+
+    Route::get('/cms/questions/approved', function () {
+        return view('cms.approvedQuestions');
+    })->name('cms.approvedQuestions');
+
+    Route::get('/cms/questions/rejected', function () {
+        return view('cms.rejectedQuestions');
+    })->name('cms.rejectedQuestions');
+
+    Route::get('/cms/questions/published', function () {
+        return view('cms.publishedQuestions');
+    })->name('cms.publishedQuestions');
 
     Route::get('/cms/dashboard', function () {
         return view('cms.dashboard');
