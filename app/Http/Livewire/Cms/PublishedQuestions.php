@@ -24,7 +24,7 @@ class PublishedQuestions extends LivewireDatatable
         ) {
             return  Question::query()->where('is_published', true);
         }
-        return  Question::query()->whereNotNull('rejected_at')
+        return  Question::query()->where('is_published', true)
             ->where('created_by', auth()->user()->id);
     }
 
