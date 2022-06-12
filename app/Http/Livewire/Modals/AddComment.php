@@ -7,6 +7,7 @@ use LivewireUI\Modal\ModalComponent;
 use App\Models\Question;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AddComment extends ModalComponent
 {   
@@ -27,13 +28,13 @@ class AddComment extends ModalComponent
         $_question = Question::where('question_id',$request->id)->first();
 
         if ($_question == null){
-            return redirect()->to('/cms/questions')->withErrors('The selected question was not found');
+            return redirect()->to('/cms/questions/unreviewed')->withErrors('The selected question was not found');
         }
 
         $_question->comment = $request->comment;
-        $_question->is_approved = false;
+        $_question->rejected_at = Carbon::now();
         $_question->save();
-        return redirect()->to('/cms/questions');
+        return redirect()->to('/cms/questions/unreviewed');
     }
 
     public function render()

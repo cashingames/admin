@@ -77,7 +77,7 @@ class PublishedQuestions extends LivewireDatatable
             
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {
-                return view('components.table-actions', ['id' => $id, 'level' => $level, 
+                return view('components.published-question-table-actions', ['id' => $id, 'level' => $level, 
                 'label' => $label, 'category.name' => $subcategory]);
             })->unsortable()
         ];

@@ -8,6 +8,9 @@ use App\Models\Live\Option;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Question as AdminQuestion;
+use Illuminate\Support\Carbon;
+
 
 class EditQuestion extends ModalComponent
 {
@@ -91,6 +94,10 @@ class EditQuestion extends ModalComponent
         }
 
         $question->save();
+
+        AdminQuestion::where('question_id',$question->id)
+        ->update(['deleted_at'=>null,'published_at'=>null,'rejected_at'=>null]);
+
         return redirect()->to('/cms/questions/unreviewed');
     }
 

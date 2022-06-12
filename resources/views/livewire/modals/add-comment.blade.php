@@ -18,7 +18,7 @@
         </div>
         <div class="md:items-center mt-4 mb-4">
             <button type="submit" class="shadow bg-blue-500 text-white font-bold ml-3 py-2 px-4 rounded">
-                Save Comment
+               Done
             </button>
         </div>
     </form>

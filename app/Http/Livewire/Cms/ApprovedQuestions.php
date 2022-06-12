@@ -72,8 +72,12 @@ class ApprovedQuestions extends LivewireDatatable
 
                 Column::callback(['user_id'], function ($user_id) {
                     $creator = User::find($user_id);
-                    if ($creator === null) {
-                        return '';
+                    if($creator === null){
+                        $admin = User::where('is_content_admin',true)->first();
+                        if($admin == null){
+                            return '';
+                        }
+                        return $admin->name;
                     }
                     return $creator->name;
                 })->label('Created By')

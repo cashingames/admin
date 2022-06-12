@@ -19,14 +19,14 @@ class PublishQuestion extends ModalComponent
         if($this->question->is_published){
             $this->question->update(['is_published' => false]);
             AdminQuestion::where('question_id',$this->question->id)
-            ->update(['published_at'=>null]);
+            ->update(['published_at'=>null,'rejected_at'=>null,'approved_at'=>null]);
         }else{
             $this->question->update(['is_published' => true]);
             AdminQuestion::where('question_id',$this->question->id)
-            ->update(['published_at'=>Carbon::now()]);
+            ->update(['published_at'=>Carbon::now(),'rejected_at'=>null,'approved_at'=>null]);
         }
 
-        return redirect()->to('/cms/questions/unreviewed');
+        return redirect()->to('/cms/questions/published');
     }
 
     public function render()

@@ -181,7 +181,7 @@ class Reports extends Component
         
         if(!$this->addExtraFilters){
 
-            $sql = AdminQuestion::where('is_approved',false)->where('updated_at','>=',$_startDate)
+            $sql = AdminQuestion::whereNotNull('rejected_at')->where('updated_at','>=',$_startDate)
             ->where('updated_at','<=', $_endDate)->get()->count();
 
             $this->rejectedQuestions = $sql;
@@ -190,7 +190,7 @@ class Reports extends Component
             $_creator = User::where('name',$this->creator)->first();
             
             if($_subCategory === null && $_creator === null ){
-                $sql = AdminQuestion::where('is_approved',false)->where('updated_at','>=',$_startDate)
+                $sql = AdminQuestion::whereNotNull('rejected_at')->where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)->get()->count();
     
                 $this->rejectedQuestions = $sql;
@@ -200,21 +200,21 @@ class Reports extends Component
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('user_id', $_creator->id)
-                ->where('is_approved', false)->get()->count();
+                ->whereNotNull('rejected_at')->get()->count();
 
                 $this->rejectedQuestions = $sql;
             }
             elseif($_creator === null && $_subCategory !== null){
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->where('is_approved', false)->get()->count();
+                ->whereNotNull('rejected_at')->get()->count();
 
                 $this->rejectedQuestions = $sql;
             }
             else {
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->where('is_approved', false)->get()->count();
+                ->whereNotNull('rejected_at')->get()->count();
 
                 $this->rejectedQuestions = $sql;
             }

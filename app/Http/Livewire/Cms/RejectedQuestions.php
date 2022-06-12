@@ -74,13 +74,20 @@ class RejectedQuestions extends LivewireDatatable
                 Column::callback(['user_id'], function ($user_id) {
                     $creator = User::find($user_id);
                     if ($creator === null) {
-                        return '';
+                        $admin = User::where('is_content_admin', true)->first();
+                        if ($admin == null) {
+                            return '';
+                        }
+                        return $admin->name;
                     }
                     return $creator->name;
                 })->label('Created By')
                     ->searchable()
                     ->hideable()
                     ->filterable(),
+
+                Column::name('comment')
+                    ->label('Comment'),
 
                 Column::callback(['created_at'], function ($created_at) {
                     return Carbon::parse($created_at)
@@ -92,7 +99,7 @@ class RejectedQuestions extends LivewireDatatable
                     function ($question_id) {
                         $question = Question::find($question_id);
                         $subcategory = Category::find($question->category_id);
-                        return view('components.table-actions', [
+                        return view('components.rejected-question-table-actions', [
                             'id' => $question->id, 'level' => $question->level,
                             'label' => $question->label, 'subcategory' => $subcategory->name
                         ]);

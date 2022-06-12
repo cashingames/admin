@@ -49,13 +49,15 @@ class ViewQuestion extends ModalComponent
             }
             $q->question_id = $this->question->id;
             $q->save();
-           
-            return $this->isApproved = true;
+            if($q->approved_at !== null){
+                return $this->isApproved = true;
+            }
+            return $this->isApproved = false;
         }
 
-        if ( $question->is_approved) {
-           return $this->isApproved = true;
+        if ( $question->approved_at === null) {
+           return $this->isApproved = false;
         }
-        return $this->isApproved = false;
+        return $this->isApproved = true;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Modals;
 
 use LivewireUI\Modal\ModalComponent;
 use App\Models\Question;
+use Illuminate\Support\Carbon;
 
 class ConfrimRejectQuestion extends ModalComponent
 {   
@@ -15,8 +16,9 @@ class ConfrimRejectQuestion extends ModalComponent
     }
 
     public function rejectQuestion(){
-        Question::where('question_id',$this->question_id)->update(['is_approved'=>false]);
-        return redirect()->to('/cms/questions');
+        Question::where('question_id',$this->question_id)
+        ->update(['rejected_at'=>Carbon::now(),'approved_at'=>null,'published_at'=>null,]);
+        return redirect()->to('/cms/questions/unreviewed');
     }
 
     public function render()
