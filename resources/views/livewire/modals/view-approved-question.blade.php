@@ -77,9 +77,6 @@
         @endif
         @endif
         @canany(['super-admin-access','content-admin-access'])
-        <button class="shadow bg-purple-700 text-white font-bold ml-4 py-2 px-2 rounded" onclick='Livewire.emit("openModal", "modals.confirm-approve-question", {{ json_encode(["id" => $question->id]) }})'>
-            Approve 
-        </button>
         <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-2 rounded" onclick='Livewire.emit("openModal", "modals.confrim-reject-question", {{ json_encode(["id" => $question->id]) }})'>
             Reject 
         </button>

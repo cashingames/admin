@@ -95,7 +95,7 @@ class ApprovedQuestions extends LivewireDatatable
                     function ($question_id) {
                         $question = Question::find($question_id);
                         $subcategory = Category::find($question->category_id);
-                        return view('components.table-actions', [
+                        return view('components.approved-question-table-actions', [
                             'id' => $question->id, 'level' => $question->level,
                             'label' => $question->label, 'subcategory' => $subcategory->name
                         ]);

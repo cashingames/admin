@@ -41,9 +41,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms.unreviewedQuestions');
     })->name('cms.unreviewedQuestions');
 
-    // Route::get('/cms/questions/approved', function () {
-    //     return view('cms.approvedQuestions');
-    // })->name('cms.approvedQuestions');
+    Route::get('/cms/questions/approved', function () {
+        return view('cms.approvedQuestions');
+    })->name('cms.approvedQuestions');
 
     Route::get('/cms/questions/rejected', function () {
         return view('cms.rejectedQuestions');

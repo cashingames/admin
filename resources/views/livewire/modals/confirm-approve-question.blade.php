@@ -3,5 +3,8 @@
     <button wire:click="approveQuestion"  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 mt-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
       Yes, Approve
     </button>
+    <button wire:click="$emit('closeModal')" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 mt-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+      No, Cancel
+   </button>
     </div>
 </div>
