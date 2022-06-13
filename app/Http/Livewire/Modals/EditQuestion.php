@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Modals;
 use App\Models\Live\Question;
 use App\Models\Live\Category;
 use App\Models\Live\Option;
+use App\Models\QuestionsReviewLog;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -96,7 +97,10 @@ class EditQuestion extends ModalComponent
         $question->save();
 
         AdminQuestion::where('question_id',$question->id)
-        ->update(['deleted_at'=>null,'published_at'=>null,'rejected_at'=>null]);
+        ->update(['deleted_at'=>null,'published_at'=>null,
+        'approved_at'=>null,'rejected_at'=>null]);
+
+        QuestionsReviewLog::create(['question_id'=>$question->id,'review_type'=>'EDITED']);
 
         return redirect()->to('/cms/questions/unreviewed');
     }

@@ -113,13 +113,14 @@
                 @endif
             </div>
         </div>
-        <div class="md:items-center mb-4">
+        <div class="md:items-center flex mb-4">
             <button type="submit" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
                 Save
             </button>
+            <button type="button" wire:click="shouldAddOption" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+                Add Option
+            </button>
         </div>
     </form>
-    <button type="button" wire:click="shouldAddOption" class="shadow bg-blue-500 text-white font-bold mb-1 ml-4 py-1 px-1 rounded">
-        Add Option
-    </button>
+  
 </div>

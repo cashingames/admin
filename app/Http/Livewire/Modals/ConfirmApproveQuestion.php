@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Modals;
 
 use LivewireUI\Modal\ModalComponent;
 use App\Models\Question;
+use App\Models\QuestionsReviewLog;
 use Illuminate\Support\Carbon;
 
 class ConfirmApproveQuestion extends ModalComponent
@@ -17,6 +18,9 @@ class ConfirmApproveQuestion extends ModalComponent
     public function approveQuestion(){
         Question::where('question_id',$this->question_id)
         ->update(['approved_at'=>Carbon::now(),'rejected_at'=>null,'published_at'=>null]);
+
+        QuestionsReviewLog::create(['question_id'=>$this->question_id,'review_type'=>'APPROVED']);
+
         return redirect()->to('/cms/questions/unreviewed');
     }
 

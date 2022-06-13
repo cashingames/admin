@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Modals;
 use LivewireUI\Modal\ModalComponent;
 use App\Models\Live\Question;
 use App\Models\Question as AdminQuestion;
+use App\Models\QuestionsReviewLog;
 use Illuminate\Support\Carbon;
 
 class PublishQuestion extends ModalComponent
@@ -20,10 +21,14 @@ class PublishQuestion extends ModalComponent
             $this->question->update(['is_published' => false]);
             AdminQuestion::where('question_id',$this->question->id)
             ->update(['published_at'=>null,'rejected_at'=>null,'approved_at'=>null]);
+
+            QuestionsReviewLog::create(['question_id'=>$this->question->id,'review_type'=>'UNPUBLISHED']);
         }else{
             $this->question->update(['is_published' => true]);
             AdminQuestion::where('question_id',$this->question->id)
             ->update(['published_at'=>Carbon::now(),'rejected_at'=>null,'approved_at'=>null]);
+
+            QuestionsReviewLog::create(['question_id'=>$this->question->id,'review_type'=>'PUBLISHED']);
         }
 
         return redirect()->to('/cms/questions/published');
