@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 class Reports extends Component
 {
     public $startDate, $endDate;
-    public $questionsCount, $unPublishedQuestions, $publishedQuestions, $rejectedQuestions;
+    public $questionsCount, $unPublishedQuestions, $publishedQuestions, $rejectedQuestions, $approvedQuestions;
     public $subcategories, $creators, $subcategory, $creator, $addExtraFilters = false;
 
     public function mount(){
@@ -222,6 +222,55 @@ class Reports extends Component
      
     }
 
+    private function getTotalApprovedQuestionsCount()
+    {
+        $_startDate = Carbon::parse($this->startDate)->startOfDay() ;
+        $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
+        
+        if(!$this->addExtraFilters){
+
+            $sql = AdminQuestion::whereNotNull('approved_at')->where('updated_at','>=',$_startDate)
+            ->where('updated_at','<=', $_endDate)->get()->count();
+
+            $this->approvedQuestions = $sql;
+        }else{
+            $_subCategory = Category::where('name',$this->subcategory)->first();
+            $_creator = User::where('name',$this->creator)->first();
+            
+            if($_subCategory === null && $_creator === null ){
+                $sql = AdminQuestion::whereNotNull('approved_at')->where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)->get()->count();
+    
+                $this->rejectedQuestions = $sql;
+            }
+
+            elseif($_subCategory === null && $_creator !== null ){
+                $sql = AdminQuestion::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->where('user_id', $_creator->id)
+                ->whereNotNull('approved_at')->get()->count();
+
+                $this->approvedQuestions = $sql;
+            }
+            elseif($_creator === null && $_subCategory !== null){
+                $sql = AdminQuestion::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->whereNotNull('approved_at')->get()->count();
+
+                $this->approvedQuestions = $sql;
+            }
+            else {
+                $sql = AdminQuestion::where('updated_at','>=',$_startDate)
+                ->where('updated_at','<=', $_endDate)
+                ->whereNotNull('approved_at')->get()->count();
+
+                $this->approvedQuestions = $sql;
+            }
+        }
+     
+    }
+
+
     public function addExtraFilters(){
         if($this->addExtraFilters){
             $this->addExtraFilters = false;
@@ -236,6 +285,7 @@ class Reports extends Component
         $this->getTotalPublishedQuestionsCount();
         $this->getTotalUnPublishedQuestionsCount();
         $this->getTotalRejectedQuestionsCount();
+        $this->getTotalApprovedQuestionsCount();
     }
    
     public function render()

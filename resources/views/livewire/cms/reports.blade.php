@@ -77,6 +77,12 @@
                 <span wire:model='rejectedQuestions'>{{$rejectedQuestions}}</span>
             </x-reports-layout>
         </div>
+        <div class=" text-center text-gray-600 text-lg font-bold mt-16">
+            <span>Number of Approved Questions</span>
+            <x-reports-layout>
+                <span wire:model='approvedQuestions'>{{$approvedQuestions}}</span>
+            </x-reports-layout>
+        </div>
     </div>
 
 </div>
