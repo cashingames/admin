@@ -92,7 +92,12 @@ class RejectedQuestions extends LivewireDatatable
                 Column::callback(['created_at'], function ($created_at) {
                     return Carbon::parse($created_at)
                         ->setTimezone('Africa/Lagos');
-                })->label('Time Uploaded'),
+                })->label('Time Uploaded')->filterable(),
+
+                Column::callback(['updated_at'], function ($created_at) {
+                    return Carbon::parse($created_at)
+                        ->setTimezone('Africa/Lagos');
+                })->label('Time Rejected')->filterable(),
 
                 Column::callback(
                     ['question_id'],
