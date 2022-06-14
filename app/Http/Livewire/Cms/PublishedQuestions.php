@@ -13,18 +13,19 @@ use App\Models\Live\Category;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
-class Questions extends LivewireDatatable
-{   
-
+class PublishedQuestions extends LivewireDatatable
+{
     public function builder()
-    {   
-        
-        if (Gate::allows('super-admin-access') ||
-        Gate::allows('content-admin-access')) {
-            return Question::query()->whereNull('deleted_at');
+    {
+
+        if (
+            Gate::allows('super-admin-access') ||
+            Gate::allows('content-admin-access')
+        ) {
+            return  Question::query()->where('is_published', true);
         }
-        return Question::query()->whereNull('deleted_at')
-        ->where('created_by', auth()->user()->id);
+        return  Question::query()->where('is_published', true)
+            ->where('created_by', auth()->user()->id);
     }
 
     public function columns()
@@ -72,38 +73,18 @@ class Questions extends LivewireDatatable
             Column::callback(['created_at'], function ($created_at) {
                 return Carbon::parse($created_at)
                 ->setTimezone('Africa/Lagos');  
-            })->label('Time Uploaded'),
+            })->label('Time Uploaded')->filterable(),
+
+            Column::callback(['updated_at'], function ($created_at) {
+                return Carbon::parse($created_at)
+                ->setTimezone('Africa/Lagos');  
+            })->label('Time Published')->filterable(),
             
             Column::callback(['id', 'level', 'label','category.name'], 
             function ($id, $level, $label, $subcategory) {
-                return view('components.table-actions', ['id' => $id, 'level' => $level, 
+                return view('components.published-question-table-actions', ['id' => $id, 'level' => $level, 
                 'label' => $label, 'category.name' => $subcategory]);
-            })->unsortable(),
-
-            BooleanColumn::name('is_published')
-            ->label('Published')
-            ->filterable(),
-
-            BooleanColumn::callback(['id','is_published'], function ($id, $created_by) {
-                $question = AdminQuestion::where('question_id',$id)->first();
-                if($question === null){
-                    return '';
-                }
-                if($question->is_approved){
-                    return '';
-                }
-                return 'REJECTED';
-            })->label('IsApproved')->filterable(),
-            
-            Column::callback(['id'], function ($id) {
-                $question = AdminQuestion::where('question_id',$id)->first();
-                if($question === null){
-                    return '';
-                }
-                return $question->comment;
-            })->label('Comment'),
+            })->unsortable()
         ];
     }
-
-    
 }
