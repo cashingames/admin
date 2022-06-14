@@ -54,7 +54,7 @@ class EditQuestion extends ModalComponent
         });
 
         if ($validator->fails()) {
-            return redirect()->to('/cms/questions')->withErrors($validator);
+            return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
         }
 
         $question = Question::find($request->question_id);
