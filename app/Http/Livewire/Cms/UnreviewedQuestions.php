@@ -72,6 +72,14 @@ class UnreviewedQuestions extends LivewireDatatable
             ->hideable()
             ->filterable(),
 
+            Column::callback(['question_id'], 
+            function ($question_id) {
+                $question = Question::find($question_id);
+                $subcategory = Category::find($question->category_id);
+                return view('components.table-actions', ['id' => $question->id, 'level' => $question->level, 
+                'label' => $question->label, 'subcategory' => $subcategory->name]);
+            },'actions')->unsortable(),
+
             Column::callback(['user_id'], function ($user_id) {
                 $creator = User::find($user_id);
                 if($creator === null){
@@ -91,14 +99,6 @@ class UnreviewedQuestions extends LivewireDatatable
                 return Carbon::parse($created_at)
                 ->setTimezone('Africa/Lagos');  
             })->label('Time Uploaded')->filterable(),
-
-            Column::callback(['question_id'], 
-            function ($question_id) {
-                $question = Question::find($question_id);
-                $subcategory = Category::find($question->category_id);
-                return view('components.table-actions', ['id' => $question->id, 'level' => $question->level, 
-                'label' => $question->label, 'subcategory' => $subcategory->name]);
-            },'actions')->unsortable(),
 
         ];
     }
