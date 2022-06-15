@@ -57,6 +57,12 @@ class PublishedQuestions extends LivewireDatatable
             ->searchable()
             ->hideable()
             ->filterable(),
+
+            Column::callback(['id', 'level', 'label','category.name'], 
+            function ($id, $level, $label, $subcategory) {
+                return view('components.published-question-table-actions', ['id' => $id, 'level' => $level, 
+                'label' => $label, 'category.name' => $subcategory]);
+            })->unsortable(),
             
             Column::callback(['created_by'], function ($created_by) {
                 $creator = User::find($created_by);
@@ -80,11 +86,6 @@ class PublishedQuestions extends LivewireDatatable
                 ->setTimezone('Africa/Lagos');  
             })->label('Time Published')->filterable(),
             
-            Column::callback(['id', 'level', 'label','category.name'], 
-            function ($id, $level, $label, $subcategory) {
-                return view('components.published-question-table-actions', ['id' => $id, 'level' => $level, 
-                'label' => $label, 'category.name' => $subcategory]);
-            })->unsortable()
         ];
     }
 }

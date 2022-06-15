@@ -31,7 +31,7 @@ class PublishQuestion extends ModalComponent
             QuestionsReviewLog::create(['question_id'=>$this->question->id,'review_type'=>'PUBLISHED']);
         }
 
-        return redirect()->to('/cms/questions/published');
+        return redirect()->to('/cms/questions/unreviewed');
     }
 
     public function render()
