@@ -18,6 +18,14 @@ class ConfrimRejectQuestion extends ModalComponent
     }
 
     public function rejectQuestion(){
+
+        $adminQuestion = Question::where('question_id', $this->question_id)->first();
+        if ($adminQuestion === null) {
+            Question::create([
+                'question_id' => $this->question->id,
+                'user_id' => $this->question->created_by
+            ]);
+        }
         Question::where('question_id',$this->question_id)
         ->update(['rejected_at'=>Carbon::now(),
         'approved_at'=>null,
