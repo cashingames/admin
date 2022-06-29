@@ -43,7 +43,7 @@ class AddQuestion extends ModalComponent
         });
 
         if($validator->fails()) {
-            return redirect()->to('/cms/questions')->withErrors($validator);
+            return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
         }
 
         $question = new LiveQuestion;

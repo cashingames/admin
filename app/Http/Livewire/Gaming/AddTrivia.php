@@ -41,6 +41,8 @@ class AddTrivia extends Component
     public function addTrivia()
     {
         $category = Category::where('name', $this->subcategory)->first();
+        $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
+        $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
 
         $trivia = new Trivia;
         $trivia->name =  $this->name;
@@ -49,8 +51,8 @@ class AddTrivia extends Component
         $trivia->category_id = $category->id;
         $trivia->game_mode_id = 1;
         $trivia->game_type_id = 2;
-        $trivia->start_time = strval(Carbon::parse($this->start_time));
-        $trivia->end_time = strval(Carbon::parse($this->end_time));
+        $trivia->start_time = $start;
+        $trivia->end_time = $end;
         $trivia->is_published = false;
         $trivia->game_duration = $this->game_duration;
         $trivia->question_count = $this->question_count;
@@ -98,6 +100,14 @@ class AddTrivia extends Component
         } else {
                 $this->canChooseQuestions = true;
         }
+    }
+
+    private function toTimeZone(string $date, string $dateTimeZone, $toTimeZone): Carbon
+    {
+        $result = Carbon::createFromFormat('Y-m-d H:i:s', $date, $dateTimeZone);
+        $result->setTimezone($toTimeZone);
+
+        return $result;
     }
 
     public function render()

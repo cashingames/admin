@@ -49,15 +49,17 @@ class TriviaTable extends LivewireDatatable
                 Column::name('question_count')
                     ->label('Number of Questions'),
 
-                Column::name('start_time')
-                    ->label('Start Time'),
+                Column::callback(['start_time'], function ($start_time) {
+                    return Carbon::parse($start_time)->setTimezone('Africa/Lagos');
+                })->label('Start Time')->filterable(),
 
-                Column::name('end_time')
-                    ->label('End Time'),
+                Column::callback(['end_time'], function ($end_time) {
+                    return Carbon::parse($end_time)->setTimezone('Africa/Lagos');
+                })->label('Start Time')->filterable(),
 
                 Column::callback(['start_time', 'end_time'], function ($start_time, $end_time) {
-                    if (($start_time <= Carbon::now('Africa/Lagos')) &&
-                        ($end_time > Carbon::now('Africa/Lagos'))
+                    if ((Carbon::parse($start_time)->setTimezone('Africa/Lagos') <= Carbon::now('Africa/Lagos')) &&
+                        (Carbon::parse($end_time)->setTimezone('Africa/Lagos') > Carbon::now('Africa/Lagos'))
                     ) {
                         return 'Active';
                     }
