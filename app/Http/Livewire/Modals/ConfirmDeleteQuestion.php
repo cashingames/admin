@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Modals;
 use LivewireUI\Modal\ModalComponent;
 use App\Models\Live\Question;
 use App\Models\Question as AdminQuestion;
+use App\Models\QuestionsReviewLog;
 use Illuminate\Support\Carbon;
 
 class ConfirmDeleteQuestion extends ModalComponent
@@ -24,6 +25,10 @@ class ConfirmDeleteQuestion extends ModalComponent
                 'deleted_at' => Carbon::now(), 'approved_at' => null,
                 'published_at' => null, 'rejected_at' => null
             ]);
+        QuestionsReviewLog::create([
+            'question_id' => $this->question_id,
+            'review_type' => 'DELETED'
+        ]);
         return redirect()->to('/cms/questions/unreviewed');
     }
 
