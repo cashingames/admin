@@ -8,18 +8,26 @@ use App\Models\QuestionsReviewLog;
 use Illuminate\Support\Carbon;
 
 class ConfirmApproveQuestion extends ModalComponent
-{   
+{
     public $question_id;
 
-    public function mount($id){
+    public function mount($id)
+    {
         $this->question_id = $id;
     }
 
-    public function approveQuestion(){
-        Question::where('question_id',$this->question_id)
-        ->update(['approved_at'=>Carbon::now(),'rejected_at'=>null,'published_at'=>null]);
+    public function approveQuestion()
+    {
+        Question::where('question_id', $this->question_id)
+            ->update([
+                'approved_at' => Carbon::now(),
+                'rejected_at' => null, 'published_at' => null
+            ]);
 
-        QuestionsReviewLog::create(['question_id'=>$this->question_id,'review_type'=>'APPROVED']);
+        QuestionsReviewLog::create([
+            'question_id' => $this->question_id,
+            'review_type' => 'APPROVED'
+        ]);
 
         return redirect()->to('/cms/questions/unreviewed');
     }
@@ -27,7 +35,7 @@ class ConfirmApproveQuestion extends ModalComponent
     public function render()
     {
         return view('livewire.modals.confirm-approve-question', [
-            'id' =>$this->question_id,
+            'id' => $this->question_id,
         ]);
     }
 }
