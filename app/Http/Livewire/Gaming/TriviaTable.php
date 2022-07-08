@@ -55,7 +55,7 @@ class TriviaTable extends LivewireDatatable
 
                 Column::callback(['end_time'], function ($end_time) {
                     return Carbon::parse($end_time)->setTimezone('Africa/Lagos');
-                })->label('Start Time')->filterable(),
+                })->label('End Time')->filterable(),
 
                 Column::callback(['start_time', 'end_time'], function ($start_time, $end_time) {
                     if ((Carbon::parse($start_time)->setTimezone('Africa/Lagos') <= Carbon::now('Africa/Lagos')) &&
