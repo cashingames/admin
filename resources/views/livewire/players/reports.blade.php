@@ -1,5 +1,5 @@
 @can('super-admin-access')
-<div wire:poll.300000ms='filterReports' >
+<div wire:poll.300000ms='filterReports'>
     <div class="flex items-center">
         <span class="mx-2 text-gray-500">select date range</span>
         <div class="relative">
@@ -14,21 +14,26 @@
                 placeholder="Select date end">
         </div>
         <div class="md:items-center">
-            <button wire:click='filterReports'  class="shadow bg-blue-500 text-white font-bold ml-4 px-4 rounded">
+            <button wire:click='filterReports' class="shadow bg-blue-500 text-white font-bold ml-4 px-4 rounded">
                 filter
             </button>
         </div>
     </div>
     <div class="flex flex-row flex-wrap justify-between">
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Registered users </span>
+            <span>Number of Registered Users </span>
             <x-reports-layout>
                 <span wire:model='registeredUserCount'>{{$registeredUserCount}}</span>
             </x-reports-layout>
         </div>
-
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of users Who Played A Game</span>
+            <span>Number of Verified Users</span>
+            <x-reports-layout>
+                <span wire:model='verifiedUserCount'>{{$verifiedUserCount}}</span>
+            </x-reports-layout>
+        </div>
+        <div class=" text-center text-gray-600 text-lg font-bold m-2">
+            <span>Number of Users Who Played A Game</span>
             <x-reports-layout>
                 <span wire:model='userPlayedCount'>{{$userPlayedCount}}</span>
             </x-reports-layout>
@@ -42,13 +47,13 @@
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of users Who Exhausted Free Game</span>
+            <span>Number of Users Who Exhausted Free Game</span>
             <x-reports-layout>
                 <span wire:model='userExhaustedFreeGameCount'>{{$userExhaustedFreeGameCount}}</span>
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of users Who Have Referrals</span>
+            <span>Number of Users Who Have Referrals</span>
             <x-reports-layout>
                 <span wire:model='referredUserCount'>{{$referredUserCount}}</span>
             </x-reports-layout>
@@ -61,19 +66,19 @@
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of users Who Have Bought Boosts</span>
+            <span>Number of Users Who Have Bought Boosts</span>
             <x-reports-layout>
                 <span wire:model='boughtBoostsCount'>{{$boughtBoostsCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of users Who Have Used Boosts</span>
+            <span>Number of Users Who Have Used Boosts</span>
             <x-reports-layout>
                 <span wire:model='usedBoostsCount'>{{$usedBoostsCount}}</span>
             </x-reports-layout>
         </div>
-    
+
     </div>
 </div>
 @else
