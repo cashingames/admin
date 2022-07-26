@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Players;
 
 use App\Models\Live\GameSession;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
@@ -12,7 +12,7 @@ use App\Models\Live\UserBoost;
 use App\Models\Live\UserPlan;
 use App\Models\Live\WalletTransaction;
 
-class GeneralData extends LivewireDatatable
+class RegularUsersOverview extends LivewireDatatable
 {
 
     public function builder()
@@ -27,15 +27,6 @@ class GeneralData extends LivewireDatatable
             [
                 NumberColumn::name('id')
                     ->label('ID'),
-                // Column::callback(['id'], function ($id) {
-                //     $profile = Profile::where('user_id', $id)->first();
-                //     return $profile->first_name;
-                // }, 'first_name')->label('First Name'),
-
-                // Column::callback(['id'], function ($id) {
-                //     $profile = Profile::where('user_id', $id)->first();
-                //     return $profile->last_name;
-                // }, 'last_name')->label('Last Name'),
 
                 Column::name('username')
                     ->searchable()
