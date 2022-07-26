@@ -44,6 +44,11 @@ class UsersTable extends LivewireDatatable
                     ->filterable()
                     ->searchable(),
 
+                Column::name('email_verified_at')
+                    ->label('Time Verified')
+                    ->searchable()
+                    ->filterable(),
+
                 Column::name('phone_number')
                     ->label('Phone Number')
                     ->filterable()
