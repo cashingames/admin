@@ -72,19 +72,29 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.dashboard');
     })->name('gaming.dashboard');
 
-    Route::get('/gaming/sessions', function () {
+    Route::get('/gaming/exhibition/sessions', function () {
         return view('gaming.sessions');
     })->name('gaming.sessions');
+
+    Route::get('/gaming/challenge/sessions', function () {
+        return view('gaming.challengeGameSessions');
+    })->name('gaming.challengeGameSessions');
  
     Route::get('/gaming/trivia', function () {
         return view('gaming.trivia');
     })->name('gaming.trivia');
 
-    
+    Route::get('/gaming/challenges', function () {
+        return view('gaming.challenges');
+    })->name('gaming.challenges');
+
+    Route::get('/gaming/challenges/data', function () {
+        return view('gaming.challengeUserData');
+    })->name('gaming.challengeUserData');
+
     Route::get('/gaming/trivia/create', function () {
         return view('gaming.add-trivia');
     })->name('trivia.create');
-
 
     Route::get('/finance', function () {
         return redirect()->route('finance.transactions');
