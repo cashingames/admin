@@ -1,6 +1,8 @@
 <x-gaming-layout>
    @can('super-admin-access')
-   Dashboard
+   <div>
+      <livewire:gaming.reports />
+   </div>
    @else
    You are not authorised to access this data.
 

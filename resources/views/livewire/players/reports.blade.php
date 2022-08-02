@@ -40,40 +40,40 @@
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Registered Users Who Have Not Played A Game</span>
+            <span>Users Who Have Not Played A Game</span>
             <x-reports-layout>
                 <span wire:model='userNotPlayedCount'>{{$userNotPlayedCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users Who Exhausted Free Game</span>
+            <span>Users Who Exhausted Free Game</span>
             <x-reports-layout>
                 <span wire:model='userExhaustedFreeGameCount'>{{$userExhaustedFreeGameCount}}</span>
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users Who Have Referrals</span>
+            <span>Users Who Have Referrals</span>
             <x-reports-layout>
                 <span wire:model='referredUserCount'>{{$referredUserCount}}</span>
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of users Who Have Bought Games</span>
+            <span>Users Who Have Bought Games</span>
             <x-reports-layout>
                 <span wire:model='boughtGamesCount'>{{$boughtGamesCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users Who Have Bought Boosts</span>
+            <span>Users Who Have Bought Boosts</span>
             <x-reports-layout>
                 <span wire:model='boughtBoostsCount'>{{$boughtBoostsCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users Who Have Used Boosts</span>
+            <span>Users Who Have Used Boosts</span>
             <x-reports-layout>
                 <span wire:model='usedBoostsCount'>{{$usedBoostsCount}}</span>
             </x-reports-layout>

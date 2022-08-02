@@ -70,9 +70,9 @@ class TriviaTable extends LivewireDatatable
                 ->label('Published')
                 ->filterable(),
 
-                DateColumn::name('created_at')->label('Date Created')->filterable(),
+                Column::name('created_at')->label('Date Created')->filterable(),
                
-                DateColumn::name('updated_at')->label('Date Edited')->filterable(),
+                Column::name('updated_at')->label('Date Edited')->filterable(),
                 
                 Column::callback(['id','is_published'], function ($id,$is_published) {
                     return view('gaming.trivia-table-actions', ['id' => $id, 'is_published'=>$is_published]);
