@@ -126,6 +126,10 @@ class RejectedQuestions extends LivewireDatatable
                     return $creator->name;
                 })->label('Created By'),
 
+                Column::name('comment')
+                    ->label('Comment')
+                    ->searchable(),
+
                 Column::callback(['created_at'], function ($created_at) {
                     return Carbon::parse($created_at)
                         ->setTimezone('Africa/Lagos');

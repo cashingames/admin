@@ -8,7 +8,7 @@ use App\Models\Question as AdminQuestion;
 use App\Models\QuestionsReviewLog;
 use Illuminate\Support\Carbon;
 
-class PublishQuestion extends ModalComponent
+class PublishApprovedQuestion extends ModalComponent
 {
     public $question;
 
@@ -33,7 +33,6 @@ class PublishQuestion extends ModalComponent
                 ->update(['published_at' => null, 'rejected_at' => null, 'approved_at' => null]);
 
             QuestionsReviewLog::create(['question_id' => $this->question->id, 'review_type' => 'UNPUBLISHED']);
-            return redirect()->to('/cms/questions/published');
         } else {
             $this->question->update(['is_published' => true]);
             AdminQuestion::where('question_id', $this->question->id)
@@ -42,11 +41,11 @@ class PublishQuestion extends ModalComponent
             QuestionsReviewLog::create(['question_id' => $this->question->id, 'review_type' => 'PUBLISHED']);
         }
 
-        return redirect()->to('/cms/questions/unreviewed');
+        return redirect()->to('/cms/questions/approved');
     }
 
     public function render()
     {
-        return view('livewire.modals.publish-question');
+        return view('livewire.modals.publish-approved-question');
     }
 }

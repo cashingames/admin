@@ -8,6 +8,9 @@ use App\Http\Livewire\Modals\AddQuestion;
 use App\Http\Livewire\Modals\ViewQuestion;
 use App\Http\Livewire\Modals\EditQuestion;
 use App\Http\Livewire\Modals\ConfirmDeleteQuestion;
+use App\Http\Livewire\Modals\EditApprovedQuestion;
+use App\Http\Livewire\Modals\EditRejectedQuestion;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,6 +62,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/cms/question/view/{id}', ViewQuestion::class)->name('question.view');
     Route::post('/cms/question/edit', [EditQuestion::class, 'editQuestion']);
+    Route::post('/cms/approved-question/edit', [EditApprovedQuestion::class, 'editQuestion']);
+    Route::post('/cms/rejected-question/edit', [EditRejectedQuestion::class, 'editQuestion']);
     Route::post('/cms/question/delete', [ConfirmDeleteQuestion::class, 'deleteQuestion']);
     Route::post('/cms/question/add', [AddQuestion::class, 'addQuestion']);
     Route::post('/cms/comment/add', [AddComment::class, 'addComment']);

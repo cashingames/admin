@@ -57,14 +57,14 @@
     </div>
     <div class="flex justify-center mb-4">
        @if (!$question->is_published)
-        <button wire:click="$emit('openModal', 'modals.edit-question', {{ json_encode(["question"=> $question->id])
+        <button wire:click="$emit('openModal', 'modals.edit-rejected-question', {{ json_encode(["question"=> $question->id])
             }})"
             class="shadow bg-blue-500 text-white font-bold ml-2 py-2 px-2 rounded" type="button">
             Edit
         </button>
         @endif
         @if (!$question->is_published)
-        <button wire:click="$emit('openModal', 'modals.confirm-delete-question', {{ json_encode(["question"=>
+        <button wire:click="$emit('openModal', 'modals.delete-rejected-question', {{ json_encode(["question"=>
             $question->id]) }})" class="shadow bg-red-600 text-white font-bold ml-4 py-2 px-2 rounded" type="button">
             Delete
         </button>
@@ -72,12 +72,12 @@
           
         @if ($canPublish)
         @if ($question->is_published)
-        <button wire:click="$emit('openModal', 'modals.publish-question', {{ json_encode(["question"=>
+        <button wire:click="$emit('openModal', 'modals.publish-rejected-question', {{ json_encode(["question"=>
             $question->id]) }})" class="shadow bg-green-500 text-white font-bold ml-4 py-2 px-2 rounded" type="button">
             Unpublish
         </button>
         @else
-        <button wire:click="$emit('openModal', 'modals.publish-question', {{ json_encode(["question"=>
+        <button wire:click="$emit('openModal', 'modals.publish-rejected-question', {{ json_encode(["question"=>
             $question->id]) }})" class="shadow bg-green-500 text-white font-bold ml-4 py-2 px-2 rounded" type="button">
             Publish
         </button>
