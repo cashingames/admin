@@ -57,8 +57,6 @@ class ChallengeSessionsTable extends LivewireDatatable
                     
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
 
-                DateColumn::name('updated_at')->label('Date Edited')->filterable(),
-
             ];
     }
 }

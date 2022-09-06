@@ -10,6 +10,7 @@ use App\Models\Live\User;
 use App\Models\Live\Category;
 use App\Models\Live\GameMode;
 use App\Models\Live\Plan;
+use Mediconesystems\LivewireDatatables\DateColumn;
 
 class SessionsTable extends LivewireDatatable
 {
@@ -59,6 +60,8 @@ class SessionsTable extends LivewireDatatable
 
                 Column::name('end_time')
                     ->label('End Time'),
+                
+                DateColumn::name('created_at')->label('Date Created')->filterable(),
 
             ];
     }
