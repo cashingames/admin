@@ -6,17 +6,30 @@ use App\Models\Live\GameSession;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
-use App\Models\Live\User;
-use App\Models\Live\Category;
-use App\Models\Live\GameMode;
-use App\Models\Live\Plan;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class SessionsTable extends LivewireDatatable
 {
     public function builder()
     {
-        return GameSession::query();
+        $livedb = config('database.connections.mysqllive.database');
+        $query = GameSession::query()
+            ->select(
+                "game_sessions.id",
+                "game_sessions.created_at",
+                "game_sessions.state",
+                "game_sessions.start_time",
+                "game_sessions.end_time",
+                "game_sessions.category_id",
+                "live_subcat.name as subcategory_name",
+                "live_users.username as username",
+            )
+            ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "game_sessions.category_id")
+            ->join("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id")
+            ->join("{$livedb}.plans as live_plans", "live_plans.id", "=", "game_sessions.plan_id")
+            ->join("{$livedb}.game_modes as live_game_modes", "live_game_modes.id", "=", "game_sessions.game_mode_id");
+
+        return $query;
     }
 
     public function columns()
@@ -26,41 +39,37 @@ class SessionsTable extends LivewireDatatable
                 NumberColumn::name('id')
                     ->label('ID'),
 
-                Column::callback(['user_id'], function ($user_id) {
-                    $user = User::where('id', $user_id)->first();
-                    if ($user === null) {
-                        return ' ';
-                    }
-                    return $user->username;
-                })->label('Username')->searchable()->filterable(),
+                Column::name('live_users.username')
+                    ->label('Username')
+                    ->filterable()
+                    ->searchable(),
 
-                Column::callback(['category_id'], function ($category_id) {
-                    $subcategory = Category::where('id', $category_id)->first();
-                    return $subcategory->name;
-                })->label('Subcategory')->searchable()->filterable(),
+                Column::name('live_subcat.name')
+                    ->label('Subcategory')
+                    ->filterable()
+                    ->searchable(),
 
-                Column::callback(['game_mode_id'], function ($mode_id) {
-                    $gameMode = GameMode::where('id', $mode_id)->first();
-                    return $gameMode->name;
-                })->label('Game Mode')->searchable()->filterable(),
+                Column::name('live_plans.name')
+                    ->label('Plan')
+                    ->filterable()
+                    ->searchable(),
 
-                Column::callback(['plan_id'], function ($plan_id) {
-                    $plan = Plan::where('id', $plan_id)->first();
-                    if ($plan === null) {
-                        return ' ';
-                    }
-                    return $plan->name;
-                })->label('Plan')->searchable()->filterable(),
+                Column::name('live_game_modes.name')
+                    ->label('Game Mode')
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('state')
-                    ->label('State'),
+                    ->label('State') 
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('start_time')
                     ->label('Start Time'),
 
                 Column::name('end_time')
                     ->label('End Time'),
-                
+
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
 
             ];
