@@ -60,7 +60,27 @@ class SessionsTable extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('state')
-                    ->label('State') 
+                    ->label('State')
+                    ->filterable()
+                    ->searchable(),
+
+                Column::name('correct_count')
+                    ->label('Original Score')
+                    ->filterable()
+                    ->searchable(),
+
+                Column::name('points_gained')
+                    ->label('Points Gained')
+                    ->filterable()
+                    ->searchable(),
+
+                Column::name('odd_multiplier')
+                    ->label('Odds Applied')
+                    ->filterable()
+                    ->searchable(),
+
+                Column::name('odd_condition')
+                    ->label('Odd Condition Met')
                     ->filterable()
                     ->searchable(),
 
