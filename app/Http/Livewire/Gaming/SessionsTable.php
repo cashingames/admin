@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Gaming;
 
 use App\Models\Live\GameSession;
+use Illuminate\Support\Carbon;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -84,13 +85,17 @@ class SessionsTable extends LivewireDatatable
                     ->filterable()
                     ->searchable(),
 
-                Column::name('start_time')
-                    ->label('Start Time'),
+                Column::callback(['start_time'], function ($start_time) {
+                    return Carbon::parse($start_time)->setTimezone('Africa/Lagos');
+                })->label('Start Time')->filterable(),
 
-                Column::name('end_time')
-                    ->label('End Time'),
+                Column::callback(['end_time'], function ($end_time) {
+                    return Carbon::parse($end_time)->setTimezone('Africa/Lagos');
+                })->label('End Time')->filterable(),
 
-                DateColumn::name('created_at')->label('Date Created')->filterable(),
+                Column::callback(['created_at'], function ($created_at) {
+                    return Carbon::parse($created_at)->setTimezone('Africa/Lagos');
+                })->label('Date Created')->filterable(),
 
             ];
     }
