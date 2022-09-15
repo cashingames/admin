@@ -93,6 +93,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.challenges');
     })->name('gaming.challenges');
 
+    Route::get('/gaming/odds', function () {
+        return view('gaming.odds');
+    })->name('gaming.odds');
+
     Route::get('/gaming/challenges/data', function () {
         return view('gaming.challengeUserData');
     })->name('gaming.challengeUserData');
