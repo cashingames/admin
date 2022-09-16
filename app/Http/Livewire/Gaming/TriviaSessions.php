@@ -47,6 +47,11 @@ class TriviaSessions extends LivewireDatatable
                     ->filterable()
                     ->searchable(),
                 
+                Column::name('live_trivias.id')
+                    ->label('Live Trivia ID')
+                    ->filterable()
+                    ->searchable(),
+
                 Column::name('live_trivias.name')
                     ->label('Live Trivia Name')
                     ->filterable()
