@@ -25,9 +25,7 @@ class TriviaSessions extends LivewireDatatable
         )
             ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id")
-            ->join("{$livedb}.plans as live_plans", "live_plans.id", "=", "game_sessions.plan_id")
-            ->join("{$livedb}.trivias as live_trivias", "live_trivias.id", "=", "game_sessions.trivia_id")
-            ->join("{$livedb}.game_modes as live_game_modes", "live_game_modes.id", "=", "game_sessions.game_mode_id");
+            ->join("{$livedb}.trivias as live_trivias", "live_trivias.id", "=", "game_sessions.trivia_id");
 
         return $query;
     }
