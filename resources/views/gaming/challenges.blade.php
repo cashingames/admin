@@ -10,11 +10,14 @@
             </li>
             <li class="w-full">
                 <a href="{{ route('gaming.challengeUserData') }}" aria-current="page"
-                    class="inline-block p-4 w-full bg-white hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none uppercase dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Challenge User Data</a>
+                    class="inline-block p-4 w-full bg-white hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none uppercase dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Challenge
+                    User Data</a>
             </li>
 
         </ul>
-        <livewire:gaming.challenges-table exportable hideable="select" />
+        <div class="pt-8">
+            <livewire:gaming.challenges-table exportable hideable="select" />
+        </div>
     </div>
     @else
     <div class="mt-4">

@@ -84,6 +84,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/gaming/challenge/sessions', function () {
         return view('gaming.challengeGameSessions');
     })->name('gaming.challengeGameSessions');
+
+    Route::get('/gaming/live-trivia/sessions', function () {
+        return view('gaming.triviaGameSessions');
+    })->name('gaming.triviaGameSessions');
+ 
  
     Route::get('/gaming/trivia', function () {
         return view('gaming.trivia');

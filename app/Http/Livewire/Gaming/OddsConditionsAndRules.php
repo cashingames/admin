@@ -19,9 +19,6 @@ class OddsConditionsAndRules extends LivewireDatatable
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
-
                 Column::name('rule')
                     ->label('Rule'),
 

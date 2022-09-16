@@ -21,9 +21,6 @@ class StandardOdds extends LivewireDatatable
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
-
                 NumberColumn::name('score')
                     ->label('Score'),
                 
