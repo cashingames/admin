@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Live;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +9,7 @@ class Wallet extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysqllive';
     protected $fillable = [
         'user_id',
         'balance'
