@@ -25,7 +25,11 @@ class TransationsTable extends LivewireDatatable
                 Column::callback(['wallet_id'], function ($wallet_id) {
                     $wallet = Wallet::find($wallet_id);
                     if ($wallet !== null) {
-                        return User::find($wallet->user_id)->username;
+                        $user = User::find($wallet->user_id);
+                        if ($user !== null) {
+                            return $user->username;
+                        }
+                        return '';
                     }
                     return '';
                 }, 'username')->label('Username'),
@@ -33,7 +37,11 @@ class TransationsTable extends LivewireDatatable
                 Column::callback(['wallet_id'], function ($wallet_id) {
                     $wallet = Wallet::find($wallet_id);
                     if ($wallet !== null) {
-                        return User::find($wallet->user_id)->email;
+                        $user = User::find($wallet->user_id);
+                        if ($user !== null) {
+                            return $user->email;
+                        }
+                        return '';
                     }
                     return '';
                 }, 'email')->label('Email'),
@@ -41,7 +49,11 @@ class TransationsTable extends LivewireDatatable
                 Column::callback(['wallet_id'], function ($wallet_id) {
                     $wallet = Wallet::find($wallet_id);
                     if ($wallet !== null) {
-                        return User::find($wallet->user_id)->phone_number;
+                        $user = User::find($wallet->user_id);
+                        if ($user !== null) {
+                            return $user->phone_number;
+                        }
+                        return '';
                     }
                     return '';
                 }, 'phone')->label('Phone'),
