@@ -45,7 +45,7 @@ class UsersTable extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('email_verified_at')
-                    ->label('Time Verified')
+                    ->label('Email Verified At')
                     ->searchable()
                     ->filterable(),
 
@@ -53,6 +53,11 @@ class UsersTable extends LivewireDatatable
                     ->label('Phone Number')
                     ->filterable()
                     ->searchable(),
+
+                Column::name('phone_verified_at')
+                    ->label('Phone Verified At')
+                    ->searchable()
+                    ->filterable(),
 
                 Column::callback(['id'], function ($id) {
                     $profile = Profile::where('user_id', $id)->first();
