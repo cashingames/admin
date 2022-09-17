@@ -94,13 +94,13 @@ class UsersTable extends LivewireDatatable
                     return $profile->referrer;
                 }, 'referrer')->label('Referrer'),
 
-                Column::callback(['id'], function ($id) {
-                   return User::find($id)->gameSessions()->count();
-                }, 'game_count')->label('Game Count'),
+                // Column::callback(['id'], function ($id) {
+                //    return User::find($id)->gameSessions()->count();
+                // }, 'game_count')->label('Game Count'),
 
-                Column::callback(['id'], function ($id) {
-                    return User::find($id)->gameSessions()->latest()->get('updated_at');
-                 }, 'last_played')->label('Date Of Last Game'),
+                // Column::callback(['id'], function ($id) {
+                //     return User::find($id)->gameSessions()->latest()->first()->updated_at;
+                //  }, 'last_played')->label('Date Of Last Game'),
 
                 Column::name('created_at')
                     ->searchable()
