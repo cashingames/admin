@@ -61,6 +61,7 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate)->endOfDay() ;
 
         $this->totalWalletDeposit = WalletTransaction::where('transaction_type', "CREDIT")
+                                    ->where('description','Fund Wallet')
                                     ->where('created_at','>=',$_startDate)
                                     ->where('created_at','<=', $_endDate)
                                     ->sum('amount');
