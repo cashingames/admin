@@ -9,19 +9,18 @@ use Illuminate\Support\Carbon;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 
-class TransationsTable extends LivewireDatatable
+class WalletWithdrawalsTable extends LivewireDatatable
 {
     public function builder()
     {
 
-        return WalletTransaction::query();
+        return WalletTransaction::query()->where('transaction_type', "DEBIT")->where('description', 'Winnings Withdrawal Made');
     }
 
     public function columns()
     {
         return
             [
-
                 Column::callback(['wallet_id'], function ($wallet_id) {
                     $wallet = Wallet::find($wallet_id);
                     if (!is_null($wallet)) {

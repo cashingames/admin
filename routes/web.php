@@ -118,6 +118,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.transactions');
     })->name('finance.transactions');
 
+    Route::get('/finance/transactions/wallet-funds', function () {
+        return view('finance.fundTransactions');
+    })->name('finance.fundings');
+
+    Route::get('/finance/transactions/withdrawals', function () {
+        return view('finance.withdrawalTransactions');
+    })->name('finance.withdrawals');
+
     Route::get('/finance/dashboard', function () {
         return view('finance.dashboard');
     })->name('finance.dashboard');
