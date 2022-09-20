@@ -22,6 +22,9 @@
                     <x-jet-nav-link href="{{ route('gaming.odds') }}" :active="request()->routeIs('gaming.odds')">
                         {{ __('Manage Odds') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('gaming.stakings') }}" :active="request()->routeIs('gaming.stakings')">
+                        {{ __('Stakings') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
         </div>

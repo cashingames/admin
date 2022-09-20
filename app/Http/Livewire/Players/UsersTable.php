@@ -7,15 +7,36 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\User;
-use App\Models\Live\Profile;
 
 class UsersTable extends LivewireDatatable
 {
 
     public function builder()
     {
+        $livedb = config('database.connections.mysqllive.database');
 
-        return User::query();
+        $query = User::query()
+            ->select(
+                "users.id",
+                "users.created_at",
+                "users.username",
+                "users.email",
+                "users.phone_number",
+                "users.phone_verified_at",
+                "users.email_verified_at",
+                "profiles.first_name as first_name",
+                "profiles.last_name as last_name",
+                "profiles.gender as gender",
+                "profiles.referral_code as referral_code",
+                "profiles.referrer as referrer",
+                "profiles.account_name as account_name",
+                "profiles.account_number as account_number",
+                "profiles.bank_name as bank_name",
+                "profiles.state as state",
+            )
+            ->join("{$livedb}.profiles as profiles", "profiles.user_id", "=", "users.id");
+
+        return $query;
     }
 
 
@@ -25,15 +46,16 @@ class UsersTable extends LivewireDatatable
             [
                 NumberColumn::name('id')
                     ->label('ID'),
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->first_name;
-                }, 'first_name')->label('First Name'),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->last_name;
-                }, 'last_name')->label('Last Name'),
+                Column::name('profiles.first_name')
+                ->label('First Name')
+                ->filterable()
+                ->searchable(),
+
+                Column::name('profiles.last_name')
+                ->label('Last Name')
+                ->filterable()
+                ->searchable(),
 
                 Column::name('username')
                     ->searchable()
@@ -59,48 +81,40 @@ class UsersTable extends LivewireDatatable
                     ->searchable()
                     ->filterable(),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->gender;
-                }, 'gender')->label('Gender'),
+                Column::name('profiles.gender')
+                ->label('Gender')
+                ->filterable()
+                ->searchable(),
+                
+                Column::name('profiles.referral_code')
+                ->label('Referral Code')
+                ->filterable()
+                ->searchable(),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->referral_code;
-                }, 'referral_code')->label('Referral Code'),
+                Column::name('profiles.account_name')
+                ->label('Account Name')
+                ->filterable()
+                ->searchable(),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->account_name;
-                }, 'account_name')->label('Account Name'),
+                Column::name('profiles.bank_name')
+                ->label('Bank Name')
+                ->filterable()
+                ->searchable(),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->bank_name;
-                }, 'bank_name')->label('Bank Name'),
+                Column::name('profiles.account_number')
+                ->label('Account Number')
+                ->filterable()
+                ->searchable(),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->account_number;
-                }, 'account_number')->label('Account Number'),
+                Column::name('profiles.state')
+                ->label('State')
+                ->filterable()
+                ->searchable(),
 
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->state;
-                }, 'state')->label('State'),
-
-                Column::callback(['id'], function ($id) {
-                    $profile = Profile::where('user_id', $id)->first();
-                    return $profile->referrer;
-                }, 'referrer')->label('Referrer'),
-
-                // Column::callback(['id'], function ($id) {
-                //    return User::find($id)->gameSessions()->count();
-                // }, 'game_count')->label('Game Count'),
-
-                // Column::callback(['id'], function ($id) {
-                //     return User::find($id)->gameSessions()->latest()->first()->updated_at;
-                //  }, 'last_played')->label('Date Of Last Game'),
+                Column::name('profiles.referrer')
+                ->label('Referrer')
+                ->filterable()
+                ->searchable(),
 
                 Column::name('created_at')
                     ->searchable()
