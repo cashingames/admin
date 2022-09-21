@@ -1,17 +1,32 @@
 <?php
 
 namespace App\Http\Livewire\Gaming;
-use App\Models\Live\StakersView;
+
+use App\Models\Live\GameSession;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
-class StakersViewTable extends LivewireDatatable
+class StakersTable extends LivewireDatatable
 {
     public function builder()
     {
-        return StakersView::query();
+        $livedb = config('database.connections.mysqllive.database');
+
+        $query = GameSession::query()
+        ->select(
+            "game_sessions.amount_won as amount_won",
+            "game_sessions.correct_count as correct_count",
+            "game_sessions.points_gained as points_gained",
+            "game_sessions.created_at as played_at",
+        )
+        ->where('amount_won','>',0)
+        ->leftJoin("{$livedb}.exhibition_stakings as live_es", "live_es.game_session_id", "=", "game_sessions.id")
+        ->leftJoin("{$livedb}.stakings as live_stakings", "live_stakings.id", "=", "live_es.staking_id")
+        ->leftJoin("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id");
+
+        return $query;
     }
 
     public function columns(){
@@ -20,20 +35,20 @@ class StakersViewTable extends LivewireDatatable
             NumberColumn::name('amount_won')
                 ->label('Amount Won'),
 
-            NumberColumn::name('amount')
+            NumberColumn::name('live_stakings.amount')
                 ->label('Amount Staked'),
 
-            Column::name('username')
+            Column::name('live_users.username')
                 ->label('Username')
                 ->filterable()
                 ->searchable(),
 
-            Column::name('phone_number')
+            Column::name('live_users.phone_number')
                 ->label('Phone Number')
                 ->filterable()
                 ->searchable(),
             
-            Column::name('email')
+            Column::name('live_users.email')
                 ->label('Email')
                 ->filterable()
                 ->searchable(),
@@ -44,12 +59,12 @@ class StakersViewTable extends LivewireDatatable
             NumberColumn::name('points_gained')
                 ->label('Points Gained'),
 
-            Column::name('played_at')
+            Column::name('created_at')
                 ->label('Played At')
                 ->filterable()
                 ->searchable(),
 
-            Column::name('joined_on')
+            Column::name('live_users.created_at')
                 ->label('Joined On')
                 ->filterable()
                 ->searchable(),
