@@ -6,6 +6,7 @@ use App\Models\Live\GameSession;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class StakersTable extends LivewireDatatable
@@ -59,12 +60,12 @@ class StakersTable extends LivewireDatatable
             NumberColumn::name('points_gained')
                 ->label('Points Gained'),
 
-            Column::name('created_at')
+            DateColumn::name('created_at')
                 ->label('Played At')
                 ->filterable()
                 ->searchable(),
 
-            Column::name('live_users.created_at')
+            DateColumn::name('live_users.created_at')
                 ->label('Joined On')
                 ->filterable()
                 ->searchable(),

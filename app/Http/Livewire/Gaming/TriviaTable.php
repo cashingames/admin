@@ -49,11 +49,11 @@ class TriviaTable extends LivewireDatatable
                 Column::name('question_count')
                     ->label('Number of Questions'),
 
-                Column::callback(['start_time'], function ($start_time) {
+                DateColumn::callback(['start_time'], function ($start_time) {
                     return Carbon::parse($start_time)->setTimezone('Africa/Lagos');
                 })->label('Start Time')->filterable(),
 
-                Column::callback(['end_time'], function ($end_time) {
+                DateColumn::callback(['end_time'], function ($end_time) {
                     return Carbon::parse($end_time)->setTimezone('Africa/Lagos');
                 })->label('End Time')->filterable(),
 
@@ -70,9 +70,9 @@ class TriviaTable extends LivewireDatatable
                 ->label('Published')
                 ->filterable(),
 
-                Column::name('created_at')->label('Date Created')->filterable(),
+                DateColumn::name('created_at')->label('Date Created')->filterable(),
                
-                Column::name('updated_at')->label('Date Edited')->filterable(),
+                DateColumn::name('updated_at')->label('Date Edited')->filterable(),
                 
                 Column::callback(['id','is_published'], function ($id,$is_published) {
                     return view('gaming.trivia-table-actions', ['id' => $id, 'is_published'=>$is_published]);

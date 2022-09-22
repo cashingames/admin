@@ -6,6 +6,7 @@ use App\Models\Live\GameSession;
 use Illuminate\Support\Carbon;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class TriviaSessions extends LivewireDatatable
@@ -90,7 +91,7 @@ class TriviaSessions extends LivewireDatatable
                     return Carbon::parse($end_time)->setTimezone('Africa/Lagos');
                 })->label('End Time')->filterable(),
 
-                Column::callback(['created_at'], function ($created_at) {
+                DateColumn::callback(['created_at'], function ($created_at) {
                     return Carbon::parse($created_at)->setTimezone('Africa/Lagos');
                 })->label('Date Created')->filterable(),
 

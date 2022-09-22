@@ -7,6 +7,7 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\User;
+use Mediconesystems\LivewireDatatables\DateColumn;
 
 class UsersTable extends LivewireDatatable
 {
@@ -116,7 +117,7 @@ class UsersTable extends LivewireDatatable
                 ->filterable()
                 ->searchable(),
 
-                Column::name('created_at')
+                DateColumn::name('created_at')
                     ->searchable()
                     ->filterable()
 

@@ -8,6 +8,7 @@ use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\User;
 use App\Models\Live\Category;
+use Mediconesystems\LivewireDatatables\DateColumn;
 
 class ChallengesTable extends LivewireDatatable
 {
@@ -48,9 +49,9 @@ class ChallengesTable extends LivewireDatatable
                 Column::name('status')
                     ->label('Status'),
 
-                Column::name('created_at')->label('Date Created')->filterable(),
+                DateColumn::name('created_at')->label('Date Created')->filterable(),
 
-                Column::name('updated_at')->label('Date Edited')->filterable(),
+                DateColumn::name('updated_at')->label('Date Edited')->filterable(),
             ];
     }
 }

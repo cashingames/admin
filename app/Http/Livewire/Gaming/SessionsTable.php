@@ -93,7 +93,7 @@ class SessionsTable extends LivewireDatatable
                     return Carbon::parse($end_time)->setTimezone('Africa/Lagos');
                 })->label('End Time')->filterable(),
 
-                Column::callback(['created_at'], function ($created_at) {
+                DateColumn::callback(['created_at'], function ($created_at) {
                     return Carbon::parse($created_at)->setTimezone('Africa/Lagos');
                 })->label('Date Created')->filterable(),
 
