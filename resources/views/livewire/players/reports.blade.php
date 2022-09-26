@@ -27,9 +27,15 @@
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Verified Users</span>
+            <span>Number of Phone Verified Users</span>
             <x-reports-layout>
-                <span wire:model='verifiedUserCount'>{{$verifiedUserCount}}</span>
+                <span wire:model='countOfPhoneVerifications'>{{$countOfPhoneVerifications}}</span>
+            </x-reports-layout>
+        </div>
+        <div class=" text-center text-gray-600 text-lg font-bold m-2">
+            <span>Number of Email Verified Users</span>
+            <x-reports-layout>
+                <span wire:model='countOfEmailVerifications'>{{$countOfEmailVerifications}}</span>
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">

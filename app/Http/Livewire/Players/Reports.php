@@ -19,7 +19,7 @@ class Reports extends Component
     public $userPlayedCount, $userExhaustedFreeGameCount,
         $referredUserCount, $boughtGamesCount, $registeredUserCount,
         $boughtBoostsCount, $usedBoostsCount, $userNotPlayedCount,
-        $verifiedUserCount;
+        $countOfEmailVerifications,  $countOfPhoneVerifications;
 
     public function mount()
     {
@@ -135,7 +135,7 @@ class Reports extends Component
         $this->usedBoostsCount = $sql;
     }
 
-    private function getCountOfVerifiedUsers()
+    private function getCountOfEmailVerifications()
     {
         $_startDate = Carbon::parse($this->startDate)->startOfDay();
         $_endDate = Carbon::parse($this->endDate)->endOfDay();
@@ -144,7 +144,19 @@ class Reports extends Component
             ->where('created_at', '<=', $_endDate)->whereNotNull('email_verified_at')
             ->get()->count();
 
-        $this->verifiedUserCount = $sql;
+        $this->countOfEmailVerifications = $sql;
+    }
+
+    private function getCountOfPhoneVerifications()
+    {
+        $_startDate = Carbon::parse($this->startDate)->startOfDay();
+        $_endDate = Carbon::parse($this->endDate)->endOfDay();
+
+        $sql =  User::where('created_at', '>=', $_startDate)
+            ->where('created_at', '<=', $_endDate)->whereNotNull('phone_verified_at')
+            ->get()->count();
+
+        $this->countOfPhoneVerifications = $sql;
     }
 
 
@@ -158,7 +170,8 @@ class Reports extends Component
         $this->getCountOfBoughtGames();
         $this->getCountOfBoughtBoosts();
         $this->getCountOfUsedBoosts();
-        $this->getCountOfVerifiedUsers();
+        $this->getCountOfEmailVerifications();
+        $this->getCountOfPhoneVerifications();
     }
 
 
