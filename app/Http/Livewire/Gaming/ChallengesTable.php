@@ -8,6 +8,8 @@ use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\User;
 use App\Models\Live\Category;
+use App\Models\Live\ChallengeGameSession;
+use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class ChallengesTable extends LivewireDatatable
@@ -47,7 +49,24 @@ class ChallengesTable extends LivewireDatatable
                 })->label('Subcategory')->searchable()->filterable(),
 
                 Column::name('status')
-                    ->label('Status'),
+                    ->label('Opponent Response'),
+
+                Column::callback(['id'], function ($id) {
+                    $sessionCount= ChallengeGameSession::where('challenge_id', $id)->count();
+                    
+                    if($sessionCount == 1){
+                        return 'ONGOING';
+                    }
+                    
+                    if($sessionCount == 0){
+                        return 'PENDING';
+                    }
+
+                    if($sessionCount == 2){
+                        return 'COMPLETED';
+                    }
+                   
+                }, 'challenge_status')->label('Challenge Status')->searchable()->filterable(),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
 

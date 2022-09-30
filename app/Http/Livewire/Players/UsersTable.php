@@ -25,6 +25,7 @@ class UsersTable extends LivewireDatatable
                 "users.phone_number",
                 "users.phone_verified_at",
                 "users.email_verified_at",
+                "users.last_activity_time",
                 "profiles.first_name as first_name",
                 "profiles.last_name as last_name",
                 "profiles.gender as gender",
@@ -59,6 +60,10 @@ class UsersTable extends LivewireDatatable
                 ->searchable(),
 
                 Column::name('username')
+                    ->searchable()
+                    ->filterable(),
+                
+                Column::name('last_activity_time')
                     ->searchable()
                     ->filterable(),
 
