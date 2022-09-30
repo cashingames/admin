@@ -49,7 +49,7 @@ class ChallengesTable extends LivewireDatatable
                 })->label('Subcategory')->searchable()->filterable(),
 
                 Column::name('status')
-                    ->label("Opponent's Response"),
+                    ->label("Opponent's Response")->searchable()->filterable(),
 
                 Column::callback(['id'], function ($id) {
                     $sessionCount= ChallengeGameSession::where('challenge_id', $id)->count();
@@ -66,7 +66,7 @@ class ChallengesTable extends LivewireDatatable
                         return 'COMPLETED';
                     }
                    
-                }, 'challenge_status')->label('Challenge Status')->searchable()->filterable(),
+                }, 'challenge_status')->label('Challenge Status'),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
 
