@@ -17,12 +17,12 @@ class StakersTable extends LivewireDatatable
 
         $query = GameSession::query()
         ->select(
-            "game_sessions.amount_won as amount_won",
             "game_sessions.correct_count as correct_count",
             "game_sessions.points_gained as points_gained",
             "game_sessions.created_at as played_at",
+            "live_stakings.amount_won as amount_won"
         )
-        ->where('amount_won','>',0)
+        ->where('live_stakings.amount_won','>',0)
         ->leftJoin("{$livedb}.exhibition_stakings as live_es", "live_es.game_session_id", "=", "game_sessions.id")
         ->leftJoin("{$livedb}.stakings as live_stakings", "live_stakings.id", "=", "live_es.staking_id")
         ->leftJoin("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id");
@@ -33,10 +33,10 @@ class StakersTable extends LivewireDatatable
     public function columns(){
         return
         [
-            NumberColumn::name('amount_won')
+            NumberColumn::name('live_stakings.amount_won')
                 ->label('Amount Won'),
 
-            NumberColumn::name('live_stakings.amount')
+            NumberColumn::name('live_stakings.amount_staked')
                 ->label('Amount Staked'),
 
             Column::name('live_users.username')

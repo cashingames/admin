@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire\Gaming;
 
-use App\Models\Live\OddsConditionAndRule;
+use App\Models\Live\OddsRule;
 use Illuminate\Support\Facades\DB;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
-class OddsConditionsAndRules extends LivewireDatatable
+class OddsRules extends LivewireDatatable
 {
     public function builder()
     {
-        return OddsConditionAndRule::query();
+        return OddsRule::query();
     }
 
     public function columns()
@@ -25,11 +25,14 @@ class OddsConditionsAndRules extends LivewireDatatable
                 Column::name('odds_benefit')
                     ->label('Odds Multiplier'),
 
-                Column::name('condition')
+                Column::name('display_name')
                     ->label('Odds Condition'),
 
+                Column::name('odds_operation')
+                    ->label('Odds Operation'),
+
                 Column::callback(['id'], function ($id) {
-                    return view('gaming.odds-conditions-and-rules-table-actions', ['id' => $id]);
+                    return view('gaming.odds-rules-table-actions', ['id' => $id]);
                 })->unsortable(),
             ];
     }

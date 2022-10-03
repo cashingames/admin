@@ -5,8 +5,8 @@ namespace App\Models\Live;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OddsConditionAndRule extends Model
+class OddsRule extends Model
 {
     protected $connection = 'mysqllive';
-    protected $table = 'odds_conditions_and_rules';
+    protected $table = 'odds_rules';
 }

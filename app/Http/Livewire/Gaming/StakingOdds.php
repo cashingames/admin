@@ -3,18 +3,18 @@
 namespace App\Http\Livewire\Gaming;
 
 use App\Models\Live\OddsConditionAndRule;
-use App\Models\Live\StandardOdd;
+use App\Models\Live\StakingOdd;
 use Illuminate\Support\Facades\DB;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
-class StandardOdds extends LivewireDatatable
+class StakingOdds extends LivewireDatatable
 {
     public function builder()
     {
-        return StandardOdd::query();
+        return StakingOdd::query();
     }
 
     public function columns()
@@ -31,7 +31,7 @@ class StandardOdds extends LivewireDatatable
                     ->label('Active'),
 
                 Column::callback(['id'], function ($id) {
-                    return view('gaming.standard-odds-table-actions', ['id' => $id]);
+                    return view('gaming.staking-odds-table-actions', ['id' => $id]);
                 })->unsortable(),
             ];
     }
