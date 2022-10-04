@@ -9,33 +9,27 @@
                 Question Type
             </label>
             <div class="relative">
-                <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="type" required>
+                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="type" required>
                     @foreach ($gameTypes as $type )
                     <option>{{$type->display_name}}</option>
                     @endforeach
                 </select>
             </div>
-            <label class="block uppercase tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                Subcategory
+            <label class="block tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                SUBCATEGORY (You can select multiple)
             </label>
-            <div class="relative">
-                <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="subcategory" required>
-                    @foreach ($subcategories as $s )
-                    <option>{{$s->name}}</option>
-                    @endforeach
-                </select>
+            @foreach ($subcategories as $s )
+            <div class="relative flex w-full bg-gray-200 border border-gray-200 text-gray-700 px-4 pr-8 rounded">
+                <span >{{$s->name}}</span>
+                <input wire:click='selectSubcategory({{ $s->id }})' class="shadow font-bold ml-16 rounded" type="checkbox">
             </div>
+            @endforeach
+            
             <label class="block uppercase tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Question Level
             </label>
             <div class="relative">
-                <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="level" required>
+                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="level" required>
                     <option>easy</option>
                     <option>medium</option>
                     <option>hard</option>
@@ -45,25 +39,19 @@
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Question
                 </label>
-                <textarea rows="4" , cols="54"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="text" placeholder="Question" name="question" required> </textarea>
+                <textarea rows="4" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" name="question" required> </textarea>
             </div>
             <div class="w-full mb-6 md:mb-0">
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">
                     Add Option
                 </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" name="options[]">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 is this the Correct Option ?
             </label>
             <div class="relative mb-2">
-                <select
-                    class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="isCorrect[]">
+                <select class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="isCorrect[]">
                     <option>no</option>
                     <option>yes</option>
                 </select>
@@ -72,17 +60,13 @@
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">
                     Add Option
                 </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" name="options[]">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 is this the Correct Option ?
             </label>
             <div class="relative mb-2">
-                <select
-                    class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="isCorrect[]">
+                <select class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="isCorrect[]">
                     <option>no</option>
                     <option>yes</option>
                 </select>
@@ -91,17 +75,13 @@
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">
                     Add Option
                 </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" name="options[]">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 is this the Correct Option ?
             </label>
             <div class="relative mb-2">
-                <select
-                    class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="isCorrect[]">
+                <select class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="isCorrect[]">
                     <option>no</option>
                     <option>yes</option>
                 </select>
@@ -110,17 +90,13 @@
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">
                     Add Option
                 </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    type="text" placeholder="option" name="options[]">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="option" name="options[]">
             </div>
             <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                 is this the Correct Option ?
             </label>
             <div class="relative mb-2">
-                <select
-                    class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="isCorrect[]">
+                <select class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="isCorrect[]">
                     <option>no</option>
                     <option>yes</option>
                 </select>
