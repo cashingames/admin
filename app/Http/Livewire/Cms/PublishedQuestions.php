@@ -12,80 +12,144 @@ use App\Models\Question as AdminQuestion;
 use App\Models\Live\Category;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PublishedQuestions extends LivewireDatatable
 {
     public function builder()
     {
-
+        DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
+        $livedb = config('database.connections.mysqllive.database');
         if (
             Gate::allows('super-admin-access') ||
             Gate::allows('content-admin-access')
         ) {
-            return  Question::query()->where('is_published', true);
+            $query = AdminQuestion::query()
+                ->select(
+                    "questions.question_id",
+                    "questions.deleted_at",
+                    "questions.approved_at",
+                    "questions.rejected_at",
+                    "questions.published_at",
+                    "live_questions.label",
+                    "live_categories_questions.category_id",
+                    "live_subcat.category_id as sub_parent_category_id",
+                    "live_subcat.name as subcategory_name",
+                    "live_subcat.id as subcategory_id",
+                    "live_cat.id as parent_category_id",
+                    "live_cat.name as parent_category_name"
+                )
+                ->whereNotNull('questions.published_at')
+                ->join("{$livedb}.categories_questions as live_categories_questions", "live_categories_questions.question_id", "=", "questions.question_id")
+                ->join("{$livedb}.questions as live_questions", "live_questions.id", "=", "questions.question_id")
+                ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "live_categories_questions.category_id")
+                ->join("{$livedb}.categories as live_cat", "live_subcat.category_id", "=", "live_cat.id")
+                ->groupBy(
+                    'questions.question_id',
+                );
+
+            return $query;
         }
-        return  Question::query()->where('is_published', true)
-            ->where('created_by', auth()->user()->id);
+        $query = AdminQuestion::query()
+            ->select(
+                "questions.question_id",
+                "questions.deleted_at",
+                "questions.approved_at",
+                "questions.rejected_at",
+                "questions.published_at",
+                "live_questions.label",
+                "live_categories_questions.category_id",
+                "live_subcat.category_id as sub_parent_category_id",
+                "live_subcat.name as subcategory_name",
+                "live_subcat.id as subcategory_id",
+                "live_cat.id as parent_category_id",
+                "live_cat.name as parent_category_name"
+            )
+            ->whereNotNull('questions.published_at')->where('questions.user_id', auth()->user()->id)
+            ->join("{$livedb}.categories_questions as live_categories_questions", "live_categories_questions.question_id", "=", "questions.question_id")
+            ->join("{$livedb}.questions as live_questions", "live_questions.id", "=", "questions.question_id")
+            ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "live_categories_questions.category_id")
+            ->join("{$livedb}.categories as live_cat", "live_subcat.category_id", "=", "live_cat.id")
+            ->groupBy(
+                'questions.question_id',
+            );
+
+        return $query;
     }
 
     public function columns()
     {
         return
-        [
-            NumberColumn::name('id')
-            ->label('ID')
-           ,
-            Column::name('level')
-            ->searchable()
-            ->filterable(),
+            [
+                Column::callback(['question_id'], function ($question_id) {
+                    return Question::find($question_id)->id;
+                })->label('Id')
+                    ->searchable()
+                    ->hideable()
+                    ->filterable(),
 
-            Column::name('label')
-            ->label('Question')
-            ->filterable()
-            ->searchable(),
+                Column::callback(['question_id'], function ($question_id) {
+                    return Question::find($question_id)->level;
+                }, 'level')->label('level')
+                    ->searchable()
+                    ->hideable()
+                    ->filterable(),
 
-            Column::callback(['category_id'], function ($category_id) {
-                $parentCategory = Category::find($category_id)->category_id;
-                return Category::find($parentCategory)->name;
-            })->label('Category')
-            ->searchable()
-            ->hideable()
-            ->filterable(),
+                Column::name('live_questions.label')
+                    ->label('Question')
+                    ->filterable()
+                    ->searchable(),
 
-            Column::name('category.name')
-            ->label('Subcategory')
-            ->searchable()
-            ->hideable()
-            ->filterable(),
+                Column::callback(
+                    ['question_id'],
+                    function ($question_id) {
+                        $question = Question::find($question_id);
+                        return view('components.rejected-question-table-actions', [
+                            'id' => $question->id, 'level'
+                        ]);
+                    },
+                    'actions'
+                )->unsortable(),
 
-            Column::callback(['id', 'level', 'label','category.name'], 
-            function ($id, $level, $label, $subcategory) {
-                return view('components.published-question-table-actions', ['id' => $id, 'level' => $level, 
-                'label' => $label, 'category.name' => $subcategory]);
-            })->unsortable(),
-            
-            Column::callback(['created_by'], function ($created_by) {
-                $creator = User::find($created_by);
-                if($creator === null){
-                    $admin = User::where('is_content_admin',true)->first();
-                    if($admin == null){
-                        return '';
+                // Column::name('live_subcat.name')
+                //     ->label('Subcategory')
+                //     ->filterable()
+                //     ->searchable(),
+                Column::callback(['question_id'], function ($question_id) {
+                    $subcategories = Question::find($question_id)->categories()->get();
+                    $data = [];
+                    foreach ($subcategories as $subcategory) {
+                        $data[] = $subcategory->name;
+                    };
+                    return implode(" , ", $data);;
+                }, 'subcategories')->label('Subcategories')
+                    ->hideable(),
+
+                Column::name('live_cat.name')
+                    ->label('Category')
+                    ->filterable()
+                    ->searchable(),
+
+                Column::callback(['user_id'], function ($user_id) {
+                    $creator = User::find($user_id);
+                    if ($creator === null) {
+                        $admin = User::where('is_content_admin', true)->first();
+                        if ($admin == null) {
+                            return '';
+                        }
+                        return $admin->name;
                     }
-                    return $admin->name;
-                }
-                return $creator->name;
-            })->label('Created By'),
+                    return $creator->name;
+                })->label('Created By'),
 
-            Column::callback(['created_at'], function ($created_at) {
-                return Carbon::parse($created_at)
-                ->setTimezone('Africa/Lagos');  
-            })->label('Time Uploaded')->filterable(),
+                Column::name('comment')
+                    ->label('Comment')
+                    ->searchable(),
 
-            Column::callback(['updated_at'], function ($created_at) {
-                return Carbon::parse($created_at)
-                ->setTimezone('Africa/Lagos');  
-            })->label('Time Published')->filterable(),
-            
-        ];
+                Column::callback(['created_at'], function ($created_at) {
+                    return Carbon::parse($created_at)
+                        ->setTimezone('Africa/Lagos');
+                })->label('Time Uploaded')->filterable(),
+            ];
     }
 }

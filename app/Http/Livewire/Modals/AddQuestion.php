@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Validator;
 class AddQuestion extends ModalComponent
 {
 
-    public $subcategories, $gameTypes, $selectedSubcategories, $s;
+    public $subcategories, $gameTypes, $selectedSubcategories;
+    public $type, $level, $question;
 
     public function mount()
     {
@@ -45,7 +46,8 @@ class AddQuestion extends ModalComponent
             'question' => 'required',
             'level' => 'required',
             'options' => 'required',
-            'isCorrect' => 'required'
+            'isCorrect' => 'required',
+            'selectedSubcategories' => 'required'
         ]);
 
         $hasDuplicateCorrectAnswers = $this->has_duplicate_correct_options($request->isCorrect);
@@ -66,18 +68,20 @@ class AddQuestion extends ModalComponent
 
         $question = new LiveQuestion;
         $gameType = GameType::where('display_name', $request->type)->first();
-        // $subcategory = Category::where('name', $request->subcategory)->first();
         $question->level = $request->level;
         $question->label = $request->question;
         $question->game_type_id = $gameType->id;
-        $question->category_id = 0;
+        $question->category_id = $request->selectedSubcategories[0];
         $question->created_by = auth()->user()->id;
         $question->save();
 
-        foreach($this->selectedSubcategories as $subcategories){
+
+        foreach($request->selectedSubcategories as $subcategory){
             DB::connection('mysqllive')->table('categories_questions')->insert([
-                'category_id' => $subcategories,
-                'question_id' => $question->id
+                'category_id' => $subcategory,
+                'question_id' => $question->id,
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
         }
 

@@ -21,10 +21,16 @@
             @foreach ($subcategories as $s )
             <div class="relative flex w-full bg-gray-200 border border-gray-200 text-gray-700 px-4 pr-8 rounded">
                 <span >{{$s->name}}</span>
-                <input wire:click='selectSubcategory({{ $s->id }})' class="shadow font-bold ml-16 rounded" type="checkbox">
+                <input name="selectedSubcategories[]" class="shadow font-bold ml-16 rounded" type="checkbox" value={{$s->id}}>
             </div>
             @endforeach
-            
+            <!-- <div class="relative">
+                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="selectedSubcategories[]" multiple required>
+                    @foreach ($subcategories as $s )
+                    <option>{{$s->name}}</option>
+                    @endforeach
+                </select>
+            </div> -->
             <label class="block uppercase tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 Question Level
             </label>
