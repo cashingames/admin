@@ -11,20 +11,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Question as AdminQuestion;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class EditApprovedQuestion extends ModalComponent
 {
     public $question;
     public $subcategories;
-    public $addOption;
+    public $addOption, $editSubcategory;
     public $newOptionIndex = -1;
+
 
     public function mount($question)
     {
         $this->question = Question::find($question);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->addOption = false;
+        $this->editSubcategory = false;
     }
 
     public function editQuestion(Request $request)
@@ -34,7 +36,7 @@ class EditApprovedQuestion extends ModalComponent
         $validator = Validator::make($request->all(), [
             'question' => 'required',
             'level' => 'required',
-            'subcategory' => 'required',
+            'selectedSubcategories' => 'nullable',
         ]);
         $correctOptions = array();
 
@@ -61,11 +63,29 @@ class EditApprovedQuestion extends ModalComponent
         $question->label = $request->question;
         $question->level = $request->level;
 
-        $category = Category::where('name', $request->subcategory)->first();
+        if ($request->has('selectedSubcategories')) {
+            $questionCategories = $question->categories()->get()->pluck('categories_questions.category_id')->toArray();
 
-        if ($category !== null) {
-            $question->category_id = $category->id;
+            if (count($questionCategories) > count($request->selectedSubcategories)) {
+                $categoryQuestions =  $question->categories()->whereNotIn('categories_questions.category_id', $request->selectedSubcategories)->get();
+               
+                foreach ($categoryQuestions  as $c) {
+                    $question->categories()->detach($c->pivot->category_id);
+                  
+                }
+            }
+            foreach ($request->selectedSubcategories as $subcategory) {
+                $findCategory = DB::connection('mysqllive')->table('categories_questions')
+                    ->where('question_id', $question->id)->where('category_id', $subcategory)
+                    ->first();
+
+                if ($findCategory == null) {
+                    $question->categories()->attach($subcategory);
+                }
+            
+            }
         }
+
         $options = $question->options()->get();
 
         foreach ($options as $key => $_option) {
@@ -84,7 +104,7 @@ class EditApprovedQuestion extends ModalComponent
                 $newOption = new Option;
                 $newOption->question_id = $question->id;
                 $newOption->title = $request->newOption[$key]['title'];
-    
+
                 if ($request->newOption[$key]['is_correct'] === 'yes') {
                     $newOption->is_correct = true;
                 } else {
@@ -96,11 +116,13 @@ class EditApprovedQuestion extends ModalComponent
 
         $question->save();
 
-        AdminQuestion::where('question_id',$question->id)
-        ->update(['deleted_at'=>null,'published_at'=>null,
-        'approved_at'=>null,'rejected_at'=>null]);
+        AdminQuestion::where('question_id', $question->id)
+            ->update([
+                'deleted_at' => null, 'published_at' => null,
+                'approved_at' => null, 'rejected_at' => null
+            ]);
 
-        QuestionsReviewLog::create(['question_id'=>$question->id,'review_type'=>'EDITED']);
+        QuestionsReviewLog::create(['question_id' => $question->id, 'review_type' => 'EDITED']);
 
         return redirect()->to('/cms/questions/approved');
     }
@@ -109,6 +131,13 @@ class EditApprovedQuestion extends ModalComponent
     {
         $this->addOption = true;
         $this->newOptionIndex += 1;
+    }
+
+    public function  shouldEditSubcategory()
+    {
+        $this->editSubcategory ?
+            $this->editSubcategory = false
+            : $this->editSubcategory = true;
     }
 
     public function render()

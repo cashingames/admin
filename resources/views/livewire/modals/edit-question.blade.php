@@ -32,13 +32,13 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="flex flex-wrap  px-3 mb-6 md:mb-0">
             <div class="w-full">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Question subcategories
+                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    QUESTION SUBCATEGORIES (to edit , select all that apply from all categories)
                 </label>
-                <div class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="subcategories">
+                <div class="block appearance-none w-full mb-4 bg-gray-200  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="subcategories">
 
                     @foreach ($question->categories as $s)
                     <span>{{$s->name}},</span>
@@ -47,20 +47,20 @@
             </div>
         </div>
         <div class="flex flex-wrap  px-3 mb-6 md:mb-0">
-            
-            <div class="w-full">
+
+            <div class="w-full  ">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    ALL SUBCATEGORIES
+                    All Categories
                 </label>
                 @foreach ($subcategories as $s )
                 <div class="relative flex w-full bg-gray-200 border border-gray-200 text-gray-700 px-4 pr-8 rounded">
-                    <span>{{$s->name}}</span>
-                    <input name="selectedSubcategories[]" class="shadow font-bold ml-16 rounded" type="checkbox" value={{$s->id}}>
+                    <span class="border-b-2 mt-1 mb-1 border-blue-500">{{$s->name}}</span>
+                    <input name="selectedSubcategories[]" class="border-b-2 border-blue-500 mt-2 shadow font-bold ml-16 rounded" type="checkbox" value={{$s->id}}>
                 </div>
                 @endforeach
             </div>
         </div>
-        
+
         <div class="flex flex-wrap px-3 mb-6 md:mb-0">
             <div class="w-full mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -74,7 +74,7 @@
                     <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                         is this the Correct Option ?
                     </label>
-                    <div class="relative mb-2 border-b-4 border-blue-500">
+                    <div class="relative mb-2 border-b-4 border-gray-500">
                         <select class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='option[{{$loop->index}}][is_correct]'>
                             <option>yes</option>
                             <option>no</option>
@@ -85,7 +85,7 @@
                     <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                         is this the Correct Option ?
                     </label>
-                    <div class="relative mb-2 border-b-4 border-blue-500">
+                    <div class="relative mb-2 border-b-4 border-gray-500">
                         <select class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='option[{{$loop->index}}][is_correct]'>
                             <option>no</option>
                             <option>yes</option>
@@ -101,7 +101,7 @@
                 <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                     is this the Correct Option ?
                 </label>
-                <div class="relative mb-2 border-b-4 border-blue-500">
+                <div class="relative mb-2 border-b-4 border-gray-500">
                     <select class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='newOption[{{$newOptionIndex}}][is_correct]'>
                         <option>no</option>
                         <option>yes</option>
