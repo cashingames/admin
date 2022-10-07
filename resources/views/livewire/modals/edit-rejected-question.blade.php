@@ -16,18 +16,14 @@
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     QUESTION
                 </label>
-                <textarea rows="4" , cols="54"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    type="text" placeholder="Question" name="question"> {{$question->label}}</textarea>
+                <textarea rows="4" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" name="question"> {{$question->label}}</textarea>
             </div>
             <div class="w-full  px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     LEVEL
                 </label>
                 <div class="relative ">
-                    <select
-                        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        name="level">
+                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="level">
                         <option>{{$question->level}}</option>
                         <option>easy</option>
                         <option>medium</option>
@@ -38,17 +34,29 @@
         </div>
         <div class="flex flex-wrap  px-3 mb-6 md:mb-0">
             <div class="w-full">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    SUBCATEGORY
+                <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    QUESTION SUBCATEGORIES (to edit , select all that apply from all categories)
                 </label>
-                <select
-                    class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="subcategory">
-                    <option>{{$question->category->name}}</option>
-                    @foreach ($subcategories as $s)
-                    <option>{{$s->name}}</option>
+                <div class="block appearance-none w-full mb-4 bg-gray-200  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="subcategories">
+
+                    @foreach ($question->categories as $s)
+                    <span>{{$s->name}},</span>
                     @endforeach
-                </select>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap  px-3 mb-6 md:mb-0">
+
+            <div class="w-full  ">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    All Categories
+                </label>
+                @foreach ($subcategories as $s )
+                <div class="relative flex w-full bg-gray-200 border border-gray-200 text-gray-700 px-4 pr-8 rounded">
+                    <span class="border-b-2 mt-1 mb-1 border-blue-500">{{$s->name}}</span>
+                    <input name="selectedSubcategories[]" class="border-b-2 border-blue-500 mt-2 shadow font-bold ml-16 rounded" type="checkbox" value={{$s->id}}>
+                </div>
+                @endforeach
             </div>
         </div>
         <div class="flex flex-wrap px-3 mb-6 md:mb-0">
@@ -60,33 +68,23 @@
 
                     @foreach ($question->options as $key=>$option)
                     @if ($option->is_correct)
-                    <textarea rows="2" , cols="54"
-                        class="appearance-none block w-full bg-green-500 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" placeholder="option"
-                        name='option[{{$loop->index}}][title]'>{{$option->title}}</textarea>
+                    <textarea rows="2" , cols="54" class="appearance-none block w-full bg-green-500 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="option" name='option[{{$loop->index}}][title]'>{{$option->title}}</textarea>
                     <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                         is this the Correct Option ?
                     </label>
-                    <div class="relative mb-2 border-b-4 border-blue-500">
-                        <select
-                            class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            name='option[{{$loop->index}}][is_correct]'>
+                    <div class="relative mb-2 border-b-4 border-gray-500">
+                        <select class="block appearance-none w-1/2 bg-gray-200 border mb-4 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='option[{{$loop->index}}][is_correct]'>
                             <option>yes</option>
                             <option>no</option>
                         </select>
                     </div>
                     @else
-                    <textarea rows="2" , cols="54"
-                        class="appearance-none block w-full bg-gray-200 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" placeholder="option"
-                        name='option[{{$loop->index}}][title]'>{{$option->title}}</textarea>
+                    <textarea rows="2" , cols="54" class="appearance-none block w-full bg-gray-200 mb-1 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="option" name='option[{{$loop->index}}][title]'>{{$option->title}}</textarea>
                     <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                         is this the Correct Option ?
                     </label>
-                    <div class="relative mb-2 border-b-4 border-blue-500">
-                        <select
-                            class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            name='option[{{$loop->index}}][is_correct]'>
+                    <div class="relative mb-2 border-b-4 border-gray-500">
+                        <select class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='option[{{$loop->index}}][is_correct]'>
                             <option>no</option>
                             <option>yes</option>
                         </select>
@@ -94,18 +92,15 @@
                     @endif
                     @endforeach
 
-               
+
                 </div>
                 @if($addOption)
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                type="text" placeholder="new option" name="newOption[{{$newOptionIndex}}][title]">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="new option" name="newOption[{{$newOptionIndex}}][title]">
                 <label class="block lowercase tracking-wide text-gray-700 text-xs font-bold mb-1">
                     is this the Correct Option ?
                 </label>
-                <div class="relative mb-2 border-b-4 border-blue-500">
-                    <select
-                        class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        name='newOption[{{$newOptionIndex}}][is_correct]'>
+                <div class="relative mb-2 border-b-4 border-gray-500">
+                    <select class="block appearance-none w-1/2 bg-gray-200 mb-4 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name='newOption[{{$newOptionIndex}}][is_correct]'>
                         <option>no</option>
                         <option>yes</option>
                     </select>
@@ -122,5 +117,5 @@
             </button>
         </div>
     </form>
-  
+
 </div>
