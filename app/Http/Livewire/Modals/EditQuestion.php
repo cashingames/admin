@@ -64,16 +64,15 @@ class EditQuestion extends ModalComponent
         $question->level = $request->level;
 
         if ($request->has('selectedSubcategories')) {
-            $questionCategories = $question->categories()->get()->pluck('categories_questions.category_id')->toArray();
+            // $questionCategories = $question->categories()->get()->pluck('categories_questions.category_id')->toArray();
 
-            if (count($questionCategories) > count($request->selectedSubcategories)) {
-                $categoryQuestions =  $question->categories()->whereNotIn('categories_questions.category_id', $request->selectedSubcategories)->get();
-               
+            $categoryQuestions =  $question->categories()->whereNotIn('categories_questions.category_id', $request->selectedSubcategories)->get();
+            if (count($categoryQuestions) > 0) {
                 foreach ($categoryQuestions  as $c) {
                     $question->categories()->detach($c->pivot->category_id);
-                  
                 }
             }
+
             foreach ($request->selectedSubcategories as $subcategory) {
                 $findCategory = DB::connection('mysqllive')->table('categories_questions')
                     ->where('question_id', $question->id)->where('category_id', $subcategory)
@@ -82,7 +81,6 @@ class EditQuestion extends ModalComponent
                 if ($findCategory == null) {
                     $question->categories()->attach($subcategory);
                 }
-            
             }
         }
 
