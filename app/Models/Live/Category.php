@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
   protected $connection = 'mysqllive';
+  
 
   public function gameSessions()
   {
@@ -28,5 +29,14 @@ class Category extends Model
       return $this->belongsToMany(Question::class, 'categories_questions')->withTimestamps();
   }
 
+  public function scopeParentCategories($query)
+  {
+    return $query->where('category_id', 0);
+  }
+
+  public function scopeSubcategories($query)
+  {
+    return $query->where('category_id', '!=', 0);
+  }
 
 }

@@ -1,8 +1,13 @@
 <x-gaming-layout>
     @can('super-admin-access')
     <div class="mt-4 text-center">
-        <p class=" p-4 w-full text-gray-900 font-bold">USER STAKINGS DATA</p>
+        <p class=" p-4 w-full text-gray-900 font-bold">EXHIBITION STAKINGS DATA</p>
         <livewire:gaming.stakers-table exportable hideable="select" />
+    </div>
+
+    <div class="mt-4 text-center">
+        <p class=" p-4 w-full text-gray-900 font-bold">CHALLENGE STAKINGS DATA</p>
+        <livewire:gaming.challenge-stakers-table exportable hideable="select"/>
     </div>
    
     @else
