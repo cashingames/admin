@@ -32,7 +32,7 @@ class Question extends Model
         return empty($search) ? static::query()
             : static::where('id', 'like', '%' . $search . '%')
             ->orWhere('label', 'like', '%' . $search . '%')
-            ->orWhere('level', 'like', '%' . $search . '%')
-            ->orWhere('category_id', 'like', '%' . $search . '%');
+            ->orWhere('level', 'like', '%' . $search . '%');
+            // ->orWhere('category_id', 'like', '%' . $search . '%');
     }
 }
