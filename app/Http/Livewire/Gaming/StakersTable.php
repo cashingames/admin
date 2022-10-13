@@ -22,9 +22,9 @@ class StakersTable extends LivewireDatatable
             "game_sessions.created_at as played_at",
             "live_stakings.amount_won as amount_won"
         )
-        ->leftJoin("{$livedb}.exhibition_stakings as live_es", "live_es.game_session_id", "=", "game_sessions.id")
-        ->leftJoin("{$livedb}.stakings as live_stakings", "live_stakings.id", "=", "live_es.staking_id")
-        ->leftJoin("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id");
+        ->join("{$livedb}.exhibition_stakings as live_es", "live_es.game_session_id", "=", "game_sessions.id")
+        ->join("{$livedb}.stakings as live_stakings", "live_stakings.id", "=", "live_es.staking_id")
+        ->join("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id");
 
         return $query;
     }
