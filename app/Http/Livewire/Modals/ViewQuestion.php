@@ -18,7 +18,7 @@ class ViewQuestion extends ModalComponent
     {
         $this->question = Question::find($id);
         $this->getUserPermissions();
-        $this->checkIsRejected();
+        // $this->checkIsRejected();
     }
 
     public function render()
@@ -37,27 +37,27 @@ class ViewQuestion extends ModalComponent
         return $this->canPublish = false;
     }
     
-    private function checkIsRejected(){
-        $question = AdminQuestion::where('question_id', $this->question->id)->first();
-        if ( $question === null) {
+    // private function checkIsRejected(){
+    //     $question = AdminQuestion::where('question_id', $this->question->id)->first();
+    //     if ( $question === null) {
            
-            $q = new AdminQuestion;
-            if( $this->question->created_by === null){
-                $q->user_id = User::where('is_content_admin',true)->first()->id;
-            }else{
-                $q->user_id = $this->question->created_by;
-            }
-            $q->question_id = $this->question->id;
-            $q->save();
-            if($q->approved_at !== null){
-                return $this->isApproved = true;
-            }
-            return $this->isApproved = false;
-        }
+    //         $q = new AdminQuestion;
+    //         if( $this->question->created_by === null){
+    //             $q->user_id = User::where('is_content_admin',true)->first()->id;
+    //         }else{
+    //             $q->user_id = $this->question->created_by;
+    //         }
+    //         $q->question_id = $this->question->id;
+    //         $q->save();
+    //         if($q->approved_at !== null){
+    //             return $this->isApproved = true;
+    //         }
+    //         return $this->isApproved = false;
+    //     }
 
-        if ( $question->approved_at === null) {
-           return $this->isApproved = false;
-        }
-        return $this->isApproved = true;
-    }
+    //     if ( $question->approved_at === null) {
+    //        return $this->isApproved = false;
+    //     }
+    //     return $this->isApproved = true;
+    // }
 }
