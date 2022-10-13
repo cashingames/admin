@@ -62,7 +62,7 @@ class AddTrivia extends Component
             if(count($this->selectedQuestions) <= ($this->question_count)){
                 $questions = $trivia->category->questions()
                 ->whereNull('deleted_at')
-                ->where('is_published', true)->inRandomOrder()->take(10)->get();
+                ->where('is_published', true)->inRandomOrder()->take(5)->get();
                 
                 foreach ($questions as $q) {
                     TriviaQuestion::create([

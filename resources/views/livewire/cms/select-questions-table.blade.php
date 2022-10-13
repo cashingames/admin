@@ -28,7 +28,9 @@
 
     </div>
     @if($questions->isNotEmpty())
-
+    @foreach($selected as $category)
+                    {{$category}} , 
+                    @endforeach
     <table class="table-auto w-full mb-6">
         <thead>
             <tr>
