@@ -23,10 +23,10 @@ class ChallengeStakersTable extends LivewireDatatable
                 "challenge_game_sessions.created_at as played_at",
                 "live_stakings.amount_won as amount_won"
             )
-          
-            ->leftJoin("{$livedb}.challenge_stakings as live_cs",  function ($join){
+
+            ->leftJoin("{$livedb}.challenge_stakings as live_cs",  function ($join) {
                 $join->on("live_cs.challenge_id", '=', "challenge_game_sessions.challenge_id");
-                $join->on("live_cs.user_id" ,'=', "challenge_game_sessions.user_id");
+                $join->on("live_cs.user_id", '=', "challenge_game_sessions.user_id");
             })
             ->leftJoin("{$livedb}.stakings as live_stakings", "live_stakings.id", "=", "live_cs.staking_id")
             ->leftJoin("{$livedb}.users as live_users", "live_users.id", "=", "challenge_game_sessions.user_id");
@@ -43,7 +43,7 @@ class ChallengeStakersTable extends LivewireDatatable
 
                 NumberColumn::name('live_stakings.amount_staked')
                     ->label('Amount Staked'),
-                
+
                 Column::name('live_cs.challenge_id')
                     ->label('Challenge Id')
                     ->filterable()
@@ -70,12 +70,12 @@ class ChallengeStakersTable extends LivewireDatatable
                 NumberColumn::name('points_gained')
                     ->label('Points Gained'),
 
-                Column::name('created_at')
+                DateColumn::name('created_at')
                     ->label('Played At')
                     ->filterable()
                     ->searchable(),
 
-                Column::name('live_users.created_at')
+                DateColumn::name('live_users.created_at')
                     ->label('Joined On')
                     ->filterable()
                     ->searchable(),
