@@ -6,6 +6,7 @@ use App\Models\Live\Category;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Http;
 
 class CategoryManager extends Component
 {   
@@ -36,20 +37,17 @@ class CategoryManager extends Component
             $category->category_id = 0 :
             $category->category_id = $_parentCategory->id;
 
-        // if (!is_null($this->icon)) {
-        //     $_icon = $this->icon;
-        //     $name =str_replace(' ', '_', $this->name) . "." . $_icon->guessExtension();
-        //     $destinationPath = 'https://stg-api.cashingames.com/icons';
-        //     $category->icon = 'icons/' . $name;
-        //     $_icon->move($destinationPath, $name);
-        // }else{
-        //     $category->icon = null;
-        // }
-        
-        $category->icon = null;
         $category->created_at = Carbon::now();
         $category->updated_at = Carbon::now();
         $category->save();
+
+        
+        if (!is_null($this->icon)) {
+            Http::post(config('app.api_url').'api/v3/category/icon/save', [
+                'categoryName' => $this->name,
+                'icon' => $this->icon,
+            ]);
+        }
 
         return redirect()->to('/cms/categories');
     }
