@@ -17,14 +17,14 @@
         <!-- Member Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="name" value="{{ __('Name') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="name" required/>
+            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="name" required />
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
         <!-- Member Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="description" value="{{ __('Description') }}" />
-            <x-jet-input id="description" type="text" class="mt-1 block w-full" wire:model.defer="description" required/>
+            <x-jet-input id="description" type="text" class="mt-1 block w-full" wire:model.defer="description" required />
             <x-jet-input-error for="description" class="mt-2" />
         </div>
 
@@ -45,14 +45,15 @@
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="fontColour" value="{{ __('Font Colour') }}" />
-            <x-jet-input id="fontColour" type="color" class="mt-1 block w-full" wire:model.defer="fontColour" required/>
+            <x-jet-input id="fontColour" type="color" class="mt-1 block w-full" wire:model.defer="fontColour" required />
             <x-jet-input-error for="fontColour" class="mt-2" />
         </div>
-        <!-- <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="icon" value="{{ __('Icon') }}" />
-            <x-jet-input id="icon" type="file" class="mt-1 block w-full" wire:model.defer="icon" />
+            <!-- <x-jet-input id="icon" type="file" class="mt-1 block w-full" wire:model.defer="icon" /> -->
+            <input type="file" class="mt-1 block w-full" wire:model="icon">
             <x-jet-input-error for="icon" class="mt-2" />
-        </div> -->
+        </div>
     </x-slot>
     <x-slot name="actions">
         <x-jet-action-message class="mr-3" on="saved">

@@ -24,7 +24,7 @@ class CategoryManager extends Component
 
     public function save()
     {
-
+        // dd($this->icon);
         $_parentCategory = Category::where('name', $this->parentCategory)->first();
 
         $category = new Category;
@@ -43,7 +43,7 @@ class CategoryManager extends Component
 
         
         if (!is_null($this->icon)) {
-            Http::post(config('app.api_url').'api/v3/category/icon/save', [
+            Http::post(config('app.api_url').'/api/v3/category/icon/save', [
                 'categoryName' => $this->name,
                 'icon' => $this->icon,
             ]);
