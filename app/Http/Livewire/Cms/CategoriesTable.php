@@ -36,9 +36,7 @@ class CategoriesTable extends LivewireDatatable
                         return "None";
                     }
                     return $category->name;
-                })->label('Parent Category')
-                    ->searchable()
-                    ->filterable(),
+                })->label('Parent Category'),
 
                 Column::name('description')
                     ->label('Description'),

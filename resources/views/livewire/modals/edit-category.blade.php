@@ -44,7 +44,7 @@
                 <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="parentCategory">
                     <option>{{$parentCategory->name}}</option>
                     @foreach ($parentCategories as $category)
-                    <option>$category->name</option>
+                    <option>{{$category->name}}</option>
                     @endforeach
                 </select>
             </div>
