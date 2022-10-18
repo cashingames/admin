@@ -6,34 +6,32 @@ use App\Models\Live\Category;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class CategoryManager extends Component
-{   
+{
     use WithFileUploads;
 
-    public $parentCategories, $parentCategory, $description, $name;
-    public $bgColour, $fontColour, $icon;
+    public $parentCategories;
 
     public function mount()
     {
         $this->parentCategories = Category::parentCategories()->get();
-        $this->icon = null;
-        $this->parentCategory = null;
     }
 
-    public function save()
+    public function addCategory(Request $request)
     {
-        // dd($this->icon);
-        $_parentCategory = Category::where('name', $this->parentCategory)->first();
 
         $category = new Category;
-        $category->name =  $this->name;
-        $category->description =  $this->description;
-        $category->background_color = $this->bgColour;
-        $category->font_color = $this->fontColour;
+        $category->name = $request->categoryName;
+        $category->description = $request->description;
+        $category->background_color = $request->bgColour;
+        $category->font_color = $request->fontColour;
 
-        $this->parentCategory == null ?
+        $_parentCategory = Category::where('name', $request->parentCategory)->first();
+
+        $request->has('parentCategory') ?
             $category->category_id = 0 :
             $category->category_id = $_parentCategory->id;
 
@@ -41,14 +39,15 @@ class CategoryManager extends Component
         $category->updated_at = Carbon::now();
         $category->save();
 
-        
-        if (!is_null($this->icon)) {
-            Http::post(config('app.api_url').'/api/v3/category/icon/save', [
-                'categoryName' => $this->name,
-                'icon' => $this->icon,
-            ]);
-        }
+        if($request->hasFile('icon') ){
 
+            $icon = $request->file('icon');
+
+            Http::attach('icon', file_get_contents($icon), 'icon.jpg')
+            ->post(config('app.api_url') . '/api/v3/category/icon/save',  $request->all());
+
+        }
+          
         return redirect()->to('/cms/categories');
     }
 

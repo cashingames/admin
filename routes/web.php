@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CmsController;
+use App\Http\Livewire\Cms\CategoryManager;
 use App\Http\Livewire\Finance\Transactions;
 use App\Http\Livewire\Modals\AddComment;
 use App\Http\Livewire\Modals\AddQuestion;
@@ -9,6 +10,7 @@ use App\Http\Livewire\Modals\ViewQuestion;
 use App\Http\Livewire\Modals\EditQuestion;
 use App\Http\Livewire\Modals\ConfirmDeleteQuestion;
 use App\Http\Livewire\Modals\EditApprovedQuestion;
+use App\Http\Livewire\Modals\EditCategory;
 use App\Http\Livewire\Modals\EditRejectedQuestion;
 
 /*
@@ -67,6 +69,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/cms/question/delete', [ConfirmDeleteQuestion::class, 'deleteQuestion']);
     Route::post('/cms/question/add', [AddQuestion::class, 'addQuestion']);
     Route::post('/cms/comment/add', [AddComment::class, 'addComment']);
+    Route::post('/cms/category/add', [CategoryManager::class, 'addCategory']);
+    Route::post('/cms/category/edit', [EditCategory::class, 'editCategory']);
 
 
     Route::get('/gaming', function () {
