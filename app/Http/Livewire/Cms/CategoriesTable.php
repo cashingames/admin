@@ -49,19 +49,16 @@ class CategoriesTable extends LivewireDatatable
                 Column::name('background_color')
                     ->label('Background Colour'),
 
-                Column::name('created_at')
-                    ->label('Time Created'),
+                BooleanColumn::name('is_enabled')
+                    ->label('Enabled')
+                    ->filterable(),
 
-                // BooleanColumn::name('is_enabled')
-                //     ->label('Is Enabled')
-                //     ->filterable(),
+                DateColumn::name('created_at')->label('Date Created')->filterable(),
 
-                // DateColumn::name('created_at')->label('Date Created')->filterable(),
+                DateColumn::name('updated_at')->label('Date Edited')->filterable(),
 
-                // DateColumn::name('updated_at')->label('Date Edited')->filterable(),
-
-                Column::callback(['id'], function ($id) {
-                    return view('cms.categories-table-actions', ['id' => $id]);
+                Column::callback(['id','is_enabled'], function ($id, $is_enabled) {
+                    return view('cms.categories-table-actions', ['id' => $id ,'is_enabled' => $is_enabled]);
                 })->unsortable(),
 
             ];
