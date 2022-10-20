@@ -25,7 +25,7 @@ class EditStakingOdd extends ModalComponent
         $stakingOdd->active = $this->active=="true"?true :false;
         $stakingOdd->save();
 
-        return redirect()->to('/gaming/odds');
+        return redirect()->to('/staking/odds');
     }
     
     public function render()

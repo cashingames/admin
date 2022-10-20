@@ -82,40 +82,44 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('gaming.dashboard');
 
     Route::get('/gaming/exhibition/sessions', function () {
-        return view('gaming.sessions');
+        return view('gaming.exhibition.sessions');
     })->name('gaming.sessions');
 
     Route::get('/gaming/challenge/sessions', function () {
-        return view('gaming.challengeGameSessions');
+        return view('gaming.challenge.challengeGameSessions');
     })->name('gaming.challengeGameSessions');
 
     Route::get('/gaming/live-trivia/sessions', function () {
-        return view('gaming.triviaGameSessions');
+        return view('gaming.livetrivia.triviaGameSessions');
     })->name('gaming.triviaGameSessions');
  
  
     Route::get('/gaming/trivia', function () {
-        return view('gaming.trivia');
+        return view('gaming.livetrivia.trivia');
     })->name('gaming.trivia');
 
     Route::get('/gaming/challenges', function () {
-        return view('gaming.challenges');
+        return view('gaming.challenge.challenges');
     })->name('gaming.challenges');
 
     Route::get('/gaming/odds', function () {
-        return view('gaming.odds');
+        return view('gaming.odds.odds');
     })->name('gaming.odds');
 
+    Route::get('/staking/odds', function () {
+        return view('gaming.odds.stakingOdds');
+    })->name('gaming.stakingOdds');
+
     Route::get('/gaming/stakings', function () {
-        return view('gaming.stakings');
+        return view('gaming.staking.stakings');
     })->name('gaming.stakings');
 
     Route::get('/gaming/challenges/data', function () {
-        return view('gaming.challengeUserData');
+        return view('gaming.challenge.challengeUserData');
     })->name('gaming.challengeUserData');
 
     Route::get('/gaming/trivia/create', function () {
-        return view('gaming.add-trivia');
+        return view('gaming.livetrivia.add-trivia');
     })->name('trivia.create');
 
     Route::get('/finance', function () {

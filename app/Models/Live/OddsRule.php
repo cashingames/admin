@@ -9,4 +9,7 @@ class OddsRule extends Model
 {
     protected $connection = 'mysqllive';
     protected $table = 'odds_rules';
+   
+    protected $guarded = [];
+
 }

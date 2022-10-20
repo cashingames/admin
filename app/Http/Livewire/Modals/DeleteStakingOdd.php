@@ -15,7 +15,7 @@ class DeleteStakingOdd extends ModalComponent
 
     public function deleteStakingOdd(){
         StakingOdd::find($this->stakingOddId)->delete();
-        return redirect()->to('/gaming/odds');
+        return redirect()->to('/staking/odds');
     }
 
     public function render()

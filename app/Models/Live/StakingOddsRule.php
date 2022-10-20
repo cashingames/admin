@@ -5,11 +5,12 @@ namespace App\Models\Live;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StakingOdd extends Model
+class StakingOddsRule extends Model
 {
+    use HasFactory;
+
     protected $connection = 'mysqllive';
-  
-    protected $casts = [
-        'active' => 'boolean',
-      ];
+    protected $guarded = [];
+
+    protected $table = "staking_odds_rules";
 }
