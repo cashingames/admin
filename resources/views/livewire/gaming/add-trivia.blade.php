@@ -1,4 +1,7 @@
 <div>
+    <div class="w-full flex flex-row justify-center ">
+        <span class="block uppercase tracking-wide mt-4 text-red-700 text-l font-bold mb-2">{{$error}}</span>
+    </div>
     <div class="w-full flex flex-row justify-between ">
         <div class="mb-6">
             <div class="w-full  px-3 mb-6 md:mb-0">

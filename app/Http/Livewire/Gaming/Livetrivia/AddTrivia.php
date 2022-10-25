@@ -18,20 +18,27 @@ class AddTrivia extends Component
     public $canChooseQuestions = false;
     public $selectedQuestions = [];
     protected $listeners = ['questionsSelected' => 'setSelectedQuestions'];
+    public $error = '';
 
     public function mount()
-    {   
+    {
         $this->name = '';
         $this->points_required = 0;
         $this->question_count = 10;
         $this->start_time = Carbon::now()->addMinutes(30);
-        $this->end_time =  Carbon::now()->addMinutes(35) ;
-        $this->grand_price= 0;
-        $this->game_duration= 60;
+        $this->end_time =  Carbon::now()->addMinutes(35);
+        $this->grand_price = 0;
+        $this->game_duration = 60;
         $this->subcategory = 'Premier League Clubs';
         $this->subcategories = Category::where('category_id', '>', 0)->get();
     }
 
+    
+    public function updated()
+    {
+        $this->error = '';
+    }
+    
     public function setSelectedQuestions($value)
     {
         $this->selectedQuestions = $value;
@@ -43,6 +50,16 @@ class AddTrivia extends Component
         $category = Category::where('name', $this->subcategory)->first();
         $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
         $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
+
+        if ($end  <= $start) {
+            $this->error = 'End date must be after start date';
+            return ;
+        }
+
+        if ($this->name == '') {
+            $this->error = 'Trivia name is required';
+            return ;
+        }
 
         $trivia = new Trivia;
         $trivia->name =  $this->name;
@@ -59,11 +76,11 @@ class AddTrivia extends Component
         $trivia->save();
 
         if (count($this->selectedQuestions) > 0) {
-            if(count($this->selectedQuestions) <= ($this->question_count)){
+            if (count($this->selectedQuestions) <= ($this->question_count)) {
                 $questions = $trivia->category->questions()
-                ->whereNull('deleted_at')
-                ->where('is_published', true)->inRandomOrder()->take(5)->get();
-                
+                    ->whereNull('deleted_at')
+                    ->where('is_published', true)->inRandomOrder()->take(5)->get();
+
                 foreach ($questions as $q) {
                     TriviaQuestion::create([
                         'trivia_id' => $trivia->id,
@@ -98,7 +115,7 @@ class AddTrivia extends Component
         if ($this->canChooseQuestions) {
             $this->canChooseQuestions = false;
         } else {
-                $this->canChooseQuestions = true;
+            $this->canChooseQuestions = true;
         }
     }
 
