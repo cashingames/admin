@@ -52,6 +52,10 @@ class ChallengesTable extends LivewireDatatable
                     ->label("Opponent's Response")->searchable()->filterable(),
 
                 Column::callback(['id'], function ($id) {
+                    $challenge = Challenge::find($id);
+                    if(!is_null($challenge) && !is_null($challenge->expired_at)){
+                        return 'EXPIRED';
+                    }
                     $sessionCount= ChallengeGameSession::where('challenge_id', $id)->count();
                     
                     if($sessionCount == 1){
@@ -65,6 +69,7 @@ class ChallengesTable extends LivewireDatatable
                     if($sessionCount == 2){
                         return 'COMPLETED';
                     }
+
                    
                 }, 'challenge_status')->label('Challenge Status'),
                 Column::name('expired_at')->label('Date Expired')->filterable(),
