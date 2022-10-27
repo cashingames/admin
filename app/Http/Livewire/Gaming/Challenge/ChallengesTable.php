@@ -67,6 +67,7 @@ class ChallengesTable extends LivewireDatatable
                     }
                    
                 }, 'challenge_status')->label('Challenge Status'),
+                Column::name('expired_at')->label('Date Expired')->filterable(),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
 
