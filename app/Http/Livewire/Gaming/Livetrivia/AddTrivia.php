@@ -40,7 +40,7 @@ class AddTrivia extends Component
     }
     
     public function setSelectedQuestions($value)
-    {
+    {  
         $this->selectedQuestions = $value;
         $this->addTrivia();
     }
@@ -61,6 +61,11 @@ class AddTrivia extends Component
             return ;
         }
 
+        if (count($this->selectedQuestions) > 0  && count($this->selectedQuestions) < ($this->question_count)) {
+            $this->error = 'Selected Questions must not be less than '. $this->question_count;
+            return ;
+        }
+
         $trivia = new Trivia;
         $trivia->name =  $this->name;
         $trivia->grand_price =  $this->grand_price;
@@ -76,18 +81,6 @@ class AddTrivia extends Component
         $trivia->save();
 
         if (count($this->selectedQuestions) > 0) {
-            if (count($this->selectedQuestions) <= ($this->question_count)) {
-                $questions = $trivia->category->questions()
-                    ->whereNull('deleted_at')
-                    ->where('is_published', true)->inRandomOrder()->take(5)->get();
-
-                foreach ($questions as $q) {
-                    TriviaQuestion::create([
-                        'trivia_id' => $trivia->id,
-                        'question_id' => $q->id
-                    ]);
-                }
-            }
             foreach ($this->selectedQuestions as $q) {
                 TriviaQuestion::create([
                     'trivia_id' => $trivia->id,

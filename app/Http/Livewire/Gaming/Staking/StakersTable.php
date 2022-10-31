@@ -66,7 +66,8 @@ class StakersTable extends LivewireDatatable
                 DateColumn::name('created_at')
                     ->label('Played At')
                     ->filterable()
-                    ->searchable(),
+                    ->searchable()
+                    ->defaultSort('desc'),
 
                 DateColumn::name('live_users.created_at')
                     ->label('Joined On')

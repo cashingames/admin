@@ -27,11 +27,18 @@
         </div>
 
     </div>
-    @if($questions->isNotEmpty())
-    @foreach($selected as $category)
-                    {{$category}} , 
-                    @endforeach
-    <table class="table-auto w-full mb-6">
+    <div class="flex justify-center text-center">
+        <p  class="bg-gray-200 px-4 py-4 font-bold rounded">
+           Selected Question Ids:
+            <span class="block uppercase tracking-wide mt-4 text-red-700 text-l font-bold mb-2"> @if($questions->isNotEmpty())
+                @foreach($selected as $selectedQuestion)
+                {{$selectedQuestion}} ,
+                @endforeach
+            </span>
+        </p>
+    </div>
+
+    <table class="table-auto w-full mb-6 mt-6">
         <thead>
             <tr>
 
@@ -49,7 +56,7 @@
                 <td class="border px-4 py-2">{{$question->level}}</td>
                 <td class="border px-4 py-2">{{$question->label}}</td>
                 <td class="border px-4 py-2"> @foreach($question->categories as $category)
-                    {{$category->name}} , 
+                    {{$category->name}} ,
                     @endforeach
                 </td>
                 <td class="border px-4 py-2">

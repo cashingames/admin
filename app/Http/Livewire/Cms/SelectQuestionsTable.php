@@ -25,8 +25,12 @@ class SelectQuestionsTable extends Component
     public function addToSelectedQuestions($value)
     {   
             if (count(array_keys($this->selected, $value)) == 0) {
-                array_push($this->selected, $value);
+                return array_push($this->selected, $value);
             }
+            $key = array_search($value, $this->selected);
+            unset($this->selected[$key]);
+            $this->selected = array_values($this->selected);
+            return;
 
     }
 
