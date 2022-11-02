@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Gaming\Staking;
 
+use App\Models\Live\Category;
 use App\Models\Live\ChallengeGameSession;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
@@ -63,7 +64,11 @@ class ChallengeStakersTable extends LivewireDatatable
                     ->label('Email')
                     ->filterable()
                     ->searchable(),
-
+                
+                Column::callback(['category_id'], function ($category_id) {
+                        return Category::find($category_id)->name;
+                    })->label('Subcategory')->filterable(),
+    
                 NumberColumn::name('correct_count')
                     ->label('Correct Count'),
 

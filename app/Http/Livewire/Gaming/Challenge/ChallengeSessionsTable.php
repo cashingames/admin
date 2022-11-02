@@ -54,9 +54,12 @@ class ChallengeSessionsTable extends LivewireDatatable
                     ->label('Challenge Id')
                     ->filterable()
                     ->searchable(),
-
+                    
                 Column::name('state')
                     ->label('State'),
+                
+                Column::name('points_gained')
+                    ->label('Points Gained'),
 
                 Column::name('start_time')
                     ->label('Start Time'),

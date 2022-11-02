@@ -17,7 +17,7 @@
                         {{ __('Manage Live Trivia') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('gaming.challenges') }}" :active="request()->routeIs('gaming.challenges')">
-                        {{ __('Manage Challenges') }}
+                        {{ __('Challenges') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('gaming.odds') }}" :active="request()->routeIs('gaming.odds')">
                         {{ __('Manage Odds') }}
