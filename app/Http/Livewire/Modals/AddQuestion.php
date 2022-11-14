@@ -51,16 +51,30 @@ class AddQuestion extends ModalComponent
         ]);
 
         $hasDuplicateCorrectAnswers = $this->has_duplicate_correct_options($request->isCorrect);
+        $hasNoCorrectAnswers = $this->has_no_correct_option($request->isCorrect);
 
-        $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers) {
+        $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers, $hasNoCorrectAnswers, $request) {
+            if(in_array(null, $request->options, true)){
+                $validator->errors()->add(
+                    'optionCount',
+                    'Incomplete question options'
+                );
+            }
             if ($hasDuplicateCorrectAnswers) {
                 $validator->errors()->add(
                     'correctOptions',
                     'A question should not have more than one correct option'
                 );
             }
+            if ($hasNoCorrectAnswers) {
+                $validator->errors()->add(
+                    'correctOptions',
+                    'A question must have one correct option'
+                );
+            }
            
         });
+       
 
         if ($validator->fails()) {
             return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
@@ -115,6 +129,15 @@ class AddQuestion extends ModalComponent
     private function has_duplicate_correct_options($array)
     {
         if (count(array_keys($array, "yes")) > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function has_no_correct_option($array)
+    {
+        if (count(array_keys($array, "yes")) < 1) {
             return true;
         } else {
             return false;
