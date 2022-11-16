@@ -26,7 +26,7 @@ class Category extends Model
 
   public function questions()
   {
-      return $this->belongsToMany(Question::class, 'categories_questions')->withTimestamps();
+      return $this->belongsToMany(Question::class, 'categories_questions')->withPivot('is_published');
   }
 
   public function scopeParentCategories($query)
@@ -39,4 +39,13 @@ class Category extends Model
     return $query->where('category_id', '!=', 0);
   }
 
+  public function publishedQuestions()
+  {
+    return $this->questions()->where('questions.is_published', true)->count();
+  }
+
+  public function unPublishedQuestions()
+  {
+    return $this->questions()->where('questions.is_published', false)->count();
+  }
 }
