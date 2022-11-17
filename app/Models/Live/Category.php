@@ -24,9 +24,14 @@ class Category extends Model
     return $this->belongsToMany(Category::class, 'game_sessions')->withPivot('points_gained', 'user_id');
   }
 
+  // public function questions()
+  // {
+  //     return $this->belongsToMany(Question::class, 'categories_questions')->withPivot('is_published','deleted_at');
+  // }
+
   public function questions()
   {
-      return $this->belongsToMany(Question::class, 'categories_questions')->withPivot('is_published');
+    return $this->belongsToMany(Question::class, 'categories_questions')->withTimestamps();
   }
 
   public function scopeParentCategories($query)

@@ -33,14 +33,14 @@ class AddTrivia extends Component
         $this->subcategories = Category::where('category_id', '>', 0)->get();
     }
 
-    
+
     public function updated()
     {
         $this->error = '';
     }
-    
+
     public function setSelectedQuestions($value)
-    {  
+    {
         $this->selectedQuestions = $value;
         $this->addTrivia();
     }
@@ -53,17 +53,17 @@ class AddTrivia extends Component
 
         if ($end  <= $start) {
             $this->error = 'End date must be after start date';
-            return ;
+            return;
         }
 
         if ($this->name == '') {
             $this->error = 'Trivia name is required';
-            return ;
+            return;
         }
 
         if (count($this->selectedQuestions) > 0  && count($this->selectedQuestions) < ($this->question_count)) {
-            $this->error = 'Selected Questions must not be less than '. $this->question_count;
-            return ;
+            $this->error = 'Selected Questions must not be less than ' . $this->question_count;
+            return;
         }
 
         $trivia = new Trivia;
@@ -88,7 +88,8 @@ class AddTrivia extends Component
                 ]);
             }
         } else {
-            $questions = $trivia->category->questions()
+
+            $questions = Category::find($trivia->category_id)->questions()
                 ->whereNull('deleted_at')
                 ->where('is_published', true)->inRandomOrder()->take($this->question_count + 10)->get();
 

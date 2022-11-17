@@ -14,7 +14,8 @@
         + Create Live Trivia
     </a>
     <div class="mt-4">
-        <livewire:gaming.livetrivia.trivia-table />
+        <livewire:gaming.livetrivia.trivia-table/>
+     
     </div>
     @else
     <div class="mt-4">
