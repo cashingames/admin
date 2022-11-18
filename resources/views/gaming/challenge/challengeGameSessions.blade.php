@@ -1,5 +1,5 @@
 <x-gaming-layout>
-    @can('super-admin-access')
+    @canany(['super-admin-access','view-only-access'])
     <ul
         class="hidden text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
         <li class="w-full">
@@ -24,6 +24,6 @@
     @else
     You are not authorised to access this data.
 
-    @endcan
+    @endcanany
 
 </x-gaming-layout>

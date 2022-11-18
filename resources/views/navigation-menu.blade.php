@@ -16,18 +16,22 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                 
                     <x-jet-nav-link href="{{ route('cms') }}" :active="request()->routeIs('cms')">
                         {{ __('Manage Content') }}
                     </x-jet-nav-link>
+                   
                     <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.*')">
                         {{ __('Gaming') }}
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('customers') }}" :active="request()->routeIs('customers.*')">
                         {{ __('Players') }}
                     </x-jet-nav-link>
+                    @canany(['super-admin-access'])
                     <x-jet-nav-link href="{{ route('finance.dashboard') }}" :active="request()->routeIs('finance.*')">
                         {{ __('Finance') }}
                     </x-jet-nav-link>
+                    @endcanany
                 </div>
             </div>
 
