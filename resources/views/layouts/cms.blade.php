@@ -1,12 +1,17 @@
 <x-app-layout>
+    @canany(['view-only-access'])
+    <div class="text-center mt-4 ">
+        You are not authorised to access this data.
+    </div>
+    @else
     <x-slot name="header">
         <div class="flex flex-row">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight basis-1/4">
                 {{ __('Manage Content') }}
             </h2>
             <div class="basis-3/4 text-right">
-                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-end" >
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-end">
                     <x-jet-nav-link href="{{ route('cms.dashboard') }}" :active="request()->routeIs('cms.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
@@ -26,4 +31,6 @@
             {{ $slot }}
         </div>
     </div>
+    @endcanany
+
 </x-app-layout>

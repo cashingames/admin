@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_content_admin;
         });
 
-        Gate::define('mid-admin-access', function (User $user) {
+        Gate::define('view-only-access', function (User $user) {
             return $user->is_mid_admin;
         });
     }

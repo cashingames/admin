@@ -35,6 +35,10 @@
                 <x-jet-label for="is_content_admin" value="{{ __('Content Admin') }}" />
                 <x-jet-input id="is_content_admin" type="checkbox" name="is_content_admin" />
             </div>
+            <div class="mt-4">
+                <x-jet-label for="is_content_admin" value="{{ __('View Access Only') }}" />
+                <x-jet-input id="is_mid_admin" type="checkbox" name="is_mid_admin" />
+            </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

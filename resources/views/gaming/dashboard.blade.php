@@ -1,11 +1,11 @@
 <x-gaming-layout>
-   @can('super-admin-access')
+@canany(['super-admin-access','view-only-access'])
    <div>
       <livewire:gaming.reports />
    </div>
    @else
    You are not authorised to access this data.
 
-   @endcan
+   @endcanany
 
 </x-gaming-layout>
