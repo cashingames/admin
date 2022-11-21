@@ -43,11 +43,16 @@ class TriviaSessions extends LivewireDatatable
                     ->filterable()
                     ->searchable(),
 
+                DateColumn::name('live_users.created_at')
+                    ->label('User Account Created On')
+                    ->filterable()
+                    ->searchable(),
+
                 Column::name('live_subcat.name')
                     ->label('Subcategory')
                     ->filterable()
                     ->searchable(),
-                
+
                 Column::name('live_trivias.id')
                     ->label('Live Trivia ID')
                     ->filterable()
@@ -72,6 +77,10 @@ class TriviaSessions extends LivewireDatatable
                     ->label('Points Gained')
                     ->filterable()
                     ->searchable(),
+
+                Column::callback(['start_time', 'end_time'], function ($start_time, $end_time) {
+                    return Carbon::parse($start_time)->diffInSeconds(Carbon::parse($end_time));
+                }, 'duration')->label('Duration (in Seconds)'),
 
                 Column::name('odd_multiplier')
                     ->label('Odds Applied')
