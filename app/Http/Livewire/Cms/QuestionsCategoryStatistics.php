@@ -28,28 +28,29 @@ class QuestionsCategoryStatistics extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->questions()->count();
-            },'total')->label('Total Number Questions'),
+            },'total')->label('Total Questions Count'),
            
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->unPublishedQuestions();
-            }, 'unpublished')->label('Number of UnPublished Questions'),
-
-            Column::callback(['id'], function ($id) {
-                return Category::find($id)->easyQuestions();
-            }, 'easy')->label('Number of Easy Questions'),
-
-            Column::callback(['id'], function ($id) {
-                return Category::find($id)->mediumQuestions();
-            }, 'medium')->label('Number of Medium Questions'),
-
-            Column::callback(['id'], function ($id) {
-                return Category::find($id)->hardQuestions();
-            }, 'hard')->label('Number of Hard Questions'),
+            }, 'unpublished')->label('UnPublished Questions Count'),
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->publishedQuestions();
-            }, 'published')->label('Number of Published Questions'),
+            }, 'published')->label('Published Questions Count'),
 
+            Column::callback(['id'], function ($id) {
+                return Category::find($id)->easyQuestions();
+            }, 'easy')->label('Easy Questions Count'),
+
+            Column::callback(['id'], function ($id) {
+                return Category::find($id)->mediumQuestions();
+            }, 'medium')->label('Medium Questions Count'),
+
+            Column::callback(['id'], function ($id) {
+                return Category::find($id)->hardQuestions();
+            }, 'hard')->label('Hard Questions Count'),
+
+          
         ];
     }
 }
