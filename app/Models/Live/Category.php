@@ -53,4 +53,16 @@ class Category extends Model
   {
     return $this->questions()->where('questions.is_published', false)->count();
   }
+  public function easyQuestions()
+  {
+    return $this->questions()->where('questions.level', 'easy')->count();
+  }
+  public function mediumQuestions()
+  {
+    return $this->questions()->where('questions.level', 'medium')->count();
+  }
+  public function hardQuestions()
+  {
+    return $this->questions()->where('questions.level', 'hard')->count();
+  }
 }
