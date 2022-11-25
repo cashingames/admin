@@ -9,7 +9,9 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class ChallengeSessionsTable extends LivewireDatatable
-{
+{   
+    public $complex = true;
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');

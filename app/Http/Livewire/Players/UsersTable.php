@@ -11,6 +11,8 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 
 class UsersTable extends LivewireDatatable
 {
+    public $complex = true;
+    
 
     public function builder()
     {

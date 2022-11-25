@@ -11,7 +11,9 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class StakersTable extends LivewireDatatable
-{
+{   
+    public $complex = true;
+    
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');

@@ -10,7 +10,9 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class TriviaSessions extends LivewireDatatable
-{
+{   
+    public $complex = true;
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');

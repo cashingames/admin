@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 class TriviaTable extends LivewireDatatable
 {
     public $model = Trivia::class;
+    public $complex = true;
 
     public function builder()
     {

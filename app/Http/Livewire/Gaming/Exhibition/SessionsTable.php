@@ -10,7 +10,9 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class SessionsTable extends LivewireDatatable
-{
+{   
+    public $complex = true;
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');

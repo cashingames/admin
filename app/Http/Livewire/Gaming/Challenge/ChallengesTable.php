@@ -13,7 +13,9 @@ use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class ChallengesTable extends LivewireDatatable
-{
+{   
+    public $complex = true;
+
     public function builder()
     {
         return Challenge::query();

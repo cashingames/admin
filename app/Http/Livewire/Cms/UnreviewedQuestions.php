@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class UnreviewedQuestions extends LivewireDatatable
 {
+    public $complex = true;
 
     public function builder()
     {
@@ -32,7 +33,9 @@ class UnreviewedQuestions extends LivewireDatatable
                     "questions.approved_at",
                     "questions.rejected_at",
                     "questions.published_at",
+                    "live_questions.id",
                     "live_questions.label",
+                    "live_questions.level",
                     "live_categories_questions.category_id",
                     "live_subcat.category_id as sub_parent_category_id",
                     "live_subcat.name as subcategory_name",
@@ -59,7 +62,9 @@ class UnreviewedQuestions extends LivewireDatatable
                 "questions.approved_at",
                 "questions.rejected_at",
                 "questions.published_at",
+                "live_questions.id",
                 "live_questions.label",
+                "live_questions.level",
                 "live_categories_questions.category_id",
                 "live_subcat.category_id as sub_parent_category_id",
                 "live_subcat.name as subcategory_name",
@@ -85,19 +90,15 @@ class UnreviewedQuestions extends LivewireDatatable
     {
         return
             [
-                Column::callback(['question_id'], function ($question_id) {
-                    return Question::find($question_id)->id;
-                })->label('Id')
-                    ->searchable()
-                    ->hideable()
-                    ->filterable(),
+                Column::name('live_questions.id')
+                    ->label('Id')
+                    ->filterable()
+                    ->searchable(),
 
-                Column::callback(['question_id'], function ($question_id) {
-                    return Question::find($question_id)->level;
-                }, 'level')->label('level')
-                    ->searchable()
-                    ->hideable()
-                    ->filterable(),
+                Column::name('live_questions.level')
+                    ->label('Level')
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('live_questions.label')
                     ->label('Question')

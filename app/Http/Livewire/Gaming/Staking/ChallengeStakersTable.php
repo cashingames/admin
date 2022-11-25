@@ -12,7 +12,9 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 
 
 class ChallengeStakersTable extends LivewireDatatable
-{
+{   
+    public $complex = true;
+    
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
