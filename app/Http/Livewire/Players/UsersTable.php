@@ -12,13 +12,11 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 class UsersTable extends LivewireDatatable
 {
     public $complex = true;
-    
-
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
 
-        $query = User::query()
+        return User::query()
             ->select(
                 "users.id",
                 "users.created_at",
@@ -40,7 +38,6 @@ class UsersTable extends LivewireDatatable
             )
             ->join("{$livedb}.profiles as profiles", "profiles.user_id", "=", "users.id");
 
-        return $query;
     }
 
 

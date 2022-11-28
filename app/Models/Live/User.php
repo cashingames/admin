@@ -41,4 +41,9 @@ class User extends Model
         {
                 return $this->initiatedChallenges()->union($this->recievedChallenges()->toBase());
         }
+
+        public function transactions()
+    {
+        return $this->hasManyThrough(WalletTransaction::class, Wallet::class);
+    }
 }

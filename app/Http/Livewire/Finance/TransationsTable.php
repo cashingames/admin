@@ -11,10 +11,60 @@ use Mediconesystems\LivewireDatatables\Column;
 
 class TransationsTable extends LivewireDatatable
 {
+    // public $model = WalletTransaction::class;
+    // public $hideable = 'select';
+    // public $exportable = true;
+    // public $complex = true;
+    // public $hide = ['id', 'user_id', 'wallet_id', 'created_at', 'updated_at', 'deleted_at'];
+    // public $dateRange = true;
+    // public $dateRangeFormat = 'Y-m-d';
+    // public $dateRangeLabels = ['From', 'To'];
+    // public $dateRangeDefault = [Carbon::now()->subDays(30)->format('Y-m-d'), Carbon::now()->format('Y-m-d')];
+    public $perPage = 25;
+    // public $search = '';
+    // public $sortField = 'created_at';
+    // public $sortAsc = false;
+    // public $showFilters = true;
+    // public $showPerPage = true;
+    // public $showExport = true;
+    // public $showTableActions = true;
+    // public $showSearch = true;
+    // public $showPagination = true;
+    // public $showPageStats = true;
+    // public $showColumnSearch = true;
+    // public $showColumnFilters = true;
+    // public $showColumnSort = true;
+    // public $showDateRange = true;
+    // public $showText = 'Show';
+    // public $hideText = 'Hide';
+    // public $exportText = 'Export';
+    // public $exportAllText = 'Export All';
+    // public $clearFilterText = 'Clear Filter';
+    // public $clearAllFilterText = 'Clear All Filter';
+    // public $applyFilterText = 'Apply Filter';
+    // public $applyBulkActionText = 'Apply';
+    // public $exportFileName = 'transactions';
+    // public $exportHeading = 'Transactions';
+    // public $exportFormats = ['csv', 'xlsx', 'pdf'];
+    // public $exportBeforeCallback = null;
+    // public $exportAfterCallback = null;
+    // public $exportCallback = null;
+    // public $exportAllBeforeCallback = null;
+    // public $exportAllAfterCallback = null;
+    // public $exportAllCallback = null;
+    // public $exportView = 'livewire-datatables::exports.export';
+    // public $exportAllView = 'livewire-datatables::exports.export-all';
+    // public $exportAllHeading = 'Transactions';
+    // public $exportAllFileName = 'transactions';
+    // public $exportAllFormats = ['csv', 'xlsx', 'pdf'];
+    
+
     public function builder()
     {
 
-        return WalletTransaction::query();
+        return WalletTransaction::query()
+            ->leftJoin('wallets', 'wallets.id', 'wallet_transactions.wallet_id')
+            ->leftJoin('users', 'users.id', 'wallets.user_id');
     }
 
     public function columns()
@@ -22,41 +72,11 @@ class TransationsTable extends LivewireDatatable
         return
             [
 
-                Column::callback(['wallet_id'], function ($wallet_id) {
-                    $wallet = Wallet::find($wallet_id);
-                    if ($wallet !== null) {
-                        $user = User::find($wallet->user_id);
-                        if ($user !== null) {
-                            return $user->username;
-                        }
-                        return '';
-                    }
-                    return '';
-                }, 'username')->label('Username'),
+                Column::name('users.username'),
 
-                Column::callback(['wallet_id'], function ($wallet_id) {
-                    $wallet = Wallet::find($wallet_id);
-                    if ($wallet !== null) {
-                        $user = User::find($wallet->user_id);
-                        if ($user !== null) {
-                            return $user->email;
-                        }
-                        return '';
-                    }
-                    return '';
-                }, 'email')->label('Email'),
+                Column::name('users.email'),
 
-                Column::callback(['wallet_id'], function ($wallet_id) {
-                    $wallet = Wallet::find($wallet_id);
-                    if ($wallet !== null) {
-                        $user = User::find($wallet->user_id);
-                        if ($user !== null) {
-                            return $user->phone_number;
-                        }
-                        return '';
-                    }
-                    return '';
-                }, 'phone')->label('Phone'),
+                Column::name('users.phone_number'),
 
                 Column::name('reference')
                     ->label('Reference')
