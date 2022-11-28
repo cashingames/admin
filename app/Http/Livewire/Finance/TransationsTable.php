@@ -11,10 +11,15 @@ use Mediconesystems\LivewireDatatables\Column;
 
 class TransationsTable extends LivewireDatatable
 {
+    public $perPage = 25;
+    public $persistPerPage = false;
+
     public function builder()
     {
 
-        return WalletTransaction::query();
+        return WalletTransaction::query()
+            ->leftJoin('wallets', 'wallets.id', 'wallet_transactions.wallet_id')
+            ->leftJoin('users', 'users.id', 'wallets.user_id');
     }
 
     public function columns()
@@ -22,41 +27,13 @@ class TransationsTable extends LivewireDatatable
         return
             [
 
-                Column::callback(['wallet_id'], function ($wallet_id) {
-                    $wallet = Wallet::find($wallet_id);
-                    if ($wallet !== null) {
-                        $user = User::find($wallet->user_id);
-                        if ($user !== null) {
-                            return $user->username;
-                        }
-                        return '';
-                    }
-                    return '';
-                }, 'username')->label('Username'),
 
-                Column::callback(['wallet_id'], function ($wallet_id) {
-                    $wallet = Wallet::find($wallet_id);
-                    if ($wallet !== null) {
-                        $user = User::find($wallet->user_id);
-                        if ($user !== null) {
-                            return $user->email;
-                        }
-                        return '';
-                    }
-                    return '';
-                }, 'email')->label('Email'),
+                Column::index($this),
+                Column::name('users.username'),
 
-                Column::callback(['wallet_id'], function ($wallet_id) {
-                    $wallet = Wallet::find($wallet_id);
-                    if ($wallet !== null) {
-                        $user = User::find($wallet->user_id);
-                        if ($user !== null) {
-                            return $user->phone_number;
-                        }
-                        return '';
-                    }
-                    return '';
-                }, 'phone')->label('Phone'),
+                Column::name('users.email'),
+
+                Column::name('users.phone_number'),
 
                 Column::name('reference')
                     ->label('Reference')
