@@ -28,27 +28,27 @@ class QuestionsCategoryStatistics extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->questions()->count();
-            },'total')->label('Total Questions Count'),
+            },['total'])->label('Total Questions Count'),
            
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->unPublishedQuestions();
-            }, 'unpublished')->label('UnPublished Questions Count'),
+            }, ['unpublished'])->label('UnPublished Questions Count'),
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->publishedQuestions();
-            }, 'published')->label('Published Questions Count'),
+            }, ['published'])->label('Published Questions Count'),
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->easyQuestions();
-            }, 'easy')->label('Easy Questions Count'),
+            }, ['easy'])->label('Easy Questions Count'),
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->mediumQuestions();
-            }, 'medium')->label('Medium Questions Count'),
+            }, ['medium'])->label('Medium Questions Count'),
 
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->hardQuestions();
-            }, 'hard')->label('Hard Questions Count'),
+            }, ['hard'])->label('Hard Questions Count'),
 
           
         ];

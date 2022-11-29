@@ -33,6 +33,15 @@ class Question extends Model
             : static::where('id', 'like', '%' . $search . '%')
             ->orWhere('label', 'like', '%' . $search . '%')
             ->orWhere('level', 'like', '%' . $search . '%');
-            // ->orWhere('category_id', 'like', '%' . $search . '%');
+        // ->orWhere('category_id', 'like', '%' . $search . '%');
+    }
+
+    public function subcategories()
+    {
+        $data = [];
+        foreach ($this->categories()->get() as $subcategory) {
+            $data[] = $subcategory->name;
+        };
+        return implode(" , ", $data);
     }
 }
