@@ -29,6 +29,7 @@ class TransationsTable extends LivewireDatatable
 
 
                 Column::index($this),
+                
                 Column::name('users.username'),
 
                 Column::name('users.email'),

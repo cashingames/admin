@@ -14,32 +14,34 @@ use Illuminate\Support\Carbon;
 
 class TriviaTable extends LivewireDatatable
 {
+
     public $model = Trivia::class;
-    public $complex = true;
+    public $perPage = 100;
+    public $persistPerPage = false;
 
     public function builder()
     {
-        return Trivia::query();
+
+        return Trivia::query()
+            ->join('categories', 'categories.id', 'trivias.category_id');
     }
 
     public function columns()
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
+                Column::index($this),
+
                 Column::name('name')
                     ->searchable()
                     ->filterable(),
 
-                Column::callback(['category_id'], function ($category_id) {
-                    return Category::where('id', $category_id)->first()->name;
-                })->label('SubCategory')
+                Column::name('categories.name')
+                    ->label('SubCategory')
                     ->searchable()
                     ->filterable(),
 
-                Column::name('grand_price')
-                    ->label('Grand Prize'),
+                Column::name('grand_price'),
 
                 Column::name('point_eligibility')
                     ->label('Points Required'),
@@ -68,15 +70,15 @@ class TriviaTable extends LivewireDatatable
                 })->label('Status')->filterable(),
 
                 BooleanColumn::name('is_published')
-                ->label('Published')
-                ->filterable(),
+                    ->label('Published')
+                    ->filterable(),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
-               
+
                 DateColumn::name('updated_at')->label('Date Edited')->filterable(),
-                
-                Column::callback(['id','is_published'], function ($id,$is_published) {
-                    return view('gaming.livetrivia.trivia-table-actions', ['id' => $id, 'is_published'=>$is_published]);
+
+                Column::callback(['id', 'is_published'], function ($id, $is_published) {
+                    return view('gaming.livetrivia.trivia-table-actions', ['id' => $id, 'is_published' => $is_published]);
                 })->unsortable(),
 
             ];

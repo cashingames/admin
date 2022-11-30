@@ -11,8 +11,9 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 
 class SessionsTable extends LivewireDatatable
 {   
-    public $complex = true;
-
+    public $perPage = 100;
+    public $persistPerPage = false;
+    
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
@@ -39,11 +40,9 @@ class SessionsTable extends LivewireDatatable
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
+                Column::index($this),
 
                 Column::name('live_users.username')
-                    ->label('Username')
                     ->filterable()
                     ->searchable(),
 
@@ -63,7 +62,6 @@ class SessionsTable extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('state')
-                    ->label('State')
                     ->filterable()
                     ->searchable(),
 
@@ -73,7 +71,6 @@ class SessionsTable extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('points_gained')
-                    ->label('Points Gained')
                     ->filterable()
                     ->searchable(),
 
@@ -83,7 +80,6 @@ class SessionsTable extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('odd_condition')
-                    ->label('Odd Condition Met')
                     ->filterable()
                     ->searchable(),
 

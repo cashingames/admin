@@ -11,7 +11,8 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class TriviaSessions extends LivewireDatatable
 {   
-    public $complex = true;
+    public $perPage = 100;
+    public $persistPerPage = false;
 
     public function builder()
     {
@@ -37,11 +38,9 @@ class TriviaSessions extends LivewireDatatable
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
+               Column::index($this),
 
                 Column::name('live_users.username')
-                    ->label('Username')
                     ->filterable()
                     ->searchable(),
 
@@ -66,7 +65,6 @@ class TriviaSessions extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('state')
-                    ->label('State')
                     ->filterable()
                     ->searchable(),
 
@@ -76,13 +74,12 @@ class TriviaSessions extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('points_gained')
-                    ->label('Points Gained')
                     ->filterable()
                     ->searchable(),
 
                 Column::callback(['start_time', 'end_time'], function ($start_time, $end_time) {
                     return Carbon::parse($start_time)->diffInSeconds(Carbon::parse($end_time));
-                }, 'duration')->label('Duration (in Seconds)'),
+                }, ['duration'])->label('Duration (in Seconds)'),
 
                 Column::name('odd_multiplier')
                     ->label('Odds Applied')
@@ -90,7 +87,6 @@ class TriviaSessions extends LivewireDatatable
                     ->searchable(),
 
                 Column::name('odd_condition')
-                    ->label('Odd Condition Met')
                     ->filterable()
                     ->searchable(),
 
