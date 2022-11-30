@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\DB;
 
 class UnreviewedQuestions extends LivewireDatatable
 {
-    public $complex = true;
+    public $perPage = 100;
+    public $persistPerPage = false;
 
     public function builder()
     {
@@ -26,7 +27,7 @@ class UnreviewedQuestions extends LivewireDatatable
             Gate::allows('super-admin-access') ||
             Gate::allows('content-admin-access')
         ) {
-            $query = AdminQuestion::query()
+            return AdminQuestion::query()
                 ->select(
                     "questions.question_id",
                     "questions.deleted_at",
@@ -55,9 +56,8 @@ class UnreviewedQuestions extends LivewireDatatable
                 ->groupBy(
                     'questions.question_id',
                 );
-            return $query;
         }
-        $query = AdminQuestion::query()
+        return AdminQuestion::query()
             ->select(
                 "questions.question_id",
                 "questions.deleted_at",
@@ -86,8 +86,6 @@ class UnreviewedQuestions extends LivewireDatatable
             ->groupBy(
                 'questions.question_id',
             );
-
-        return $query;
     }
 
     public function columns()

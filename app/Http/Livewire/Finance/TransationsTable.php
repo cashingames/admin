@@ -11,7 +11,7 @@ use Mediconesystems\LivewireDatatables\Column;
 
 class TransationsTable extends LivewireDatatable
 {
-    public $perPage = 25;
+    public $perPage = 100;
     public $persistPerPage = false;
 
     public function builder()
