@@ -11,7 +11,10 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 
 class UsersTable extends LivewireDatatable
 {
-    public $complex = true;
+    
+    public $perPage = 100;
+    public $persistPerPage = false;
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
@@ -45,16 +48,13 @@ class UsersTable extends LivewireDatatable
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
+                Column::index($this),
 
                 Column::name('profiles.first_name')
-                ->label('First Name')
                 ->filterable()
                 ->searchable(),
 
                 Column::name('profiles.last_name')
-                ->label('Last Name')
                 ->filterable()
                 ->searchable(),
 
@@ -67,57 +67,46 @@ class UsersTable extends LivewireDatatable
                     ->filterable(),
 
                 Column::name('email')
-                    ->label('Email')
                     ->filterable()
                     ->searchable(),
 
                 Column::name('email_verified_at')
-                    ->label('Email Verified At')
                     ->searchable()
                     ->filterable(),
 
                 Column::name('phone_number')
-                    ->label('Phone Number')
                     ->filterable()
                     ->searchable(),
 
                 Column::name('phone_verified_at')
-                    ->label('Phone Verified At')
                     ->searchable()
                     ->filterable(),
 
                 Column::name('profiles.gender')
-                ->label('Gender')
                 ->filterable()
                 ->searchable(),
                 
                 Column::name('profiles.referral_code')
-                ->label('Referral Code')
                 ->filterable()
                 ->searchable(),
 
                 Column::name('profiles.account_name')
-                ->label('Account Name')
                 ->filterable()
                 ->searchable(),
 
                 Column::name('profiles.bank_name')
-                ->label('Bank Name')
                 ->filterable()
                 ->searchable(),
 
                 Column::name('profiles.account_number')
-                ->label('Account Number')
                 ->filterable()
                 ->searchable(),
 
                 Column::name('profiles.state')
-                ->label('State')
                 ->filterable()
                 ->searchable(),
 
                 Column::name('profiles.referrer')
-                ->label('Referrer')
                 ->filterable()
                 ->searchable(),
 

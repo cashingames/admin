@@ -13,6 +13,9 @@ use Illuminate\Support\Carbon;
 
 class CategoriesTable extends LivewireDatatable
 {
+    public $perPage = 100;
+    public $persistPerPage = false;
+
     public function builder()
     {
         return Category::query();
@@ -22,8 +25,7 @@ class CategoriesTable extends LivewireDatatable
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
+                Column::index($this),
                 
                 Column::name('name')
                     ->label('Name')
@@ -32,7 +34,7 @@ class CategoriesTable extends LivewireDatatable
 
                 Column::callback(['category_id'], function ($category_id) {
                     $category = Category::where('id', $category_id)->first();
-                    if (is_null($category)){
+                    if (is_null($category)) {
                         return "None";
                     }
                     return $category->name;
@@ -55,8 +57,8 @@ class CategoriesTable extends LivewireDatatable
 
                 DateColumn::name('updated_at')->label('Date Edited')->filterable(),
 
-                Column::callback(['id','is_enabled'], function ($id, $is_enabled) {
-                    return view('cms.categories-table-actions', ['id' => $id ,'is_enabled' => $is_enabled]);
+                Column::callback(['id', 'is_enabled'], function ($id, $is_enabled) {
+                    return view('cms.categories-table-actions', ['id' => $id, 'is_enabled' => $is_enabled]);
                 })->unsortable(),
 
             ];

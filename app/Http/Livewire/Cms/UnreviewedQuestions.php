@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\DB;
 
 class UnreviewedQuestions extends LivewireDatatable
 {
-    public $complex = true;
+    public $perPage = 100;
+    public $persistPerPage = false;
 
     public function builder()
     {
@@ -26,7 +27,7 @@ class UnreviewedQuestions extends LivewireDatatable
             Gate::allows('super-admin-access') ||
             Gate::allows('content-admin-access')
         ) {
-            $query = AdminQuestion::query()
+            return AdminQuestion::query()
                 ->select(
                     "questions.question_id",
                     "questions.deleted_at",
@@ -41,7 +42,8 @@ class UnreviewedQuestions extends LivewireDatatable
                     "live_subcat.name as subcategory_name",
                     "live_subcat.id as subcategory_id",
                     "live_cat.id as parent_category_id",
-                    "live_cat.name as parent_category_name"
+                    "live_cat.name as parent_category_name",
+                    "admin_users.name as created_by"
                 )
                 ->whereNull('questions.deleted_at')
                 ->whereNull('questions.approved_at')->whereNull('questions.rejected_at')
@@ -50,12 +52,12 @@ class UnreviewedQuestions extends LivewireDatatable
                 ->join("{$livedb}.questions as live_questions", "live_questions.id", "=", "questions.question_id")
                 ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "live_categories_questions.category_id")
                 ->join("{$livedb}.categories as live_cat", "live_subcat.category_id", "=", "live_cat.id")
+                ->join("users as admin_users", "live_questions.created_by", "=", "admin_users.id")
                 ->groupBy(
                     'questions.question_id',
                 );
-            return $query;
         }
-        $query = AdminQuestion::query()
+        return AdminQuestion::query()
             ->select(
                 "questions.question_id",
                 "questions.deleted_at",
@@ -70,7 +72,8 @@ class UnreviewedQuestions extends LivewireDatatable
                 "live_subcat.name as subcategory_name",
                 "live_subcat.id as subcategory_id",
                 "live_cat.id as parent_category_id",
-                "live_cat.name as parent_category_name"
+                "live_cat.name as parent_category_name",
+                "admin_users.name as created_by"
             )
             ->whereNull('questions.deleted_at')
             ->whereNull('questions.approved_at')->whereNull('questions.rejected_at')
@@ -79,11 +82,10 @@ class UnreviewedQuestions extends LivewireDatatable
             ->join("{$livedb}.questions as live_questions", "live_questions.id", "=", "questions.question_id")
             ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "live_categories_questions.category_id")
             ->join("{$livedb}.categories as live_cat", "live_subcat.category_id", "=", "live_cat.id")
+            ->join("users as admin_users", "live_questions.created_by", "=", "admin_users.id")
             ->groupBy(
                 'questions.question_id',
             );
-
-        return $query;
     }
 
     public function columns()
@@ -113,40 +115,24 @@ class UnreviewedQuestions extends LivewireDatatable
                             'id' => $question->id
                         ]);
                     },
-                    'actions'
+                    ['actions']
                 )->unsortable(),
 
                 Column::callback(['question_id'], function ($question_id) {
-                    $subcategories = Question::find($question_id)->categories()->get();
-                    $data = [];
-                    foreach ($subcategories as $subcategory) {
-                        $data[] = $subcategory->name;
-                    };
-                    return implode(" , ", $data);;
-                }, 'subcategories')->label('Subcategories')
+                  return Question::find($question_id)->subcategories();
+                    
+                }, ['subcategories'])->label('Subcategories')
                     ->hideable(),
-
-                // Column::name('live_subcat.name')
-                //     ->label('Subcategory')
-                //     ->filterable()
-                //     ->searchable(),
 
                 Column::name('live_cat.name')
                     ->label('Category')
                     ->filterable()
                     ->searchable(),
-
-                Column::callback(['user_id'], function ($user_id) {
-                    $creator = User::find($user_id);
-                    if ($creator === null) {
-                        $admin = User::where('is_content_admin', true)->first();
-                        if ($admin == null) {
-                            return '';
-                        }
-                        return $admin->name;
-                    }
-                    return $creator->name;
-                })->label('Created By'),
+                
+                Column::name('admin_users.name')
+                    ->label('Created By')
+                    ->filterable()
+                    ->searchable(),
 
                 Column::callback(['created_at'], function ($created_at) {
                     return Carbon::parse($created_at)

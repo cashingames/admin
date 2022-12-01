@@ -14,19 +14,26 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 
 class ChallengesTable extends LivewireDatatable
 {   
-    public $complex = true;
+    public $perPage = 100;
+    public $persistPerPage = false;
 
     public function builder()
-    {
-        return Challenge::query();
+    {   
+        // return WalletTransaction::query()
+        // ->leftJoin('wallets', 'wallets.id', 'wallet_transactions.wallet_id')
+        // ->leftJoin('users', 'users.id', 'wallets.user_id');
+
+        return Challenge::query()
+        ->join('users as c_users', 'c_users.id', 'challenges.user_id')
+        ->join('users as o_users', 'o_users.id', 'challenges.opponent_id')
+        ;
     }
 
     public function columns()
     {
         return
             [
-                NumberColumn::name('id')
-                    ->label('ID'),
+                Column::index($this),
 
                 Column::callback(['user_id'], function ($user_id) {
                     $user = User::where('id', $user_id)->first();
@@ -34,7 +41,10 @@ class ChallengesTable extends LivewireDatatable
                         return ' ';
                     }
                     return $user->username;
-                }, 'challenger')->label('Challenger')->searchable()->filterable(),
+                }, ['challenger'])->label('Challenger')->searchable()->filterable(),
+
+                Column::name('c_users.username')
+                    ->label('Challenger')->searchable()->filterable(),
 
                 Column::callback(['opponent_id'], function ($opponent_id) {
                     $user = User::where('id', $opponent_id)->first();
@@ -42,7 +52,7 @@ class ChallengesTable extends LivewireDatatable
                         return ' ';
                     }
                     return $user->username;
-                }, 'opponent')->label('Opponent')->searchable()->filterable(),
+                }, ['opponent'])->label('Opponent')->searchable()->filterable(),
 
 
                 Column::callback(['category_id'], function ($category_id) {
@@ -73,7 +83,7 @@ class ChallengesTable extends LivewireDatatable
                     }
 
                    
-                }, 'challenge_status')->label('Challenge Status'),
+                }, ['challenge_status'])->label('Challenge Status'),
                 Column::name('expired_at')->label('Date Expired')->filterable(),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),
