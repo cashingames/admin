@@ -6,17 +6,23 @@ use App\Models\Live\User;
 use App\Models\Live\WalletTransaction;
 use App\Models\Live\Wallet;
 use Illuminate\Support\Carbon;
-use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\DateColumn;
+use Mediconesystems\LivewireDatatables\NumberColumn;
+use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 
 class TransationsTable extends LivewireDatatable
 {
-    public $perPage = 100;
-    public $persistPerPage = false;
+    public $exportable = true;
+    public $hideable = 'select';
+    public $hide = ['balance'];
+    public $groupLabels = [
+         'user' => 'TOGGLE USER DETAILS'
+    ];
+    public $complex = true;
 
     public function builder()
     {
-
         return WalletTransaction::query()
             ->leftJoin('wallets', 'wallets.id', 'wallet_transactions.wallet_id')
             ->leftJoin('users', 'users.id', 'wallets.user_id');
@@ -26,44 +32,34 @@ class TransationsTable extends LivewireDatatable
     {
         return
             [
-
-
                 Column::index($this),
                 
-                Column::name('users.username'),
+                Column::name('users.username')->group('user'),
 
-                Column::name('users.email'),
+                Column::name('users.email')->group('user'),
 
-                Column::name('users.phone_number'),
+                Column::name('users.phone_number')->group('user'),
 
-                Column::name('reference')
-                    ->label('Reference')
-                    ->filterable()
-                    ->searchable(),
+                Column::name('reference')->searchable(),
 
-                Column::name('transaction_type')
-                    ->label('Type')
-                    ->filterable()
-                    ->searchable(),
+                Column::name('description')->filterable([
+                    'Fund Wallet',
+                    'Sign Up Bonus',
+                    'Winnings Withdrawal Made',
+                    'Placed a staking'
+                ])->searchable(),
 
-                Column::name('description')
-                    ->label('Description')
-                    ->filterable()
-                    ->searchable(),
+                Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT']),
 
-                Column::name('amount')
-                    ->label('Amount')
-                    ->filterable()
-                    ->searchable(),
+                NumberColumn::name('amount'),
 
-                Column::name('balance')
-                    ->label('Balance')
-                    ->filterable()
-                    ->searchable(),
+                NumberColumn::name('balance')->hide(),
 
-                Column::callback(['created_at'], function ($created_at) {
-                    return Carbon::parse($created_at)->setTimezone('Africa/Lagos');
-                })->label('Transaction Date')->filterable(),
+                DateColumn::callback('created_at', function ($createdAt) {
+                    return Carbon::parse($createdAt)->setTimezone('Africa/Lagos');
+                })
+                ->label("Transaction Date")
+                ->filterable(),
 
             ];
     }
