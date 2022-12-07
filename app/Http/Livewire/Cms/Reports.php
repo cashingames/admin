@@ -30,7 +30,7 @@ class Reports extends Component
         
         if(!$this->addExtraFilters){
             $sql = Question::where('created_at','>=',$_startDate)
-            ->where('created_at','<=', $_endDate)->get()->count();
+            ->where('created_at','<=', $_endDate)->count();
     
             $this->questionsCount = $sql;
         } else {
@@ -40,31 +40,28 @@ class Reports extends Component
             if($_subCategory === null && $_creator === null ){
                 
                 $sql = Question::where('created_at','>=',$_startDate)
-                ->where('created_at','<=', $_endDate)->get()->count();
+                ->where('created_at','<=', $_endDate)->count();
         
                 $this->questionsCount = $sql;
             }
             elseif($_subCategory === null && $_creator !== null ){
                 $sql = Question::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)
-                ->where('created_by', $_creator->id)
-                ->get()->count();
+                ->where('created_by', $_creator->id)->count();
         
                 $this->questionsCount = $sql;
             }
             elseif($_creator === null && $_subCategory !== null){
                 $sql = Question::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)
-                ->where('category_id', $_subCategory->id)
-                ->get()->count();
+                ->where('category_id', $_subCategory->id)->count();
         
                 $this->questionsCount = $sql;
             }else{
                 $sql = Question::where('created_at','>=',$_startDate)
                 ->where('created_at','<=', $_endDate)
                 ->where('created_by', $_creator->id)
-                ->where('category_id', $_subCategory->id)
-                ->get()->count();
+                ->where('category_id', $_subCategory->id)->count();
         
                 $this->questionsCount = $sql;
             }
@@ -81,7 +78,7 @@ class Reports extends Component
         if(!$this->addExtraFilters){
             $sql = Question::where('updated_at','>=',$_startDate)
             ->where('updated_at','<=', $_endDate)
-            ->where('is_published', true)->get()->count();
+            ->where('is_published', true)->count();
  
             $this->publishedQuestions = $sql;
         }else{
@@ -91,7 +88,7 @@ class Reports extends Component
             if($_subCategory === null && $_creator === null ){
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->where('is_published', true)->get()->count();
+                ->where('is_published', true)->count();
  
                 $this->publishedQuestions = $sql;
             }
@@ -99,7 +96,7 @@ class Reports extends Component
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('created_by', $_creator->id)
-                ->where('is_published', true)->get()->count();
+                ->where('is_published', true)->count();
     
                 $this->publishedQuestions = $sql;
             }
@@ -107,7 +104,7 @@ class Reports extends Component
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('category_id', $_subCategory->id)
-                ->where('is_published', true)->get()->count();
+                ->where('is_published', true)->count();
     
                 $this->publishedQuestions = $sql;
             }
@@ -116,7 +113,7 @@ class Reports extends Component
                 ->where('updated_at','<=', $_endDate)
                 ->where('category_id', $_subCategory->id)
                 ->where('created_by', $_creator->id)
-                ->where('is_published', true)->get()->count();
+                ->where('is_published', true)->count();
     
                 $this->publishedQuestions = $sql;
             }
@@ -131,7 +128,7 @@ class Reports extends Component
         if(!$this->addExtraFilters){
             $sql = Question::where('updated_at','>=',$_startDate)
             ->where('updated_at','<=', $_endDate)
-            ->where('is_published', false)->get()->count();
+            ->where('is_published', false)->count();
  
             $this->unPublishedQuestions = $sql;
         }else{
@@ -141,7 +138,7 @@ class Reports extends Component
             if($_subCategory === null && $_creator === null ){
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->where('is_published', false)->get()->count();
+                ->where('is_published', false)->count();
      
                 $this->unPublishedQuestions = $sql;
             }
@@ -149,7 +146,7 @@ class Reports extends Component
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('created_by', $_creator->id)
-                ->where('is_published', false)->get()->count();
+                ->where('is_published', false)->count();
 
                 $this->unPublishedQuestions = $sql;
             }
@@ -157,7 +154,7 @@ class Reports extends Component
                 $sql = Question::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('category_id', $_subCategory->id)
-                ->where('is_published', false)->get()->count();
+                ->where('is_published', false)->count();
 
                 $this->unPublishedQuestions = $sql;
             }
@@ -166,7 +163,7 @@ class Reports extends Component
                 ->where('updated_at','<=', $_endDate)
                 ->where('category_id', $_subCategory->id)
                 ->where('created_by', $_creator->id)
-                ->where('is_published', false)->get()->count();
+                ->where('is_published', false)->count();
                
                 $this->unPublishedQuestions = $sql;
             }
@@ -182,7 +179,7 @@ class Reports extends Component
         if(!$this->addExtraFilters){
 
             $sql = AdminQuestion::whereNotNull('rejected_at')->where('updated_at','>=',$_startDate)
-            ->where('updated_at','<=', $_endDate)->get()->count();
+            ->where('updated_at','<=', $_endDate)->count();
 
             $this->rejectedQuestions = $sql;
         }else{
@@ -191,7 +188,7 @@ class Reports extends Component
             
             if($_subCategory === null && $_creator === null ){
                 $sql = AdminQuestion::whereNotNull('rejected_at')->where('updated_at','>=',$_startDate)
-                ->where('updated_at','<=', $_endDate)->get()->count();
+                ->where('updated_at','<=', $_endDate)->count();
     
                 $this->rejectedQuestions = $sql;
             }
@@ -200,21 +197,21 @@ class Reports extends Component
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('user_id', $_creator->id)
-                ->whereNotNull('rejected_at')->get()->count();
+                ->whereNotNull('rejected_at')->count();
 
                 $this->rejectedQuestions = $sql;
             }
             elseif($_creator === null && $_subCategory !== null){
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->whereNotNull('rejected_at')->get()->count();
+                ->whereNotNull('rejected_at')->count();
 
                 $this->rejectedQuestions = $sql;
             }
             else {
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->whereNotNull('rejected_at')->get()->count();
+                ->whereNotNull('rejected_at')->count();
 
                 $this->rejectedQuestions = $sql;
             }
@@ -230,7 +227,7 @@ class Reports extends Component
         if(!$this->addExtraFilters){
 
             $sql = AdminQuestion::whereNotNull('approved_at')->where('updated_at','>=',$_startDate)
-            ->where('updated_at','<=', $_endDate)->get()->count();
+            ->where('updated_at','<=', $_endDate)->count();
 
             $this->approvedQuestions = $sql;
         }else{
@@ -239,7 +236,7 @@ class Reports extends Component
             
             if($_subCategory === null && $_creator === null ){
                 $sql = AdminQuestion::whereNotNull('approved_at')->where('updated_at','>=',$_startDate)
-                ->where('updated_at','<=', $_endDate)->get()->count();
+                ->where('updated_at','<=', $_endDate)->count();
     
                 $this->rejectedQuestions = $sql;
             }
@@ -248,21 +245,21 @@ class Reports extends Component
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
                 ->where('user_id', $_creator->id)
-                ->whereNotNull('approved_at')->get()->count();
+                ->whereNotNull('approved_at')->count();
 
                 $this->approvedQuestions = $sql;
             }
             elseif($_creator === null && $_subCategory !== null){
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->whereNotNull('approved_at')->get()->count();
+                ->whereNotNull('approved_at')->count();
 
                 $this->approvedQuestions = $sql;
             }
             else {
                 $sql = AdminQuestion::where('updated_at','>=',$_startDate)
                 ->where('updated_at','<=', $_endDate)
-                ->whereNotNull('approved_at')->get()->count();
+                ->whereNotNull('approved_at')->count();
 
                 $this->approvedQuestions = $sql;
             }
