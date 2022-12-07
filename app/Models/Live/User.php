@@ -27,6 +27,12 @@ class User extends Model
                 return $this->hasMany(ChallengeGameSession::class);
         }
 
+        
+        public function plans()
+        {
+                return $this->hasMany(UserPlan::class);
+        }
+
         public function initiatedChallenges()
         {
                 return $this->hasMany(Challenge::class);
