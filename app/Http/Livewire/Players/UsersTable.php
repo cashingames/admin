@@ -14,6 +14,7 @@ class UsersTable extends LivewireDatatable
     
     public $perPage = 100;
     public $persistPerPage = false;
+    public $complex = true;
 
     public function builder()
     {

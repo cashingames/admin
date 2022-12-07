@@ -43,33 +43,32 @@ class RegularUsersOverview extends LivewireDatatable
                     ->searchable(),
 
                 Column::callback(['id'], function ($id) {
-                   return GameSession::where('user_id', $id)->count();
+                   return User::find($id)->gameSessions()->count();
                     
-                }, 'games')->label('No Of Games Played'),
+                }, ['games'])->label('No Of Games Played'),
 
                 Column::callback(['id'], function ($id) {
-                    return GameSession::where('user_id', $id)->whereNotNull('trivia_id')->count();
+                    return User::find($id)->gameSessions()->whereNotNull('trivia_id')->count();
                      
-                }, 'trivia')->label('No Of Trivia played'),
+                }, ['trivia'])->label('No Of Trivia played'),
 
-                Column::callback(['id'], function ($id) {
-                    return WalletTransaction::where('wallet_id', $id)
-                    ->where(function ($query) {
-                        $query->where('description', 'Bought TIME FREEZE boosts')
-                            ->orWhere('description', 'Bought SKIP boosts')
-                            ->orWhere('description', 'Bought BOMB boosts');
-                    })->count();
-                }, 'boost')->label('Number of Boosts Bought'),
+                // Column::callback(['id'], function ($id) {
+                //     return User::find($id)->transactions->where(function ($query) {
+                //         $query->where('description', 'Bought TIME FREEZE boosts')
+                //             ->orWhere('description', 'Bought SKIP boosts')
+                //             ->orWhere('description', 'Bought BOMB boosts');
+                //     })->count();
+                // }, ['boost'])->label('Number of Boosts Bought'),
 
-                Column::callback(['id'], function ($id) {
-                    return UserPlan::where('plan_id', '>', 1)
-                    ->where('user_id', $id)->count();
+                // Column::callback(['id'], function ($id) {
+                //     return UserPlan::where('plan_id', '>', 1)
+                //     ->where('user_id', $id)->count();
 
-                }, 'games_bought')->label('Number of Bought Games'),
+                // }, ['games_bought'])->label('Number of Bought Games'),
 
-                Column::callback(['id'], function ($id) {
-                   return WalletTransaction::where('wallet_id', $id)->where('transaction_type', "DEBIT")->sum('amount');
-                }, 'amount_spent')->label('Amount Spent'),
+                // Column::callback(['id'], function ($id) {
+                //    return WalletTransaction::where('wallet_id', $id)->where('transaction_type', "DEBIT")->sum('amount');
+                // }, ['amount_spent'])->label('Amount Spent'),
 
            
 

@@ -35,8 +35,7 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate)->endOfDay();
 
         $sql =  User::where('created_at', '>=', $_startDate)
-            ->where('created_at', '<=', $_endDate)
-            ->count();
+            ->where('created_at', '<=', $_endDate)->count();
 
         $this->registeredUserCount = $sql;
     }
@@ -163,16 +162,16 @@ class Reports extends Component
 
     public function filterReports()
     {
-        // $this->getCountOfRegisteredUsers();
-        // $this->getCountOfUserGames();
-        // $this->getCountOfUsersWithNoPlayedGames();
-        // $this->getCountOfUserExhaustedFreeGames();
-        // $this->getCountOfRefferedUsers();
-        // $this->getCountOfBoughtGames();
-        // $this->getCountOfBoughtBoosts();
-        // $this->getCountOfUsedBoosts();
-        // $this->getCountOfEmailVerifications();
-        // $this->getCountOfPhoneVerifications();
+        $this->getCountOfRegisteredUsers();
+        $this->getCountOfUserGames();
+        $this->getCountOfUsersWithNoPlayedGames();
+        $this->getCountOfUserExhaustedFreeGames();
+        $this->getCountOfRefferedUsers();
+        $this->getCountOfBoughtGames();
+        $this->getCountOfBoughtBoosts();
+        $this->getCountOfUsedBoosts();
+        $this->getCountOfEmailVerifications();
+        $this->getCountOfPhoneVerifications();
     }
 
 
