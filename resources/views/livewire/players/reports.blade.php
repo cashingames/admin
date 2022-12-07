@@ -44,13 +44,13 @@
                 <span wire:model='userPlayedCount'>{{$userPlayedCount}}</span>
             </x-reports-layout>
         </div>
-<!-- 
+
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
             <span>Users Who Have Not Played A Game</span>
             <x-reports-layout>
                 <span wire:model='userNotPlayedCount'>{{$userNotPlayedCount}}</span>
             </x-reports-layout>
-        </div> -->
+        </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
             <span>Users Who Exhausted Free Game</span>

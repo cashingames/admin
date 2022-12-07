@@ -14,8 +14,8 @@ class UsersWithNoGames extends LivewireDatatable
 {
     public function builder()
     {   
-        $usersWithGames = GameSession::pluck('user_id')->all();
-        return User::query()->whereNotIn('id', $usersWithGames);
+        return User::query()->doesntHave('gameSessions');
+       
     }  
 
     public function columns()
@@ -23,21 +23,12 @@ class UsersWithNoGames extends LivewireDatatable
         return
         [
             Column::name('username')
-            ->label('Username')
             ->searchable(),
-
-            Column::callback(['id'], function ($id) {
-                $profile = Profile::where('user_id',$id)->first();
-                return ($profile->first_name . ' ' . $profile->last_name);
-            })->label('Full Name')
-            ->searchable(),
-
+            
             Column::name('email')
-            ->label('Email')
             ->searchable(),
 
             Column::name('phone_number')
-            ->label('Phone')
             ->searchable(),
 
             Column::name('created_at')

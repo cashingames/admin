@@ -51,19 +51,17 @@ class Reports extends Component
         $this->userPlayedCount = $sql;
     }
 
-    // private function getCountOfUsersWithNoPlayedGames()
-    // {
-    //     $_startDate = Carbon::parse($this->startDate)->startOfDay();
-    //     $_endDate = Carbon::parse($this->endDate)->endOfDay();
+    private function getCountOfUsersWithNoPlayedGames()
+    {
+        $_startDate = Carbon::parse($this->startDate)->startOfDay();
+        $_endDate = Carbon::parse($this->endDate)->endOfDay();
 
-    //     $usersWithGames = GameSession::pluck('user_id')->all();
-    //     $sql = User::where('created_at', '>=', $_startDate)
-    //     ->where('created_at', '<=', $_endDate)
-    //     ->whereNotIn('id', $usersWithGames)->count();
-
-       
-    //     $this->userNotPlayedCount = $sql;
-    // }
+        $sql = User::where('created_at', '>=', $_startDate)
+        ->where('created_at', '<=', $_endDate)
+        ->doesntHave('gameSessions')->count();
+        
+        $this->userNotPlayedCount = $sql;
+    }
 
     private function getCountOfUserExhaustedFreeGames()
     {
@@ -164,7 +162,7 @@ class Reports extends Component
     {
         $this->getCountOfRegisteredUsers();
         $this->getCountOfUserGames();
-        // $this->getCountOfUsersWithNoPlayedGames();
+        $this->getCountOfUsersWithNoPlayedGames();
         $this->getCountOfUserExhaustedFreeGames();
         $this->getCountOfRefferedUsers();
         $this->getCountOfBoughtGames();
