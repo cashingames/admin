@@ -16,10 +16,14 @@ class TransationsTable extends LivewireDatatable
     public $exportable = true;
     public $hideable = 'select';
     public $hide = ['balance'];
+    public $complex = true;
+    public $searchable = [
+        'users.email', 'users.username', 'users.phone_number', 'reference', 'description',
+        'users.phone_number'
+    ];
     public $groupLabels = [
          'user' => 'TOGGLE USER DETAILS'
     ];
-    public $complex = true;
 
     public function builder()
     {
@@ -40,18 +44,21 @@ class TransationsTable extends LivewireDatatable
 
                 Column::name('users.phone_number')->group('user'),
 
-                Column::name('reference')->searchable(),
+                Column::name('reference'),
 
                 Column::name('description')->filterable([
                     'Fund Wallet',
                     'Sign Up Bonus',
                     'Winnings Withdrawal Made',
-                    'Placed a staking'
+                    'Placed a staking',
+                    'Bought TIME FREEZE boosts',
+                    'Bought BOOST boosts',
+                    'Bought BOMB boosts',
                 ])->searchable(),
 
                 Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT']),
 
-                NumberColumn::name('amount'),
+                NumberColumn::name('amount')->enableSummary(),
 
                 NumberColumn::name('balance')->hide(),
 

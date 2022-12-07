@@ -36,7 +36,7 @@ class Reports extends Component
 
         $sql =  User::where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)
-            ->get()->count();
+            ->count();
 
         $this->registeredUserCount = $sql;
     }
@@ -47,7 +47,7 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate)->endOfDay();
 
         $sql = GameSession::where('created_at', '>=', $_startDate)
-            ->where('created_at', '<=', $_endDate)->get()->groupBy('user_id')->count();
+            ->where('created_at', '<=', $_endDate)->groupBy('user_id')->count();
 
         $this->userPlayedCount = $sql;
     }
@@ -59,7 +59,8 @@ class Reports extends Component
 
         $usersWithGames = GameSession::pluck('user_id')->all();
         $sql = User::where('created_at', '>=', $_startDate)
-        ->where('created_at', '<=', $_endDate)->whereNotIn('id', $usersWithGames)->get()->count();
+        ->where('created_at', '<=', $_endDate)
+        ->whereNotIn('id', $usersWithGames)->count();
 
        
         $this->userNotPlayedCount = $sql;
@@ -76,7 +77,7 @@ class Reports extends Component
             ->where('plan_id', $freePlan->id)
             ->where('is_active', false)
             ->where('used_count', '>=', $freePlan->game_count)
-            ->get()->groupBy('user_id')->count();
+            ->groupBy('user_id')->count();
 
         $this->userExhaustedFreeGameCount = $sql;
     }
@@ -88,7 +89,7 @@ class Reports extends Component
         $sql = Profile::whereNotNull('referrer')
             ->where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)
-            ->get()->groupBy('referrer')->count();
+            ->groupBy('referrer')->count();
 
         $this->referredUserCount = $sql;
     }
@@ -102,7 +103,7 @@ class Reports extends Component
         $sql = UserPlan::where('plan_id', '>', $freePlan->id)
             ->where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)
-            ->get()->groupBy('user_id')->count();
+            ->groupBy('user_id')->count();
 
         $this->boughtGamesCount = $sql;
     }
@@ -118,7 +119,7 @@ class Reports extends Component
                 $query->where('description', 'Bought TIME FREEZE boosts')
                     ->orWhere('description', 'Bought SKIP boosts')
                     ->orWhere('description', 'Bought BOMB boosts');
-            })->get()->groupBy('wallet_id')->count();
+            })->groupBy('wallet_id')->count();
 
         $this->boughtBoostsCount = $sql;
     }
@@ -130,7 +131,7 @@ class Reports extends Component
 
         $sql = UserBoost::where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)->where('used_count', '>', 0)
-            ->get()->groupBy('user_id')->count();
+            ->groupBy('user_id')->count();
 
         $this->usedBoostsCount = $sql;
     }
@@ -142,7 +143,7 @@ class Reports extends Component
 
         $sql =  User::where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)->whereNotNull('email_verified_at')
-            ->get()->count();
+            ->count();
 
         $this->countOfEmailVerifications = $sql;
     }
@@ -154,7 +155,7 @@ class Reports extends Component
 
         $sql =  User::where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)->whereNotNull('phone_verified_at')
-            ->get()->count();
+            ->count();
 
         $this->countOfPhoneVerifications = $sql;
     }
@@ -162,16 +163,16 @@ class Reports extends Component
 
     public function filterReports()
     {
-        $this->getCountOfRegisteredUsers();
-        $this->getCountOfUserGames();
-        $this->getCountOfUsersWithNoPlayedGames();
-        $this->getCountOfUserExhaustedFreeGames();
-        $this->getCountOfRefferedUsers();
-        $this->getCountOfBoughtGames();
-        $this->getCountOfBoughtBoosts();
-        $this->getCountOfUsedBoosts();
-        $this->getCountOfEmailVerifications();
-        $this->getCountOfPhoneVerifications();
+        // $this->getCountOfRegisteredUsers();
+        // $this->getCountOfUserGames();
+        // $this->getCountOfUsersWithNoPlayedGames();
+        // $this->getCountOfUserExhaustedFreeGames();
+        // $this->getCountOfRefferedUsers();
+        // $this->getCountOfBoughtGames();
+        // $this->getCountOfBoughtBoosts();
+        // $this->getCountOfUsedBoosts();
+        // $this->getCountOfEmailVerifications();
+        // $this->getCountOfPhoneVerifications();
     }
 
 
