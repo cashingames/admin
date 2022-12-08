@@ -43,6 +43,8 @@ class TriviaTable extends LivewireDatatable
 
                 Column::name('grand_price'),
 
+                Column::name('entry_fee'),
+
                 Column::name('point_eligibility')
                     ->label('Points Required'),
 

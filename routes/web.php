@@ -122,6 +122,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.livetrivia.add-trivia');
     })->name('trivia.create');
 
+    Route::get('/gaming/trivia/edit', function () {
+        return view('gaming.livetrivia.edit-trivia');
+    })->name('trivia.edit');
+
     Route::get('/finance', function () {
         return redirect()->route('finance.transactions');
     })->name('finance');

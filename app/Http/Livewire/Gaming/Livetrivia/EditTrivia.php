@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Livewire\Modals\Livetrivia;
-
+namespace App\Http\Livewire\Gaming\Livetrivia;
 use App\Models\Live\Category;
 use App\Models\Live\Trivia;
-use LivewireUI\Modal\ModalComponent;
+use Illuminate\Http\Request;
+use Livewire\Component;
 use Illuminate\Support\Carbon;
 
-class EditTrivia extends ModalComponent
+class EditTrivia extends Component
 {
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration,$question_count,$start_time,$end_time,$subcategory;
 
-    public function mount($id)
+    public function __construct(Request $request)
     {
-        $this->trivia = Trivia::find($id);
+
+        $this->trivia = Trivia::find($request->id);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;
