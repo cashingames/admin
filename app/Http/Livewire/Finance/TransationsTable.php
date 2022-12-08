@@ -24,6 +24,7 @@ class TransationsTable extends LivewireDatatable
     public $groupLabels = [
          'user' => 'TOGGLE USER DETAILS'
     ];
+    public $defaultSortColumn = 'created_at';
 
     public function builder()
     {
@@ -38,7 +39,7 @@ class TransationsTable extends LivewireDatatable
             [
                 Column::index($this),
                 
-                Column::name('users.username')->group('user'),
+                Column::name('users.username')->filterable()->group('user'),
 
                 Column::name('users.email')->group('user'),
 
@@ -58,7 +59,9 @@ class TransationsTable extends LivewireDatatable
 
                 Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT']),
 
-                NumberColumn::name('amount')->enableSummary(),
+                NumberColumn::callback(['amount', 'transaction_type'], function ($amount, $transactionType) {
+                    return $transactionType == 'CREDIT' ? $amount : -$amount;
+                })->label('Amount')->filterable()->enableSummary(),
 
                 NumberColumn::name('balance')->hide(),
 
