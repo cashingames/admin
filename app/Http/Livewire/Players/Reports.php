@@ -46,8 +46,8 @@ class Reports extends Component
         $_endDate = Carbon::parse($this->endDate)->endOfDay();
 
         $sql = GameSession::where('created_at', '>=', $_startDate)
-            ->where('created_at', '<=', $_endDate)->groupBy('user_id')->count();
-
+            ->where('created_at', '<=', $_endDate)->groupBy('user_id')->get()->count();
+        
         $this->userPlayedCount = $sql;
     }
 
