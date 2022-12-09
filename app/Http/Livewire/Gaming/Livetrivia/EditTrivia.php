@@ -6,16 +6,17 @@ use App\Models\Live\Trivia;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Route;
 
 class EditTrivia extends Component
 {
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration,$question_count,$start_time,$end_time,$subcategory;
 
-    public function __construct(Request $request)
+    public function mount()
     {
-
-        $this->trivia = Trivia::find($request->id);
+        $id = Route::current()->parameter('id');
+        $this->trivia = Trivia::find($id);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;

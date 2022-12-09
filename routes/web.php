@@ -122,7 +122,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.livetrivia.add-trivia');
     })->name('trivia.create');
 
-    Route::get('/gaming/trivia/edit', function () {
+    Route::get('/gaming/trivia/edit/{id}', function () {
         return view('gaming.livetrivia.edit-trivia');
     })->name('trivia.edit');
 
