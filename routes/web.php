@@ -130,6 +130,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.transactions');
     })->name('finance.transactions');
 
+    Route::get('/finance/wallets', function () {
+        return view('finance.wallets');
+    })->name('finance.wallets');
+
     Route::get('/finance/transactions/wallet-funds', function () {
         return view('finance.fundTransactions');
     })->name('finance.fundings');
