@@ -10,9 +10,13 @@
                     <x-jet-nav-link href="{{ route('finance.dashboard') }}" :active="request()->routeIs('finance.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('finance.wallets') }}" :active="request()->routeIs('finance.wallets')">
+                        {{ __('Wallets') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('finance.transactions') }}" :active="request()->routeIs('finance.transactions')">
                         {{ __('Transactions') }}
                     </x-jet-nav-link>
+                  
                 </div>
             </div>
         </div>
