@@ -82,7 +82,7 @@ class EditTrivia extends Component
 
     public function addMoreQuestions(){
         $this->saveTrivia();
-        return redirect()->to('/trivia/select-questions');
+        return redirect()->to('/gaming/trivia/select-questions/'.$this->triviaId);
     }
 
     public function removeQuestion($key){

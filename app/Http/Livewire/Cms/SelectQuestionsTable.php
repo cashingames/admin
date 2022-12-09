@@ -3,23 +3,35 @@
 namespace App\Http\Livewire\Cms;
 
 use App\Models\Live\Question;
+use App\Models\Live\TriviaQuestion;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Route;
 
 class SelectQuestionsTable extends Component
 {
     use WithPagination;
     public $search = '';
-    public $perPage = 10;
+    public $perPage = 100;
     public $sortField = 'id';
     public $sortAsc = true;
     public $selected;
     public $checked;
+    public $triviaId = null;
+    public $updatingTrivia = false;
 
     public function mount()
-    {
+    {   
+       
         $this->selected = [];
         $this->checked = false;
+        $this->triviaId = Route::current()->parameter('id');
+      
+        if(!is_null( $this->triviaId)){
+            $this->updatingTrivia = true;
+        }else{
+            $this->updatingTrivia = false;
+        }
     }
 
     public function addToSelectedQuestions($value)
