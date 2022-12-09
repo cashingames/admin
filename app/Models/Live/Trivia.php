@@ -20,11 +20,18 @@ class Trivia extends Model
     }
 
     public function triviaQuestions(){
-        return $this->hasMany(TriviaQuestion::class);
+        return $this->hasMany( TriviaQuestion::class);
     }
+
+    // public function transactions()
+    // {
+    //     return $this->hasManyThrough(WalletTransaction::class, Wallet::class);
+    // }
 
     public function gameSessions(){
         return $this->hasMany(GameSession::class);
     }
+
+   
 
 }

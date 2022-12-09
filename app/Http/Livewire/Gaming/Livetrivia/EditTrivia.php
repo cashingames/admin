@@ -1,36 +1,66 @@
 <?php
 
 namespace App\Http\Livewire\Gaming\Livetrivia;
+
 use App\Models\Live\Category;
 use App\Models\Live\Trivia;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class EditTrivia extends Component
 {
-    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
-    public $game_duration,$question_count,$start_time,$end_time,$subcategory;
+    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
+    public $game_duration, $question_count, $start_time, $end_time, $subcategory, $questions;
 
     public function mount()
-    {
+    {   
+        // dd($this->questions);
         $id = Route::current()->parameter('id');
-        $this->trivia = Trivia::find($id);
+
+        $this->triviaId = $id;
+        $this->trivia = Trivia::find($this->triviaId);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;
         $this->entry_fee = $this->trivia->entry_fee;
         $this->question_count = $this->trivia->question_count;
         $this->game_duration = $this->trivia->game_duration;
-        $this->start_time =date("Y-m-d\TH:i:s", strtotime('+1 hour',strtotime($this->trivia->start_time))); 
-        $this->end_time =date("Y-m-d\TH:i:s", strtotime('+1 hour',strtotime($this->trivia->end_time))); 
+        $this->start_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->start_time)));
+        $this->end_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->end_time)));
         $this->points_required = $this->trivia->point_eligibility;
         $this->subcategory = Category::where('id', $this->trivia->category_id)->first()->name;
+
+        $this->questions = $this->getTriviaQuestions()->toArray();
+        // dd($this->questions);
     }
 
     public function editTrivia()
     {
+        $this->saveTrivia();
+        return redirect()->to('/gaming/trivia');
+    }
+
+    private function toTimeZone(string $date, string $dateTimeZone, $toTimeZone): Carbon
+    {
+        $result = Carbon::createFromFormat('Y-m-d H:i:s', $date, $dateTimeZone);
+        $result->setTimezone($toTimeZone);
+
+        return $result;
+    }
+
+    private function getTriviaQuestions()
+    {
+        return DB::connection('mysqllive')->table('trivia_questions')
+            ->join('questions', 'questions.id', 'trivia_questions.question_id')
+            ->select('questions.label as question', 'questions.level as level')
+            ->where('trivia_questions.trivia_id', $this->triviaId)
+            ->get();
+    }
+
+    private function saveTrivia(){
         $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
         $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
 
@@ -44,20 +74,21 @@ class EditTrivia extends Component
         $trivia->question_count = $this->question_count;
         $trivia->grand_price = $this->grand_price;
         $trivia->entry_fee = $this->entry_fee;
-        $trivia->start_time = $start; 
+        $trivia->start_time = $start;
         $trivia->end_time = $end;
 
         $trivia->save();
-
-        return redirect()->to('/gaming/trivia');
     }
 
-    private function toTimeZone(string $date, string $dateTimeZone, $toTimeZone): Carbon
-    {
-        $result = Carbon::createFromFormat('Y-m-d H:i:s', $date, $dateTimeZone);
-        $result->setTimezone($toTimeZone);
+    public function addMoreQuestions(){
+        $this->saveTrivia();
+        return redirect()->to('/trivia/select-questions');
+    }
 
-        return $result;
+    public function removeQuestion($key){
+        
+        unset($this->questions[$key]);
+        $this->questions = array_values($this->questions);
     }
 
     public function render()

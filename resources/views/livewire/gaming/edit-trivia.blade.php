@@ -76,6 +76,43 @@
                 <input wire:model="end_time" type="datetime-local" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
             </div>
         </div>
-
     </div>
-  
+    <label class="block uppercase mt-4 text-gray-700 text-xs text-center font-bold mb-2">
+        Selected Questions
+    </label>
+    <div wire:model="questions" class="flex justify-center px-3 mb-6">
+
+
+        <table class="table-auto w-full mb-6 mt-6">
+            <thead>
+                <tr>
+
+                    <th class="px-4 py-2">S/N</th>
+                    <th class="px-4 py-2">Level</th>
+                    <th class="px-4 py-2">Question</th>
+                    <th class="px-4 py-2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($questions as $question)
+                <tr>
+                    <td class="border px-4 py-2">{{$loop->index +1}}</td>
+                    <td class="border px-4 py-2">{{$question->level}}</td>
+                    <td class="border px-4 py-2">{{$question->question}}</td>
+                    <td class="border px-4 py-2">
+                    
+                        <button wire:click='removeQuestion({{$loop->index}})' class="shadow bg-blue-500 text-white font-bold ml-2 px-1 rounded">remove</button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="flex justify-center md:items-center mb-4">
+        <button wire:click="addMoreQuestions" wire:loading.attr="disabled" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+            Add more questions
+        </button>
+        <button wire:click="editTrivia" wire:loading.attr="disabled" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+            Save Changes
+        </button>
+    </div>
