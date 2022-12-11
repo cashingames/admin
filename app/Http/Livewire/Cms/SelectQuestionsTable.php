@@ -12,7 +12,7 @@ class SelectQuestionsTable extends Component
 {
     use WithPagination;
     public $search = '';
-    public $perPage = 100;
+    public $perPage = 20;
     public $sortField = 'id';
     public $sortAsc = true;
     public $selected;
@@ -47,8 +47,23 @@ class SelectQuestionsTable extends Component
     }
 
     public function saveSelectedQuestions()
-    {
+    {   
+        if($this->updatingTrivia){
+            return $this->saveTriviaQuestions();
+        }
+
         $this->emit('questionsSelected', $this->selected);
+    }
+
+    public function saveTriviaQuestions(){
+        foreach($this->selected as $questionId){
+            TriviaQuestion::create([
+                'trivia_id' => $this->triviaId,
+                'question_id' => $questionId
+            ]);
+
+        }
+        return redirect()->to('/gaming/trivia/edit/'.$this->triviaId);
     }
 
     public function render()

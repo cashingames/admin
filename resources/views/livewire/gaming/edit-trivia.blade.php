@@ -82,7 +82,6 @@
     </label>
     <div wire:model="questions" class="flex justify-center px-3 mb-6">
 
-
         <table class="table-auto w-full mb-6 mt-6">
             <thead>
                 <tr>
@@ -93,6 +92,7 @@
                     <th class="px-4 py-2"></th>
                 </tr>
             </thead>
+            @if(!$removedQuestion)
             <tbody>
                 @foreach($questions as $question)
                 <tr>
@@ -106,6 +106,21 @@
                 </tr>
                 @endforeach
             </tbody>
+            @else
+            <tbody>
+                @foreach($questions as $question)
+                <tr>
+                    <td class="border px-4 py-2">{{$loop->index +1}}</td>
+                    <td class="border px-4 py-2">{{$question['level']}}</td>
+                    <td class="border px-4 py-2">{{$question['question']}}</td>
+                    <td class="border px-4 py-2">
+                    
+                        <button wire:click='removeMoreQuestions({{$loop->index}})' class="shadow bg-blue-500 text-white font-bold ml-2 px-1 rounded">remove</button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+            @endif
         </table>
     </div>
     <div class="flex justify-center md:items-center mb-4">
