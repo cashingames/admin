@@ -19,6 +19,14 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     type="text" placeholder="Question" wire:model="grand_price"> {{$trivia->grand_price}}</textarea>
             </div>
+            <div class="w-full  px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                   Entry Fee
+                </label>
+                <textarea rows="1" , cols="54"
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    type="text" placeholder="Question" wire:model="entry_fee"> {{$trivia->entry_fee}}</textarea>
+            </div>
             <div class="w-full px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Subcategory

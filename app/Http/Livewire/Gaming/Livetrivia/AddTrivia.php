@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 class AddTrivia extends Component
 {
 
-    public $trivia, $subcategories, $name, $grand_price, $points_required;
+    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $selectedQuestion;
     public $canChooseQuestions = false;
     public $selectedQuestions = [];
@@ -29,6 +29,7 @@ class AddTrivia extends Component
         $this->end_time =  Carbon::now()->addMinutes(35);
         $this->grand_price = 0;
         $this->game_duration = 60;
+        $this->entry_fee = 0;
         $this->subcategory = 'Premier League Clubs';
         $this->subcategories = Category::where('category_id', '>', 0)->get();
     }
@@ -69,6 +70,7 @@ class AddTrivia extends Component
         $trivia = new Trivia;
         $trivia->name =  $this->name;
         $trivia->grand_price =  $this->grand_price;
+        $trivia->entry_fee =  $this->entry_fee ;
         $trivia->point_eligibility = $this->points_required;
         $trivia->category_id = $category->id;
         $trivia->game_mode_id = 1;

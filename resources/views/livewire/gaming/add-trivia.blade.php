@@ -20,6 +20,14 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     type="text" placeholder="Grand Prize" wire:model="grand_price" />
             </div>
+            <div class="w-full  px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                   Entry Fee
+                </label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    type="text" placeholder="Entry Fee" wire:model="entry_fee" />
+            </div>
         </div>
 
         <div class="mb-6">

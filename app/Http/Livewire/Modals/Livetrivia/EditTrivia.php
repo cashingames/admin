@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 
 class EditTrivia extends ModalComponent
 {
-    public $trivia, $subcategories, $name, $grand_price, $points_required;
+    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration,$question_count,$start_time,$end_time,$subcategory;
 
     public function mount($id)
@@ -18,6 +18,7 @@ class EditTrivia extends ModalComponent
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;
+        $this->entry_fee = $this->trivia->entry_fee;
         $this->question_count = $this->trivia->question_count;
         $this->game_duration = $this->trivia->game_duration;
         $this->start_time =date("Y-m-d\TH:i:s", strtotime('+1 hour',strtotime($this->trivia->start_time))); 
@@ -40,6 +41,7 @@ class EditTrivia extends ModalComponent
         $trivia->game_duration = $this->game_duration;
         $trivia->question_count = $this->question_count;
         $trivia->grand_price = $this->grand_price;
+        $trivia->entry_fee = $this->entry_fee;
         $trivia->start_time = $start; 
         $trivia->end_time = $end;
 
@@ -58,6 +60,6 @@ class EditTrivia extends ModalComponent
 
     public function render()
     {
-        return view('livewire.modals.edit-trivia');
+        return view('livewire.gaming.edit-trivia');
     }
 }
