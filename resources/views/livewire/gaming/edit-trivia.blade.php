@@ -5,19 +5,19 @@
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Name
                 </label>
-                <textarea rows="1" , cols="54" wire:model="name" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question"> {{$trivia->name}}</textarea>
+                <textarea rows="1" , cols="54" wire:model="name" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Name"> {{$trivia->name}}</textarea>
             </div>
             <div class="w-full  px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Grand Prize
                 </label>
-                <textarea rows="1" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" wire:model="grand_price"> {{$trivia->grand_price}}</textarea>
+                <textarea rows="1" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Grand Prize" wire:model="grand_price"> {{$trivia->grand_price}}</textarea>
             </div>
             <div class="w-full  px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Entry Fee
                 </label>
-                <textarea rows="1" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" wire:model="entry_fee"> {{$trivia->entry_fee}}</textarea>
+                <textarea rows="1" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Entry Fee" wire:model="entry_fee"> {{$trivia->entry_fee}}</textarea>
             </div>
         </div>
 
@@ -92,21 +92,7 @@
                     <th class="px-4 py-2"></th>
                 </tr>
             </thead>
-            @if(!$removedQuestion)
-            <tbody>
-                @foreach($questions as $question)
-                <tr>
-                    <td class="border px-4 py-2">{{$loop->index +1}}</td>
-                    <td class="border px-4 py-2">{{$question->level}}</td>
-                    <td class="border px-4 py-2">{{$question->question}}</td>
-                    <td class="border px-4 py-2">
-                    
-                        <button wire:click='removeQuestion({{$loop->index}})' class="shadow bg-blue-500 text-white font-bold ml-2 px-1 rounded">remove</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            @else
+         
             <tbody>
                 @foreach($questions as $question)
                 <tr>
@@ -120,7 +106,7 @@
                 </tr>
                 @endforeach
             </tbody>
-            @endif
+           
         </table>
     </div>
     <div class="flex justify-center md:items-center mb-4">

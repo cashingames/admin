@@ -15,7 +15,7 @@ class EditTrivia extends Component
 {
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $questions;
-    public $removedQuestion;
+    public $upDated, $removedQuestion;
 
     public function mount()
     {
@@ -34,13 +34,10 @@ class EditTrivia extends Component
         $this->end_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->end_time)));
         $this->points_required = $this->trivia->point_eligibility;
         $this->subcategory = Category::where('id', $this->trivia->category_id)->first()->name;
-
-       
-        $this->removedQuestion = false;
-
-        // dd($this->questions);
+        
+        $this->questions = $this->questions->toArray();
     }
-
+      
     public function editTrivia()
     {
         $this->saveTrivia();
@@ -57,8 +54,7 @@ class EditTrivia extends Component
 
     private function getTriviaQuestions()
     {
-        return DB::connection('mysqllive')->table('trivia_questions')
-            ->join('questions', 'questions.id', 'trivia_questions.question_id')
+        return TriviaQuestion::join('questions', 'questions.id', 'trivia_questions.question_id')
             ->select('questions.label as question', 'questions.level as level', 'questions.id as id')
             ->where('trivia_questions.trivia_id', $this->triviaId)
             ->get();
@@ -102,6 +98,12 @@ class EditTrivia extends Component
         return redirect()->to('/gaming/trivia/select-questions/' . $this->triviaId);
     }
 
+    public function updated()
+    {
+        $this->upDated = true;
+       
+    }
+
     public function removeQuestion($key)
     {
         $this->questions->forget($key);
@@ -116,7 +118,8 @@ class EditTrivia extends Component
     }
 
     public function render()
-    {
+    {   
+        $this->upDated = false;
         return view('livewire.gaming.edit-trivia', ['questions' => $this->questions]);
     }
 }
