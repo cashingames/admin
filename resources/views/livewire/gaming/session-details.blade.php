@@ -30,7 +30,7 @@
                     <th class="px-4 py-2">S/N</th>
                     <th class="px-4 py-2">Level</th>
                     <th class="px-4 py-2">Question</th>
-                    <th class="px-4 py-2"></th>
+                    <th class="px-4 py-2">Option</th>
                 </tr>
             </thead>
 
@@ -40,7 +40,7 @@
                     <td class="border px-4 py-2">{{$loop->index +1}}</td>
                     <td class="border px-4 py-2">{{$question['level']}}</td>
                     <td class="border px-4 py-2">{{$question['question']}}</td>
-                    <td class="border px-4 py-2">
+                    <td class="border px-4 py-2">{{$question['option']}}
                     </td>
                 </tr>
                 @endforeach

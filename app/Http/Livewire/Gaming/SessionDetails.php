@@ -35,6 +35,8 @@ class SessionDetails extends Component
             $this->data = GameSession::join('game_session_questions', 'game_session_questions.game_session_id', 'game_sessions.id')
             ->join('questions','questions.id','game_session_questions.question_id')
             ->select('questions.label as question', 'questions.level as level', 'questions.id as id')
+            // ->join('options','options.id','game_session_questions.option_id')
+            // ->select('questions.label as question', 'questions.level as level', 'questions.id as id', 'options.title as option')
             ->where('game_sessions.id', $this->sessionId)
             ->get();
         }
