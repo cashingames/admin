@@ -2,6 +2,7 @@
 
 namespace App\Models\Live;
 
+use App\Models\live\GameSessionQuestion;
 use Illuminate\Database\Eloquent\Model;
 
 class GameSession extends Model
@@ -28,5 +29,11 @@ class GameSession extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    public function gameSessionQuestions(){
+        return $this->hasMany(GameSessionQuestion::class);
+    }
+    public function questions()
+    {
+        return $this->hasManyThrough(Question::class, GameSessionQuestion::class);
+    }
 }
