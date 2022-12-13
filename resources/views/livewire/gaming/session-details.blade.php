@@ -30,7 +30,8 @@
                     <th class="px-4 py-2">S/N</th>
                     <th class="px-4 py-2">Level</th>
                     <th class="px-4 py-2">Question</th>
-                    <th class="px-4 py-2">Option</th>
+                    <th class="px-4 py-2">Answered Option</th>
+                    <th class="px-4 py-2">Correct</th>
                 </tr>
             </thead>
 
@@ -41,6 +42,7 @@
                     <td class="border px-4 py-2">{{$question['level']}}</td>
                     <td class="border px-4 py-2">{{$question['question']}}</td>
                     <td class="border px-4 py-2">{{$question['option']}}
+                    <td class="border px-4 py-2">@if($question['correct'] == '0') No @else Yes @endif
                     </td>
                 </tr>
                 @endforeach
