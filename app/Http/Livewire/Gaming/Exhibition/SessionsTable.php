@@ -40,7 +40,7 @@ class SessionsTable extends LivewireDatatable
     {
         return
             [
-                Column::index($this),
+                Column::name('game_sessions.id'),
 
 
                 Column::name('live_users.username')
