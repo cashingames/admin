@@ -22,6 +22,11 @@
                         :active="request()->routeIs('finance.transactions')">
                         {{ __('Transactions') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link
+                        href="{{ route('finance.fund') }}"
+                        :active="request()->routeIs('finance.fund')">
+                        {{ __('Fund') }}
+                    </x-jet-nav-link>
                   
                 </div>
             </div>

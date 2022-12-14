@@ -10,11 +10,13 @@ class Wallet extends Model
     use HasFactory;
 
     protected $connection = 'mysqllive';
+
     protected $fillable = [
         'user_id',
-        'balance'
+        'balance',
+        'non_withdrawable_balance',
+        'withdrawable_balance'
     ];
-
 
     public function owner()
     {
