@@ -17,7 +17,7 @@ class TriviaSessions extends LivewireDatatable
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
-        $query = GameSession::query()->whereNotNull('trivia_id')->select(
+        return GameSession::query()->whereNotNull('trivia_id')->select(
             "game_sessions.id",
             "game_sessions.created_at",
             "game_sessions.state",
@@ -30,19 +30,21 @@ class TriviaSessions extends LivewireDatatable
             ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as live_users", "live_users.id", "=", "game_sessions.user_id")
             ->join("{$livedb}.trivias as live_trivias", "live_trivias.id", "=", "game_sessions.trivia_id");
-
-        return $query;
     }
 
     public function columns()
     {
         return
             [
-               Column::index($this),
+                Column::name('game_sessions.id'),
 
                 Column::name('live_users.username')
                     ->filterable()
                     ->searchable(),
+
+                Column::name('session_token')
+                    ->searchable()
+                    ->hide(),
 
                 DateColumn::name('live_users.created_at')
                     ->label('User Account Created On')

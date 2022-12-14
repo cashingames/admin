@@ -40,47 +40,43 @@ class SessionsTable extends LivewireDatatable
     {
         return
             [
-                Column::index($this),
+                Column::name('game_sessions.id'),
+
 
                 Column::name('live_users.username')
-                    ->filterable()
                     ->searchable(),
+
+                Column::name('session_token')
+                    ->searchable()
+                    ->hide(),
 
                 Column::name('live_subcat.name')
                     ->label('Subcategory')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('live_plans.name')
                     ->label('Plan')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('live_game_modes.name')
                     ->label('Game Mode')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('state')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('correct_count')
                     ->label('Original Score')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('points_gained')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('odd_multiplier')
                     ->label('Odds Applied')
-                    ->filterable()
                     ->searchable(),
 
                 Column::name('odd_condition')
-                    ->filterable()
                     ->searchable(),
 
                 Column::callback(['start_time'], function ($start_time) {

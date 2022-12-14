@@ -130,6 +130,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.livetrivia.edit-trivia');
     })->name('trivia.edit');
 
+    Route::get('/gaming/session/details', function () {
+        return view('gaming.session-details');
+    })->name('session.details');
+
     Route::get('/finance', function () {
         return redirect()->route('finance.transactions');
     })->name('finance');

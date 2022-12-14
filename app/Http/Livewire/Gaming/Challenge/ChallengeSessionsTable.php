@@ -40,7 +40,7 @@ class ChallengeSessionsTable extends LivewireDatatable
     {
         return
             [
-                Column::index($this),
+                Column::name('challenge_game_sessions.id'),
 
                 Column::name('live_users.username')
                     ->filterable()
