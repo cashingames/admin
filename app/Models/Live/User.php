@@ -17,6 +17,16 @@ class User extends Model
                 return $this->hasOne(Profile::class);
         }
 
+        public function wallet()
+        {
+            return $this->hasOne(Wallet::class);
+        }
+    
+        public function transactions()
+        {
+            return $this->hasManyThrough(WalletTransaction::class, Wallet::class);
+        }
+
         public function gameSessions()
         {
                 return $this->hasMany(GameSession::class);
@@ -48,8 +58,4 @@ class User extends Model
                 return $this->initiatedChallenges()->union($this->recievedChallenges()->toBase());
         }
 
-        public function transactions()
-    {
-        return $this->hasManyThrough(WalletTransaction::class, Wallet::class);
-    }
 }
