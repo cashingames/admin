@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class WalletTransaction extends Model
 {
         protected $connection = 'mysqllive';
+
+        protected $fillable = [
+                'wallet_id', 'transaction_type', 'amount', 'description', 
+                'reference', 'balance','viable_date','settled_at'
+            ];
+        
         public function wallet()
         {
                 return $this->belongsTo(Wallet::class);

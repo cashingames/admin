@@ -1,7 +1,7 @@
 <x-finance-layout>
     @can('super-admin-access')
     <div class="pt-8">
-        <livewire:finance.payment  />
+        <livewire:finance.fund-wallet  />
     </div>
     @else
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">

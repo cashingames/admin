@@ -143,7 +143,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('finance.wallets');
 
     Route::get('/finance/fund', function () {
-        return view('finance.payment');
+        return view('finance.fund-wallet');
     })->name('finance.fund');
 
     Route::get('/finance/transactions/wallet-funds', function () {
