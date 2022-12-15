@@ -45,7 +45,7 @@
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Question
                 </label>
-                <textarea rows="4" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" name="question" required> </textarea>
+                <textarea wire:model="keyWords" rows="4" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" name="question" required> </textarea>
             </div>
             <div class="w-full mb-6 md:mb-0">
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">

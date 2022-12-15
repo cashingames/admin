@@ -11,27 +11,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Question\Question;
 
 class AddQuestion extends ModalComponent
 {
 
     public $subcategories, $gameTypes, $selectedSubcategories;
-    public $type, $level, $question;
+    public $type, $level, $question, $keyWords;
 
     public function mount()
     {
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->gameTypes = GameType::all();
         $this->selectedSubcategories = [];
-        
     }
 
     public function selectSubcategory($subcategory)
-    {   
+    {
 
         if (count(array_keys($this->selectedSubcategories, $subcategory)) == 0) {
-           return array_push($this->selectedSubcategories, $subcategory);
-          
+            return array_push($this->selectedSubcategories, $subcategory);
         }
         $key = array_search($subcategory, $this->selectedSubcategories);
         unset($this->selectedSubcategories[$key]);
@@ -54,7 +53,7 @@ class AddQuestion extends ModalComponent
         $hasNoCorrectAnswers = $this->has_no_correct_option($request->isCorrect);
 
         $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers, $hasNoCorrectAnswers, $request) {
-            if(in_array(null, $request->options, true)){
+            if (in_array(null, $request->options, true)) {
                 $validator->errors()->add(
                     'optionCount',
                     'Incomplete question options'
@@ -72,9 +71,8 @@ class AddQuestion extends ModalComponent
                     'A question must have one correct option'
                 );
             }
-           
         });
-       
+
 
         if ($validator->fails()) {
             return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
@@ -90,7 +88,7 @@ class AddQuestion extends ModalComponent
         $question->save();
 
 
-        foreach($request->selectedSubcategories as $subcategory){
+        foreach ($request->selectedSubcategories as $subcategory) {
             DB::connection('mysqllive')->table('categories_questions')->insert([
                 'category_id' => $subcategory,
                 'question_id' => $question->id,
@@ -119,6 +117,24 @@ class AddQuestion extends ModalComponent
         }
 
         return redirect()->to('/cms/questions/unreviewed');
+    }
+
+    public function updated()
+    {
+        if (strlen($this->keyWords) >= 5) {
+            $this->query();
+        }
+    }
+
+    public function query()
+    {
+        // queries to Algolia search index and returns matched records as Eloquent Models 
+        $hints = LiveQuestion::search($this->keyWords)->get();
+
+        // do the usual stuff here 
+        foreach ($hints as $hint) {
+            dd($hint->label);
+        }
     }
 
     public function render()
