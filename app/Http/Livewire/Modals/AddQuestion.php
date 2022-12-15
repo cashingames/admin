@@ -17,13 +17,14 @@ class AddQuestion extends ModalComponent
 {
 
     public $subcategories, $gameTypes, $selectedSubcategories;
-    public $type, $level, $question, $keyWords;
+    public $type, $level, $question, $keyWords, $questionHints;
 
     public function mount()
     {
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->gameTypes = GameType::all();
         $this->selectedSubcategories = [];
+        $this->questionHints = [];
     }
 
     public function selectSubcategory($subcategory)
@@ -121,19 +122,16 @@ class AddQuestion extends ModalComponent
 
     public function updated()
     {
-        if (strlen($this->keyWords) >= 5) {
-            $this->query();
+        if (strlen($this->keyWords) == 20) {
+           $this->query();
         }
     }
 
     public function query()
-    {
-        // queries to Algolia search index and returns matched records as Eloquent Models 
+    { 
         $hints = LiveQuestion::search($this->keyWords)->get();
-
-        // do the usual stuff here 
         foreach ($hints as $hint) {
-            dd($hint->label);
+            $this->questionHints []= $hint->label;
         }
     }
 
