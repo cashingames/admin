@@ -88,15 +88,18 @@ class AddQuestion extends ModalComponent
         $question->created_by = auth()->user()->id;
         $question->save();
 
+        $data = [];
 
         foreach ($request->selectedSubcategories as $subcategory) {
-            DB::connection('mysqllive')->table('categories_questions')->insert([
+            $data[] = [
                 'category_id' => $subcategory,
                 'question_id' => $question->id,
                 'created_at' => now(),
                 'updated_at' => now()
-            ]);
+            ];
         }
+
+        DB::connection('mysqllive')->table('categories_questions')->insert($data);
 
         $adminQuestion = new AdminQuestion;
         $adminQuestion->user_id = auth()->user()->id;
@@ -121,17 +124,23 @@ class AddQuestion extends ModalComponent
     }
 
     public function updated()
-    {
-        if (strlen($this->keyWords) == 20) {
-           $this->query();
+    {   
+        if (strlen($this->keyWords) == 0) {
+            $this->questionHints = array();
+        }
+
+        if (strlen($this->keyWords) >= 10) {
+            $this->query();
         }
     }
 
     public function query()
-    { 
+    {
         $hints = LiveQuestion::search($this->keyWords)->get();
         foreach ($hints as $hint) {
-            $this->questionHints []= $hint->label;
+            if (!in_array($hint->label, $this->questionHints)) {
+                $this->questionHints[] = $hint->label;
+            }
         }
     }
 
