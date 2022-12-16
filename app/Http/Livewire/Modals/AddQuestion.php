@@ -74,7 +74,6 @@ class AddQuestion extends ModalComponent
             }
         });
 
-
         if ($validator->fails()) {
             return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
         }
