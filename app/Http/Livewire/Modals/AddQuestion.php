@@ -11,27 +11,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Question\Question;
 
 class AddQuestion extends ModalComponent
 {
 
     public $subcategories, $gameTypes, $selectedSubcategories;
-    public $type, $level, $question;
+    public $type, $level, $question, $keyWords, $questionHints;
 
     public function mount()
     {
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->gameTypes = GameType::all();
         $this->selectedSubcategories = [];
-        
+        $this->questionHints = [];
     }
 
     public function selectSubcategory($subcategory)
-    {   
+    {
 
         if (count(array_keys($this->selectedSubcategories, $subcategory)) == 0) {
-           return array_push($this->selectedSubcategories, $subcategory);
-          
+            return array_push($this->selectedSubcategories, $subcategory);
         }
         $key = array_search($subcategory, $this->selectedSubcategories);
         unset($this->selectedSubcategories[$key]);
@@ -54,7 +54,7 @@ class AddQuestion extends ModalComponent
         $hasNoCorrectAnswers = $this->has_no_correct_option($request->isCorrect);
 
         $validator->after(function ($validator) use ($hasDuplicateCorrectAnswers, $hasNoCorrectAnswers, $request) {
-            if(in_array(null, $request->options, true)){
+            if (in_array(null, $request->options, true)) {
                 $validator->errors()->add(
                     'optionCount',
                     'Incomplete question options'
@@ -72,9 +72,7 @@ class AddQuestion extends ModalComponent
                     'A question must have one correct option'
                 );
             }
-           
         });
-       
 
         if ($validator->fails()) {
             return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
@@ -89,15 +87,18 @@ class AddQuestion extends ModalComponent
         $question->created_by = auth()->user()->id;
         $question->save();
 
+        $data = [];
 
-        foreach($request->selectedSubcategories as $subcategory){
-            DB::connection('mysqllive')->table('categories_questions')->insert([
+        foreach ($request->selectedSubcategories as $subcategory) {
+            $data[] = [
                 'category_id' => $subcategory,
                 'question_id' => $question->id,
                 'created_at' => now(),
                 'updated_at' => now()
-            ]);
+            ];
         }
+
+        DB::connection('mysqllive')->table('categories_questions')->insert($data);
 
         $adminQuestion = new AdminQuestion;
         $adminQuestion->user_id = auth()->user()->id;
@@ -119,6 +120,27 @@ class AddQuestion extends ModalComponent
         }
 
         return redirect()->to('/cms/questions/unreviewed');
+    }
+
+    public function updated()
+    {   
+        if (strlen($this->keyWords) == 0) {
+            $this->questionHints = array();
+        }
+
+        if (strlen($this->keyWords) >= 10) {
+            $this->query();
+        }
+    }
+
+    public function query()
+    {
+        $hints = LiveQuestion::search($this->keyWords)->get();
+        foreach ($hints as $hint) {
+            if (!in_array($hint->label, $this->questionHints)) {
+                $this->questionHints[] = $hint->label;
+            }
+        }
     }
 
     public function render()

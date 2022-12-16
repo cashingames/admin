@@ -69,7 +69,7 @@ class SelectQuestionsTable extends Component
     public function render()
     {
         return view('livewire.cms.select-questions-table', [
-            'questions' => Question::search($this->search)
+            'questions' => Question::makeSearch($this->search)
                 ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                 ->simplePaginate($this->perPage),
         ]);

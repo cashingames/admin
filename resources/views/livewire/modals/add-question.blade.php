@@ -20,7 +20,7 @@
             </label>
             @foreach ($subcategories as $s )
             <div class="relative flex w-full bg-gray-200 border border-gray-200 text-gray-700 px-4 pr-8 rounded">
-                <span >{{$s->name}}</span>
+                <span>{{$s->name}}</span>
                 <input name="selectedSubcategories[]" class="shadow font-bold ml-16 rounded" type="checkbox" value={{$s->id}}>
             </div>
             @endforeach
@@ -45,7 +45,21 @@
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Question
                 </label>
-                <textarea rows="4" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" name="question" required> </textarea>
+                <div>
+                @if(count($questionHints)>0)
+                    <p class="text-red-500 text-xs text-left">similar existing questions:</p>
+                    @foreach($questionHints as $hint)
+                    <div id="dropdownDotsHorizontal" class=" z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                        <ul class=" py-1 text-xs text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                            <li>
+                                <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{$hint}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    @endforeach
+                @endif
+                </div>
+                <textarea wire:model="keyWords" rows="4" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Question" name="question" required> </textarea>
             </div>
             <div class="w-full mb-6 md:mb-0">
                 <label class="block tracking-wide mt-4 text-blue-700 text-lg font-bold mb-2">
