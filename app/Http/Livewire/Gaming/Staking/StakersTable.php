@@ -64,20 +64,11 @@ class StakersTable extends LivewireDatatable
 
                 NumberColumn::name('live_stakings.amount_won')->enableSummary(),
 
-                Column::name('categories.name')
-                    ->filterable()
-                    ->searchable()
-                    ->hide(),
+                Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 
                 NumberColumn::callback(['start_time', 'end_time'], function ($startTime, $endTime) {
                     return Carbon::parse($startTime)->diffInSeconds(Carbon::parse($endTime));
-                })->label('Time(s)')->filterable(),
-
-
-                DateColumn::name('live_users.created_at')
-                    ->label('Joined On')
-                    ->filterable()
-                    ->searchable(),
+                })->label('Duration(s)')->filterable(),
             ];
     }
 }

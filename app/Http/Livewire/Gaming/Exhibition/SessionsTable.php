@@ -51,7 +51,7 @@ class SessionsTable extends LivewireDatatable
 
                 Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 
-                Column::name('plans.name')->searchable()->hide(),
+                Column::name('plans.name')->label("Plan")->searchable()->hide(),
 
                 Column::name('game_modes.name')->label("Game Mode")->hide(),
 
