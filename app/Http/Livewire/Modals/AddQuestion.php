@@ -17,7 +17,7 @@ class AddQuestion extends ModalComponent
 {
 
     public $subcategories, $gameTypes, $selectedSubcategories;
-    public $type, $level, $question, $keyWords, $questionHints;
+    public $type, $level, $question, $keyWords, $questionHints, $hasSearched;
 
     public function mount()
     {
@@ -25,6 +25,7 @@ class AddQuestion extends ModalComponent
         $this->gameTypes = GameType::all();
         $this->selectedSubcategories = [];
         $this->questionHints = [];
+        $this->hasSearched = false;
     }
 
     public function selectSubcategory($subcategory)
@@ -126,11 +127,16 @@ class AddQuestion extends ModalComponent
     {   
         if (strlen($this->keyWords) == 0) {
             $this->questionHints = array();
+            $this->hasSearched = false;
         }
 
-        if (strlen($this->keyWords) >= 10) {
-            $this->query();
+        if(!$this->hasSearched){
+            if (strlen($this->keyWords) >= 20) {
+                $this->query();
+                $this->hasSearched = true;
+            }
         }
+        
     }
 
     public function query()
