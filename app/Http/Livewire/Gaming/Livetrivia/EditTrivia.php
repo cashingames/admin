@@ -104,17 +104,11 @@ class EditTrivia extends Component
        
     }
 
-    public function removeQuestion($key)
-    {
-        $this->questions->forget($key);
-        $this->questions = $this->questions->all();
-        $this->removedQuestion = true;
-    }
-
     public function removeMoreQuestions($key)
     {
         unset($this->questions[$key]);
         $this->questions = array_values($this->questions);
+        $this->removedQuestion = true;
     }
 
     public function render()
