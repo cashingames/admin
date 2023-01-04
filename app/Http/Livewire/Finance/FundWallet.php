@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Finance;
 
+use App\Actions\PushNotifications\SendPushNotification;
 use App\Models\Live\User;
 use App\Models\Live\WalletTransaction;
+use App\Notifications\WalletFunded;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -48,6 +50,18 @@ class FundWallet extends Component
         });
 
         $this->message = 'Wallet funded';
+
+        //database notification
+        $user->notify(new WalletFunded($this->amount, $user));
+        $user->notifications()->where('notifiable_type', 'App\Models\Live\User')->update([
+            'notifiable_type' => 'App\Models\User'
+        ]);
+
+         //push notification
+        dispatch(function() use($user){
+            $pushAction = new SendPushNotification();
+            $pushAction->sendWalletFundedNotification($user, $this->amount);
+        });
     }
 
     public function render()
