@@ -4,9 +4,12 @@ namespace App\Models\Live;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Live\Profile;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Model
-{
+{       
+        use Notifiable;
+
         protected $connection = 'mysqllive';
         protected $with = [
                 'profile'
@@ -56,6 +59,11 @@ class User extends Model
         public function challenges()
         {
                 return $this->initiatedChallenges()->union($this->recievedChallenges()->toBase());
+        }
+        
+        public function notifications()
+        {
+            return $this->morphMany(UserNotification::class, 'notifiable')->orderBy('created_at', 'desc');
         }
 
 }
