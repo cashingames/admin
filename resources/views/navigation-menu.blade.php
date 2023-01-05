@@ -27,17 +27,16 @@
                      <x-jet-nav-link href="{{ route('customers') }}" :active="request()->routeIs('customers.*')">
                         {{ __('Players') }}
                     </x-jet-nav-link>
-                    @canany(['super-admin-access'])
+                 
                     <x-jet-nav-link href="{{ route('finance.dashboard') }}" :active="request()->routeIs('finance.*')">
                         {{ __('Finance') }}
                     </x-jet-nav-link>
-                    @endcanany
+                 
                 </div>
             </div>
 
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-            @can('super-admin-access')
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
@@ -87,7 +86,6 @@
                         </x-jet-dropdown>
                     </div>
                 @endif
-            @endcan
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
                     <x-jet-dropdown align="right" width="48">

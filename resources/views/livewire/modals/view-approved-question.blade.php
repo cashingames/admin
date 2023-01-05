@@ -78,11 +78,9 @@
         </button>
         @endif
         @endif
-        @canany(['super-admin-access','content-admin-access'])
         <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-2 rounded" onclick='Livewire.emit("openModal", "modals.reject-approved-question", {{ json_encode(["id" => $question->id]) }})'>
             Reject 
         </button>
-        @endcanany
         @if (!$question->is_published)
         <button wire:click="$emit('openModal', 'modals.delete-approved-question', {{ json_encode(["question"=>
             $question->id]) }})" class="shadow bg-red-600 text-white font-bold ml-4 py-2 px-2 rounded" type="button">

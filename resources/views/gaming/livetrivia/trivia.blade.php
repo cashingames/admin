@@ -1,5 +1,4 @@
 <x-gaming-layout>
-    @can('super-admin-access')
     @if ($errors->any())
     <div class="mb-4 w/50 text-red-500 font-bold">
         <ul>
@@ -17,10 +16,4 @@
         <livewire:gaming.livetrivia.trivia-table/>
      
     </div>
-    @else
-    <div class="mt-4">
-        You are not authorized to access this data.
-    </div>
-    @endcan
-
 </x-gaming-layout>

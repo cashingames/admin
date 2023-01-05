@@ -1,4 +1,4 @@
-@canany(['super-admin-access','view-only-access'])
+
 <div wire:poll.300000ms='filterReports'>
     <div class="flex items-center">
         <span class="mx-2 text-gray-500">select date range</span>
@@ -87,8 +87,3 @@
 
     </div>
 </div>
-@else
-<div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-    You are not authorised to access this data.
-</div>
-@endcanany

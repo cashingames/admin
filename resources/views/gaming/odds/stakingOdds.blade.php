@@ -1,5 +1,4 @@
 <x-gaming-layout>
-    @can('super-admin-access')
     <ul class="hidden text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
         <li class="w-full">
             <a href="{{ route('gaming.odds') }}" aria-current="page" class="inline-block p-4 w-full bg-white hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none uppercase dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Game Odds</a>
@@ -27,10 +26,5 @@
         <p class=" p-4 w-full text-gray-900 font-bold">STAKING ODDS</p>
         <livewire:gaming.odds.staking-odds exportable hideable="select" per-page="20" />
     </div>
-    @else
-    <div class="mt-4">
-        You are not authorized to access this data.
-    </div>
-    @endcan
 
 </x-gaming-layout>

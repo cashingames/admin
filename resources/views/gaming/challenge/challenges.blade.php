@@ -1,5 +1,4 @@
 <x-gaming-layout>
-    @canany(['super-admin-access','view-only-access'])
     <div class="mt-4">
         <ul class="hidden text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
             <li class="w-full">
@@ -15,10 +14,5 @@
             <livewire:gaming.challenge.challenges-table exportable hideable="select" />
         </div>
     </div>
-    @else
-    <div class="mt-4">
-        You are not authorized to access this data.
-    </div>
-    @endcanany
 
 </x-gaming-layout>

@@ -1,4 +1,4 @@
-@canany(['super-admin-access','content-admin-access'])
+
 @if ($errors->any())
 <div class="mb-4 w/50 text-red-500 font-bold">
     <ul>
@@ -78,9 +78,3 @@
 
 
 </div>
-
-@else
-<div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-    You are not authorised to access this data.
-</div>
-@endcanany

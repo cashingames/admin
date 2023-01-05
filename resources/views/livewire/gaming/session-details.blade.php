@@ -1,5 +1,4 @@
 <div>
-    @canany(['super-admin-access','view-only-access'])
     <div>
         <span>{{$err}}</span>
         <div class="w-full  mb-6 md:mb-0">
@@ -50,9 +49,5 @@
 
         </table>
     </div>
-    @else
-    You are not authorised to access this data.
-
-    @endcanany
 
 </div>

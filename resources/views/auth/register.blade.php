@@ -27,18 +27,6 @@
                 <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
-            <div class="mt-4">
-                <x-jet-label for="is_admin" value="{{ __('Super Admin') }}" />
-                <x-jet-input id="is_admin" type="checkbox" name="is_admin" />
-            </div>
-            <div class="mt-4">
-                <x-jet-label for="is_content_admin" value="{{ __('Content Admin') }}" />
-                <x-jet-input id="is_content_admin" type="checkbox" name="is_content_admin" />
-            </div>
-            <div class="mt-4">
-                <x-jet-label for="is_content_admin" value="{{ __('View Access Only') }}" />
-                <x-jet-input id="is_mid_admin" type="checkbox" name="is_mid_admin" />
-            </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

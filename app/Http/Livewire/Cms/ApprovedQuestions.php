@@ -23,10 +23,7 @@ class ApprovedQuestions extends LivewireDatatable
     {
         DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
         $livedb = config('database.connections.mysqllive.database');
-        if (
-            Gate::allows('super-admin-access') ||
-            Gate::allows('content-admin-access')
-        ) {
+       
             $query = AdminQuestion::query()
                 ->select(
                     "questions.question_id",
@@ -56,36 +53,36 @@ class ApprovedQuestions extends LivewireDatatable
                 );
 
             return $query;
-        }
-        $query = AdminQuestion::query()
-            ->select(
-                "questions.question_id",
-                "questions.deleted_at",
-                "questions.approved_at",
-                "questions.rejected_at",
-                "questions.published_at",
-                "live_questions.id",
-                "live_questions.label",
-                "live_questions.level",
-                "live_categories_questions.category_id",
-                "live_subcat.category_id as sub_parent_category_id",
-                "live_subcat.name as subcategory_name",
-                "live_subcat.id as subcategory_id",
-                "live_cat.id as parent_category_id",
-                "live_cat.name as parent_category_name",
-                "admin_users.name as created_by"
-            )
-            ->whereNotNull('questions.approved_at')->where('questions.user_id', auth()->user()->id)
-            ->join("{$livedb}.categories_questions as live_categories_questions", "live_categories_questions.question_id", "=", "questions.question_id")
-            ->join("{$livedb}.questions as live_questions", "live_questions.id", "=", "questions.question_id")
-            ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "live_categories_questions.category_id")
-            ->join("{$livedb}.categories as live_cat", "live_subcat.category_id", "=", "live_cat.id")
-            ->join("users as admin_users", "live_questions.created_by", "=", "admin_users.id")
-            ->groupBy(
-                'questions.question_id',
-            );
+        // }
+        // $query = AdminQuestion::query()
+        //     ->select(
+        //         "questions.question_id",
+        //         "questions.deleted_at",
+        //         "questions.approved_at",
+        //         "questions.rejected_at",
+        //         "questions.published_at",
+        //         "live_questions.id",
+        //         "live_questions.label",
+        //         "live_questions.level",
+        //         "live_categories_questions.category_id",
+        //         "live_subcat.category_id as sub_parent_category_id",
+        //         "live_subcat.name as subcategory_name",
+        //         "live_subcat.id as subcategory_id",
+        //         "live_cat.id as parent_category_id",
+        //         "live_cat.name as parent_category_name",
+        //         "admin_users.name as created_by"
+        //     )
+        //     ->whereNotNull('questions.approved_at')->where('questions.user_id', auth()->user()->id)
+        //     ->join("{$livedb}.categories_questions as live_categories_questions", "live_categories_questions.question_id", "=", "questions.question_id")
+        //     ->join("{$livedb}.questions as live_questions", "live_questions.id", "=", "questions.question_id")
+        //     ->join("{$livedb}.categories as live_subcat", "live_subcat.id", "=", "live_categories_questions.category_id")
+        //     ->join("{$livedb}.categories as live_cat", "live_subcat.category_id", "=", "live_cat.id")
+        //     ->join("users as admin_users", "live_questions.created_by", "=", "admin_users.id")
+        //     ->groupBy(
+        //         'questions.question_id',
+        //     );
 
-        return $query;
+        // return $query;
     }
 
     public function columns()

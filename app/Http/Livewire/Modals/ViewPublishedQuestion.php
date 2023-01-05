@@ -17,7 +17,7 @@ class ViewPublishedQuestion extends ModalComponent
     public function mount($id)
     {
         $this->question = Question::find($id);
-        $this->getUserPermissions();
+        // $this->getUserPermissions();
         // $this->checkIsRejected();
     }
 
@@ -28,12 +28,12 @@ class ViewPublishedQuestion extends ModalComponent
         ]);
     }
 
-    private function getUserPermissions(){
+    // private function getUserPermissions(){
         
-        if (Gate::allows('super-admin-access')||
-        Gate::allows('content-admin-access') ) {
-           return $this->canPublish = true;
-        }
-        return $this->canPublish = false;
-    }
+    //     if (Gate::allows('super-admin-access')||
+    //     Gate::allows('content-admin-access') ) {
+    //        return $this->canPublish = true;
+    //     }
+    //     return $this->canPublish = false;
+    // }
 }

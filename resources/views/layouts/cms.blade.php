@@ -1,9 +1,5 @@
 <x-app-layout>
-    @canany(['view-only-access'])
-    <div class="text-center mt-4 ">
-        You are not authorised to access this data.
-    </div>
-    @else
+
     <x-slot name="header">
         <div class="flex flex-row">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight basis-1/4">
@@ -31,6 +27,5 @@
             {{ $slot }}
         </div>
     </div>
-    @endcanany
 
 </x-app-layout>

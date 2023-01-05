@@ -25,9 +25,6 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'is_admin'=>['nullable'],
-            'is_content_admin'=>['nullable'],
-            'is_mid_admin'=>['nullable'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
@@ -39,19 +36,6 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
             ]), function (User $user) use ($input) {
                 $this->createTeam($user);
-                
-                if (isset($input['is_admin']) ) {
-                    $user->is_admin = $input['is_admin']=="on"??true;
-                    $user->save();
-                }
-                if (isset($input['is_content_admin']) ) {
-                    $user->is_content_admin = $input['is_content_admin']=="on"??true;
-                    $user->save();
-                }
-                if (isset($input['is_mid_admin']) ) {
-                    $user->is_mid_admin = $input['is_mid_admin']=="on"??true;
-                    $user->save();
-                }
             });
         });
     }

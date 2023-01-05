@@ -1,6 +1,4 @@
 <x-gaming-layout>
-    @canany(['super-admin-access','view-only-access'])
-
     <div class="text-right mb-16">
         <a href="{{ URL::route('session.details'); }}" class="shadow  bg-blue-500 text-white font-bold mb-16 py-2 px-4 rounded">
             view game session questions
@@ -24,9 +22,5 @@
     <div class="pt-8">
         <livewire:gaming.exhibition.sessions-table exportable hideable="select" />
     </div>
-    @else
-    You are not authorised to access this data.
-
-    @endcanany
 
 </x-gaming-layout>

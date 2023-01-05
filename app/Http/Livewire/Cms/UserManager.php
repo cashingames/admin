@@ -13,9 +13,7 @@ class UserManager extends LivewireDatatable
 {
     public function builder()
     {   
-        return User::query()->where('is_admin', false)
-        ->where('is_content_admin', false)
-        ->orWhere('is_content_admin', true);
+        return User::query();
       
     }
 
