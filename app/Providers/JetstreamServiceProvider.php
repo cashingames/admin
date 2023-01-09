@@ -74,5 +74,13 @@ class JetstreamServiceProvider extends ServiceProvider
             'cms:view',
             'cms:publish',
         ])->description('Moderator users have the ability to perform editor actions and additionally publish any content.');
+
+        Jetstream::role('content-creator', 'Content Creator', [
+            'cms:read',
+            'cms:create',
+            'cms:update',
+            'cms:delete',
+        ])->description('Content Creators have the ability to read, create, and update their own content.');
+
     }
 }
