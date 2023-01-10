@@ -20,12 +20,12 @@
                     <x-jet-nav-link href="{{ route('cms') }}" :active="request()->routeIs('cms')">
                         {{ __('Manage Content') }}
                     </x-jet-nav-link>
-                    @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'gaming:view') )
+                    @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'read') )
                     <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.*')">
                         {{ __('Gaming') }}
                     </x-jet-nav-link>
                     @endif
-                    @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'users:view') )
+                    @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'read') )
                      <x-jet-nav-link href="{{ route('customers') }}" :active="request()->routeIs('customers.*')">
                         {{ __('Players') }}
                     </x-jet-nav-link>
