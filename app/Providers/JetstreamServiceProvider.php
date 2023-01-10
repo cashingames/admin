@@ -58,21 +58,42 @@ class JetstreamServiceProvider extends ServiceProvider
             'delete',
             'cms:view',
             'cms:publish',
+            'finance:view',
+            'cms:approve',
+            'cms:reject',
+            'cms:delete',
+            'cms:update',
         ])->description('Administrator users can perform any action.');
 
-        Jetstream::role('editor', 'Editor', [
+        Jetstream::role('data-analysis', 'Data Analysis', [
             'read',
-            'create',
-            'update',
-            'cms:view',
-        ])->description('Editor users have the ability to read, create, and update.');
+            'cms:view'
+        ])->description('Data Analyst users have the ability to read data');
 
         Jetstream::role('moderator', 'Moderator', [
             'read',
             'create',
             'update',
             'cms:view',
+        ])->description('Moderator users have the ability to perform moderation actions and additionally publish any content.');
+
+        Jetstream::role('content-creator', 'Content Creator', [
+            'cms:read',
+            'cms:create',
+            'cms:update',
+            'cms:delete',
+        ])->description('Content Creators have the ability to read, create, and update their own content.');
+
+        Jetstream::role('content-admin', 'Content Administrator', [
+            'cms:read',
+            'cms:create',
+            'cms:update',
+            'cms:delete',
             'cms:publish',
-        ])->description('Moderator users have the ability to perform editor actions and additionally publish any content.');
+            'cms:approve',
+            'cms:reject',
+            'cms:view'
+        ])->description('Content Administrators have the ability to read, create, update and publish any cms content.');
+
     }
 }

@@ -31,7 +31,7 @@
 
             <span class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
                 @foreach ($question->categories as $subcategory)
-                {{$subcategory->name}} , 
+                {{$subcategory->name}} ,
                 @endforeach
             </span>
 
@@ -73,17 +73,23 @@
         </button>
         @endif
         @endif
+        @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:approve') )
         <button class="shadow bg-purple-700 text-white font-bold ml-4 py-2 px-2 rounded" onclick='Livewire.emit("openModal", "modals.confirm-approve-question", {{ json_encode(["id" => $question->id]) }})'>
             Approve
         </button>
+        @endif
+        @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:reject') )
         <button class="shadow bg-yellow-500 text-white font-bold ml-4 py-2 px-2 rounded" onclick='Livewire.emit("openModal", "modals.confrim-reject-question", {{ json_encode(["id" => $question->id]) }})'>
             Reject
         </button>
+        @endif
+        @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:delete') )
         @if (!$question->is_published)
         <button wire:click="$emit('openModal', 'modals.confirm-delete-question', {{ json_encode(["question"=>
             $question->id]) }})" class="shadow bg-red-600 text-white font-bold ml-4 py-2 px-2 rounded" type="button">
             Delete
         </button>
+        @endif
         @endif
     </div>
 </div>
