@@ -68,7 +68,7 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::role('data-analysis', 'Data Analysis', [
             'read',
             'cms:view'
-        ])->description('Data Analyst users have the ability to read data');
+        ])->description('Data Analysts have the ability to read data');
 
         Jetstream::role('moderator', 'Moderator', [
             'read',
@@ -78,6 +78,7 @@ class JetstreamServiceProvider extends ServiceProvider
         ])->description('Moderator users have the ability to perform moderation actions and additionally publish any content.');
 
         Jetstream::role('content-creator', 'Content Creator', [
+            'create',
             'cms:read',
             'cms:create',
             'cms:update',
@@ -85,6 +86,7 @@ class JetstreamServiceProvider extends ServiceProvider
         ])->description('Content Creators have the ability to read, create, and update their own content.');
 
         Jetstream::role('content-admin', 'Content Administrator', [
+            'create',
             'cms:read',
             'cms:create',
             'cms:update',

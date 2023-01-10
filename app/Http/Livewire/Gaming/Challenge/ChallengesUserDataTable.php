@@ -40,17 +40,17 @@ class ChallengesUserDataTable extends LivewireDatatable
                 Column::callback(['id'], function ($id) {
                     $user = User::find($id);
                     return $user->initiatedChallenges()->count();
-                },'challenger')->label('Number Of Challenges Initiated'),
+                },['challenger'])->label('Number Of Challenges Initiated'),
 
                 Column::callback(['id'], function ($id) {
                     $user = User::find($id);
                     return $user->recievedChallenges()->count();
-                },'opponent')->label('Number Of Challenges Recieved'),
+                },['opponent'])->label('Number Of Challenges Recieved'),
 
                 Column::callback(['id'], function ($id) {
                     $user = User::find($id);
                     return $user->challengeGameSessions()->where('state','COMPLETED')->count();
-                },'challenge_sessions')->label('Number Of Completed Challenges'),
+                },['challenge_sessions'])->label('Number Of Completed Challenges'),
             ];
     }
 }

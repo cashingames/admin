@@ -16,10 +16,12 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-                 
+
+                    @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'create') )
                     <x-jet-nav-link href="{{ route('cms') }}" :active="request()->routeIs('cms')">
                         {{ __('Manage Content') }}
                     </x-jet-nav-link>
+                    @endif
                     @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'read') )
                     <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.*')">
                         {{ __('Gaming') }}
