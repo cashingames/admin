@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Modals;
 use App\Models\Live\Question;
 use App\Models\Question as AdminQuestion;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Gate;
 
@@ -19,17 +20,16 @@ class ViewApprovedQuestion extends ModalComponent
     public function mount($id)
     {
         $this->question = Question::find($id);
-        // $this->getUserPermissions();
+        $this->getUserPermissions();
     }
    
-    // private function getUserPermissions(){
+    private function getUserPermissions(){
         
-    //     if (Gate::allows('super-admin-access')||
-    //     Gate::allows('content-admin-access') ) {
-    //        return $this->canPublish = true;
-    //     }
-    //     return $this->canPublish = false;
-    // }
+        if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:publish')) {
+           return $this->canPublish = true;
+        }
+        return $this->canPublish = false;
+    }
 
     public function render()
     {
