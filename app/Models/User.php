@@ -58,4 +58,10 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function isSuperAdmin(){
+        $superAdminTeam = Team::where('name', 'Super Admins')->first();
+
+        return $this->belongsToTeam($superAdminTeam) ;
+    }
 }

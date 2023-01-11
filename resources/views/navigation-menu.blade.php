@@ -1,3 +1,4 @@
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,9 +74,11 @@
                                     </x-jet-dropdown-link>
 
                                     @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
+                                    @if (Auth::user()->isSuperAdmin() )
                                         <x-jet-dropdown-link href="{{ route('teams.create') }}">
                                             {{ __('Create New Team') }}
                                         </x-jet-dropdown-link>
+                                    @endif
                                     @endcan
 
                                     <div class="border-t border-gray-100"></div>
@@ -85,9 +88,15 @@
                                         {{ __('Switch Teams') }}
                                     </div>
 
+                                    @if (Auth::user()->isSuperAdmin() )
                                     @foreach (Auth::user()->allTeams() as $team)
                                         <x-jet-switchable-team :team="$team" />
                                     @endforeach
+                                    @else
+                                    @foreach (Auth::user()->teams as $team)
+                                        <x-jet-switchable-team :team="$team" />
+                                    @endforeach
+                                    @endif
                                 </div>
                             </x-slot>
                         </x-jet-dropdown>
