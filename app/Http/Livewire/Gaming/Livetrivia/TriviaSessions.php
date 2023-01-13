@@ -10,7 +10,7 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 
 class TriviaSessions extends LivewireDatatable
-{   
+{
     public $perPage = 100;
     public $persistPerPage = false;
 
@@ -41,6 +41,10 @@ class TriviaSessions extends LivewireDatatable
                 Column::name('live_users.username')
                     ->filterable()
                     ->searchable(),
+
+                Column::name('live_users.phone_number')->searchable()->hideable(),
+
+                Column::name('live_users.email')->searchable()->hideable(),
 
                 Column::name('session_token')
                     ->searchable()

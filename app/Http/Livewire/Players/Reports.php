@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\DB;
 class Reports extends Component
 {
     public $startDate, $endDate;
-    public $userPlayedCount, $userExhaustedFreeGameCount,
+    public $allUsersPlayedCount, $userExhaustedFreeGameCount,
         $referredUserCount, $boughtGamesCount, $registeredUserCount,
-        $boughtBoostsCount, $usedBoostsCount, $userNotPlayedCount,
-        $countOfEmailVerifications,  $countOfPhoneVerifications;
+        $boughtBoostsCount, $usedBoostsCount, $countOfEmailVerifications, $countOfPhoneVerifications, 
+        $newUserNotPlayedCount, $newUserPlayedCount;
 
     public function mount()
     {
@@ -40,27 +40,41 @@ class Reports extends Component
         $this->registeredUserCount = $sql;
     }
 
-    private function getCountOfUserGames()
+    private function getCountOfAllUsersWithGames()
     {
         $_startDate = Carbon::parse($this->startDate)->startOfDay();
         $_endDate = Carbon::parse($this->endDate)->endOfDay();
 
         $sql = GameSession::where('created_at', '>=', $_startDate)
-            ->where('created_at', '<=', $_endDate)->groupBy('user_id')->get()->count();
-        
-        $this->userPlayedCount = $sql;
+            ->where('created_at', '<=', $_endDate)
+            ->select(DB::raw('count(*) as num'))
+            ->groupBy('user_id')->get();
+
+        $this->allUsersPlayedCount = count($sql);
     }
 
-    private function getCountOfUsersWithNoPlayedGames()
+    private function getCountOfNewUsersWithNoPlayedGames()
     {
         $_startDate = Carbon::parse($this->startDate)->startOfDay();
         $_endDate = Carbon::parse($this->endDate)->endOfDay();
 
         $sql = User::where('created_at', '>=', $_startDate)
-        ->where('created_at', '<=', $_endDate)
-        ->doesntHave('gameSessions')->count();
-        
-        $this->userNotPlayedCount = $sql;
+            ->where('created_at', '<=', $_endDate)
+            ->doesntHave('gameSessions')->count();
+
+        $this->newUserNotPlayedCount = $sql;
+    }
+
+    private function getCountOfNewUsersWithPlayedGames()
+    {
+        $_startDate = Carbon::parse($this->startDate)->startOfDay();
+        $_endDate = Carbon::parse($this->endDate)->endOfDay();
+
+        $sql = User::where('created_at', '>=', $_startDate)
+            ->where('created_at', '<=', $_endDate)
+            ->whereHas('gameSessions')->count();
+
+        $this->newUserPlayedCount = $sql;
     }
 
     private function getCountOfUserExhaustedFreeGames()
@@ -74,9 +88,10 @@ class Reports extends Component
             ->where('plan_id', $freePlan->id)
             ->where('is_active', false)
             ->where('used_count', '>=', $freePlan->game_count)
-            ->groupBy('user_id')->count();
+            ->select(DB::raw('count(*) as num'))
+            ->groupBy('user_id')->get();
 
-        $this->userExhaustedFreeGameCount = $sql;
+        $this->userExhaustedFreeGameCount = count($sql);
     }
     private function getCountOfRefferedUsers()
     {
@@ -86,9 +101,10 @@ class Reports extends Component
         $sql = Profile::whereNotNull('referrer')
             ->where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)
-            ->groupBy('referrer')->count();
+            ->select(DB::raw('count(*) as num'))
+            ->groupBy('referrer')->get();
 
-        $this->referredUserCount = $sql;
+        $this->referredUserCount = count($sql);
     }
     private function getCountOfBoughtGames()
     {
@@ -100,9 +116,10 @@ class Reports extends Component
         $sql = UserPlan::where('plan_id', '>', $freePlan->id)
             ->where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)
-            ->groupBy('user_id')->count();
+            ->select(DB::raw('count(*) as num'))
+            ->groupBy('user_id')->get();
 
-        $this->boughtGamesCount = $sql;
+        $this->boughtGamesCount = count($sql);
     }
 
     private function getCountOfBoughtBoosts()
@@ -116,9 +133,10 @@ class Reports extends Component
                 $query->where('description', 'Bought TIME FREEZE boosts')
                     ->orWhere('description', 'Bought SKIP boosts')
                     ->orWhere('description', 'Bought BOMB boosts');
-            })->groupBy('wallet_id')->count();
+            })->select(DB::raw('count(*) as num'))
+            ->groupBy('wallet_id')->get();
 
-        $this->boughtBoostsCount = $sql;
+        $this->boughtBoostsCount = count($sql);
     }
 
     private function getCountOfUsedBoosts()
@@ -128,9 +146,10 @@ class Reports extends Component
 
         $sql = UserBoost::where('created_at', '>=', $_startDate)
             ->where('created_at', '<=', $_endDate)->where('used_count', '>', 0)
-            ->groupBy('user_id')->count();
+            ->select(DB::raw('count(*) as num'))
+            ->groupBy('user_id')->get();
 
-        $this->usedBoostsCount = $sql;
+        $this->usedBoostsCount = count($sql);
     }
 
     private function getCountOfEmailVerifications()
@@ -161,8 +180,9 @@ class Reports extends Component
     public function filterReports()
     {
         $this->getCountOfRegisteredUsers();
-        $this->getCountOfUserGames();
-        $this->getCountOfUsersWithNoPlayedGames();
+        $this->getCountOfAllUsersWithGames();
+        $this->getCountOfNewUsersWithNoPlayedGames();
+        $this->getCountOfNewUsersWithPlayedGames();
         $this->getCountOfUserExhaustedFreeGames();
         $this->getCountOfRefferedUsers();
         $this->getCountOfBoughtGames();

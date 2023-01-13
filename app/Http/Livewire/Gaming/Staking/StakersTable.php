@@ -49,9 +49,9 @@ class StakersTable extends LivewireDatatable
 
                 Column::name('live_users.username')->searchable(),
 
-                Column::name('live_users.phone_number')->hide(),
+                Column::name('live_users.phone_number')->hideable(),
 
-                Column::name('live_users.email')->hide(),
+                Column::name('live_users.email')->hideable(),
 
                 Column::name('live_stakings.odd_applied_during_staking')
                     ->label('Odds'),

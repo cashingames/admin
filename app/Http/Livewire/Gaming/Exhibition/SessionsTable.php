@@ -45,9 +45,9 @@ class SessionsTable extends LivewireDatatable
                 Column::name('users.username')
                     ->searchable(),
 
-                Column::name('users.phone_number')->searchable()->hide(),
+                Column::name('users.phone_number')->searchable()->hideable(),
 
-                Column::name('users.email')->searchable()->hide(),
+                Column::name('users.email')->searchable()->hideable(),
 
                 Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 

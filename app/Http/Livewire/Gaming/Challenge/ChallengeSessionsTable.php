@@ -9,7 +9,7 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class ChallengeSessionsTable extends LivewireDatatable
-{   
+{
     public $perPage = 100;
     public $persistPerPage = false;
 
@@ -33,7 +33,6 @@ class ChallengeSessionsTable extends LivewireDatatable
             ->join("{$livedb}.challenges as live_challenges", "live_challenges.id", "=", "challenge_game_sessions.challenge_id");
 
         return $query;
-
     }
 
     public function columns()
@@ -46,6 +45,10 @@ class ChallengeSessionsTable extends LivewireDatatable
                     ->filterable()
                     ->searchable(),
 
+                Column::name('live_users.phone_number')->searchable()->hideable(),
+
+                Column::name('live_users.email')->searchable()->hideable(),
+
                 Column::name('live_subcat.name')
                     ->label('Subcategory')
                     ->filterable()
@@ -55,13 +58,13 @@ class ChallengeSessionsTable extends LivewireDatatable
                     ->label('Challenge Id')
                     ->filterable()
                     ->searchable(),
-                    
+
                 Column::name('state'),
-                
+
                 Column::name('points_gained'),
 
                 Column::name('start_time'),
-                
+
                 Column::name('end_time'),
 
                 DateColumn::name('created_at')->label('Date Created')->filterable(),

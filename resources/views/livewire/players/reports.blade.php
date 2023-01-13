@@ -39,16 +39,23 @@
             </x-reports-layout>
         </div>
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Number of Users Who Played A Game</span>
+            <span>All Users Who Played A Game</span>
             <x-reports-layout>
-                <span wire:model='userPlayedCount'>{{$userPlayedCount}}</span>
+                <span wire:model='allUsersPlayedCount'>{{$allUsersPlayedCount}}</span>
             </x-reports-layout>
         </div>
 
         <div class=" text-center text-gray-600 text-lg font-bold m-2">
-            <span>Users Who Have Not Played A Game</span>
+            <span>New Users With No Games</span>
             <x-reports-layout>
-                <span wire:model='userNotPlayedCount'>{{$userNotPlayedCount}}</span>
+                <span wire:model='newUserNotPlayedCount'>{{$newUserNotPlayedCount}}</span>
+            </x-reports-layout>
+        </div>
+
+        <div class=" text-center text-gray-600 text-lg font-bold m-2">
+            <span>New Users Who Played A Game</span>
+            <x-reports-layout>
+                <span wire:model='newUserPlayedCount'>{{$newUserPlayedCount}}</span>
             </x-reports-layout>
         </div>
 
