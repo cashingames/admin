@@ -25,7 +25,7 @@ class PublishedQuestions extends LivewireDatatable
         DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
         $livedb = config('database.connections.mysqllive.database');
 
-        if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'read')) {
+        if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:view')) {
             return AdminQuestion::query()
                 ->select(
                     "questions.question_id",
