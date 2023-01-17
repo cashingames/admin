@@ -2,10 +2,15 @@
 
 namespace App\Http\Livewire\Gaming\Livetrivia;
 
+use App\Enums\Contest\ContestType;
+use App\Enums\Contest\EntryMode;
+use App\Enums\Contest\PrizeType;
 use Livewire\Component;
 use App\Models\Live\Trivia;
 use App\Models\Live\TriviaQuestion;
 use App\Models\Live\Category;
+use App\Models\Live\Contest;
+use App\Models\Live\ContestPrizePool;
 use App\Models\Live\Question;
 
 use Illuminate\Support\Carbon;
@@ -15,6 +20,8 @@ class AddTrivia extends Component
 
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $selectedQuestion;
+    public $entryMode, $entryModes, $prizeTypes;
+    public $description, $displayName, $numberOfWinners;
     public $canChooseQuestions = false;
     public $selectedQuestions = [];
     protected $listeners = ['questionsSelected' => 'setSelectedQuestions'];
@@ -32,6 +39,9 @@ class AddTrivia extends Component
         $this->entry_fee = 0;
         $this->subcategory = 'Premier League Clubs';
         $this->subcategories = Category::where('category_id', '>', 0)->get();
+        $this->entryModes = array_column(EntryMode::cases(), 'value');;
+        $this->numberOfWinners = 3;
+        $this->prizeTypes = array_column(PrizeType::cases(), 'value');
     }
 
 
@@ -67,10 +77,20 @@ class AddTrivia extends Component
             return;
         }
 
+        $contest = new Contest;
+        $contest->start_date = $start;
+        $contest->end_date = $end;
+        $contest->name = $this->name;
+        $contest->description = $this->description ;
+        $contest->display_name = $this->displayName ;
+        $contest->contest_type = ContestType::Livetrivia;
+        $contest->entry_mode = $this->entryMode;
+        $contest->save();
+       
         $trivia = new Trivia;
         $trivia->name =  $this->name;
         $trivia->grand_price =  $this->grand_price;
-        $trivia->entry_fee =  $this->entry_fee ;
+        $trivia->entry_fee =  $this->entry_fee;
         $trivia->point_eligibility = $this->points_required;
         $trivia->category_id = $category->id;
         $trivia->game_mode_id = 1;
@@ -80,6 +100,7 @@ class AddTrivia extends Component
         $trivia->is_published = false;
         $trivia->game_duration = $this->game_duration;
         $trivia->question_count = $this->question_count;
+        $trivia->contest_id = $contest->id;
         $trivia->save();
 
         if (count($this->selectedQuestions) > 0) {
@@ -102,6 +123,18 @@ class AddTrivia extends Component
                 ]);
             }
         }
+        //optimizeee this don't insert into db in a loop
+        foreach($this->prizeDetails as $value){
+            $prizePool = new ContestPrizePool;
+            $prizePool->contest_id = $contest->id;
+            $prizePool->rank_from = $value->rankFrom;
+            $prizePool->rank_to = $value->rankTo;
+            $prizePool->prize = $value->prize;
+            $prizePool->prize_type = $value->prizeType;
+            $prizePool->save();
+
+        }
+        
 
         return redirect()->to('/gaming/trivia');
     }
