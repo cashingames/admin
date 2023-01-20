@@ -51,7 +51,7 @@ class TriviaSessions extends LivewireDatatable
                     ->hide(),
 
                 DateColumn::name('live_users.created_at')
-                    ->label('User Account Created On')
+                    ->label('Joined On')
                     ->filterable()
                     ->searchable(),
 

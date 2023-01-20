@@ -49,6 +49,8 @@ class ChallengeSessionsTable extends LivewireDatatable
 
                 Column::name('live_users.email')->searchable()->hideable(),
 
+                DateColumn::name('live_users.created_at')->label('Joined On')->filterable()->hideable(),
+
                 Column::name('live_subcat.name')
                     ->label('Subcategory')
                     ->filterable()
