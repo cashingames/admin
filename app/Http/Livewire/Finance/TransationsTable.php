@@ -71,6 +71,10 @@ class TransationsTable extends LivewireDatatable
                 Column::name('users.email')->group('user'),
 
                 Column::name('users.phone_number')->group('user'),
+
+                DateColumn::name('users.created_at')->group('user')
+                ->label('Joined On')
+                ->filterable(),
             ];
     }
 }
