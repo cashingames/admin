@@ -12,9 +12,9 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 
 
 class ChallengeStakersTable extends LivewireDatatable
-{   
+{
     public $complex = true;
-    
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
@@ -66,11 +66,16 @@ class ChallengeStakersTable extends LivewireDatatable
                     ->label('Email')
                     ->filterable()
                     ->searchable(),
-                
+
+                DateColumn::name('live_users.created_at')
+                    ->label('Joined On')
+                    ->filterable()
+                    ->searchable(),
+
                 Column::callback(['category_id'], function ($category_id) {
-                        return Category::find($category_id)->name;
-                    })->label('Subcategory')->filterable(),
-    
+                    return Category::find($category_id)->name;
+                })->label('Subcategory')->filterable(),
+
                 NumberColumn::name('correct_count')
                     ->label('Correct Count'),
 
@@ -79,11 +84,6 @@ class ChallengeStakersTable extends LivewireDatatable
 
                 DateColumn::name('created_at')
                     ->label('Played At')
-                    ->filterable()
-                    ->searchable(),
-
-                DateColumn::name('live_users.created_at')
-                    ->label('Joined On')
                     ->filterable()
                     ->searchable(),
             ];

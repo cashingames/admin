@@ -51,7 +51,10 @@ class TransationsTable extends LivewireDatatable
                     'Fund Wallet',
                     'Sign Up Bonus',
                     'Winnings Withdrawal Made',
-                    'Placed a staking'
+                    'Placed a staking',
+                    'Paid entrance fee for live trivia',
+                    'games',
+                    'boosts'
                 ]),
 
                 Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT'])->hide(),
