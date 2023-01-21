@@ -74,11 +74,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 
     Route::get('/gaming', function () {
-        return redirect()->route('gaming.dashboard');
+        return redirect()->route('gaming.sessions');
     })->name('gaming');
 
+    // Route::get('/gaming/dashboard', function () {
+    //     return view('gaming.dashboard');
+    // })->name('gaming.dashboard');
+    
     Route::get('/gaming/dashboard', function () {
-        return view('gaming.dashboard');
+        return redirect()->route('gaming.sessions');
     })->name('gaming.dashboard');
 
     Route::get('/gaming/exhibition/sessions', function () {
@@ -158,12 +162,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.withdrawalTransactions');
     })->name('finance.withdrawals');
 
+    // Route::get('/finance/dashboard', function () {
+    //     return view('finance.dashboard');
+    // })->name('finance.dashboard');
+    
     Route::get('/finance/dashboard', function () {
-        return view('finance.dashboard');
+        return redirect()->route('finance.transactions');
     })->name('finance.dashboard');
 
     Route::get('/customers', function () {
-        return redirect()->route('customers.dashboard');
+        return redirect()->route('customers.list');
     })->name('customers');
 
     Route::get('/customers/list', function () {
@@ -174,8 +182,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('customers.generalData');
     })->name('customers.general.data');
 
+    // Route::get('/customers/dashboard', function () {
+    //     return view('customers.dashboard');
+    // })->name('customers.dashboard');
+
     Route::get('/customers/dashboard', function () {
-        return view('customers.dashboard');
+        return redirect()->route('customers.list');
     })->name('customers.dashboard');
 });
 
