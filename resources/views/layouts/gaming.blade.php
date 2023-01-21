@@ -7,9 +7,9 @@
             <div class="basis-3/4 text-right">
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-end">
-                    <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.dashboard')">
+                    <!-- <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.dashboard')">
                         {{ __('Dashboard') }}
-                    </x-jet-nav-link>
+                    </x-jet-nav-link> -->
                     <x-jet-nav-link href="{{ route('gaming.sessions') }}" :active="request()->routeIs(['gaming.sessions','gaming.challengeGameSessions'])">
                         {{ __('Game Sessions') }}
                     </x-jet-nav-link>

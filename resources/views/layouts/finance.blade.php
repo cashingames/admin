@@ -7,20 +7,20 @@
             <div class="basis-3/4 text-right">
                  <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-end" >
-                    <x-jet-nav-link
+                    <!-- <x-jet-nav-link
                         href="{{ route('finance.dashboard') }}"
                         :active="request()->routeIs('finance.dashboard')">
                         {{ __('Dashboard') }}
+                    </x-jet-nav-link> -->
+                    <x-jet-nav-link
+                        href="{{ route('finance.transactions') }}"
+                        :active="request()->routeIs('finance.transactions')">
+                        {{ __('Transactions') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link
                         href="{{ route('finance.wallets') }}"
                         :active="request()->routeIs('finance.wallets')">
                         {{ __('Wallets') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link
-                        href="{{ route('finance.transactions') }}"
-                        :active="request()->routeIs('finance.transactions')">
-                        {{ __('Transactions') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link
                         href="{{ route('finance.fund') }}"
