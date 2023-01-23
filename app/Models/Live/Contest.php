@@ -9,6 +9,8 @@ class Contest extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysqllive';
+    
     protected $fillable = [
         'start_date', 'end_date', 'description',
         'name', 'display_name', 'contest_type', 'entry_mode'

@@ -9,8 +9,10 @@ class ContestPrizePool extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysqllive';
+
     protected $fillable = [
-        'rank_from', 'rank_to', 'prize', 'prize_type', 'contest_id'
+        'rank_from', 'rank_to', 'prize', 'prize_type', 'contest_id', 'each_prize', 'net_prize'
     ];
 
     public function contest(){

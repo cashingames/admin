@@ -20,7 +20,7 @@ class AddTrivia extends Component
 
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $selectedQuestion;
-    public $entryMode, $entryModes, $prizeTypes;
+    public $entryMode, $entryModes, $prizeTypes, $prizeDetails;
     public $description, $displayName, $numberOfWinners;
     public $canChooseQuestions = false;
     public $selectedQuestions = [];
@@ -39,15 +39,17 @@ class AddTrivia extends Component
         $this->entry_fee = 0;
         $this->subcategory = 'Premier League Clubs';
         $this->subcategories = Category::where('category_id', '>', 0)->get();
-        $this->entryModes = array_column(EntryMode::cases(), 'value');;
+        $this->entryModes = array_column(EntryMode::cases(), 'value');
         $this->numberOfWinners = 3;
         $this->prizeTypes = array_column(PrizeType::cases(), 'value');
+        $this->prizeDetails = [];
     }
 
 
     public function updated()
     {
         $this->error = '';
+      
     }
 
     public function setSelectedQuestions($value)
@@ -57,7 +59,9 @@ class AddTrivia extends Component
     }
 
     public function addTrivia()
-    {
+    {   
+        // dd($this->prizeDetails);
+        
         $category = Category::where('name', $this->subcategory)->first();
         $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
         $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
@@ -82,7 +86,7 @@ class AddTrivia extends Component
         $contest->end_date = $end;
         $contest->name = $this->name;
         $contest->description = $this->description ;
-        $contest->display_name = $this->displayName ;
+        $contest->display_name = $this->name ;
         $contest->contest_type = ContestType::Livetrivia;
         $contest->entry_mode = $this->entryMode;
         $contest->save();
@@ -127,10 +131,12 @@ class AddTrivia extends Component
         foreach($this->prizeDetails as $value){
             $prizePool = new ContestPrizePool;
             $prizePool->contest_id = $contest->id;
-            $prizePool->rank_from = $value->rankFrom;
-            $prizePool->rank_to = $value->rankTo;
-            $prizePool->prize = $value->prize;
-            $prizePool->prize_type = $value->prizeType;
+            $prizePool->rank_from = $value['rankFrom'];
+            $prizePool->rank_to = $value['rankTo'];
+            $prizePool->prize = $value['prize'];
+            $prizePool->prize_type = $value['prizeType'];
+            $prizePool->each_prize = $value['eachPrize'];
+            $prizePool->net_prize = $value['netPrize'];
             $prizePool->save();
 
         }
