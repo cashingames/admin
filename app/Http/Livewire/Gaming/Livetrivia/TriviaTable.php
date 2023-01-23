@@ -10,7 +10,7 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
 use App\Models\Live\Trivia;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class TriviaTable extends LivewireDatatable
 {
@@ -21,11 +21,11 @@ class TriviaTable extends LivewireDatatable
 
     public function builder()
     {
-
         return Trivia::query()
-            ->join('categories', 'categories.id', 'trivias.category_id')
-            ->join('contests','contests.id','trivias.contest_id')
-            ->join('contest_prize_pools','contest_prize_pools.contest_id','contests.id');
+            ->leftJoin('categories', 'categories.id', 'trivias.category_id')
+            ->leftJoin('contests', 'contests.id', 'trivias.contest_id')
+            ->leftJoin('contest_prize_pools', 'contest_prize_pools.contest_id', 'contests.id')
+            ->groupBy('contests.id');
     }
 
     public function columns()
@@ -55,6 +55,8 @@ class TriviaTable extends LivewireDatatable
 
                 Column::name('question_count')
                     ->label('Number of Questions'),
+                Column::name('contest_id')
+                    ->label('Contest Id'),
 
                 DateColumn::callback(['start_time'], function ($start_time) {
                     return Carbon::parse($start_time)->setTimezone('Africa/Lagos');
