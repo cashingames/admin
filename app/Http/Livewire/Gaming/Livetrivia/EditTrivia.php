@@ -41,16 +41,13 @@ class EditTrivia extends Component
         $this->end_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->end_time)));
         $this->points_required = $this->trivia->point_eligibility;
         $this->subcategory = Category::where('id', $this->trivia->category_id)->first()->name;
-        $this->numberOfWinners = count( $this->prizePool );
-        
+        $this->numberOfWinners = count($this->prizePool);
+
         $this->questions = $this->questions->toArray();
         $this->entryModes = array_column(EntryMode::cases(), 'value');
         $this->prizeTypes = array_column(PrizeType::cases(), 'value');
-        //$this->prizePool = $this->prizePools->toArray();
-
-        //dd($this->prizePool);
     }
-      
+
     public function editTrivia()
     {
         $this->saveTrivia();
@@ -75,13 +72,12 @@ class EditTrivia extends Component
 
     private function getPrizePool()
     {
-        return ContestPrizePool::select('rank_from', 'rank_to', 'prize','prize_type', 'each_prize', 'net_prize' )
+        return ContestPrizePool::select('id', 'rank_from', 'rank_to', 'prize', 'prize_type', 'each_prize', 'net_prize')
             ->where('contest_id', $this->trivia->contest_id)->get();
     }
 
     private function saveTrivia()
-    {   
-        dd($this->prizePool);
+    {
         $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
         $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
 
@@ -110,6 +106,19 @@ class EditTrivia extends Component
             $trivia->question_count = count($this->questions);
         }
         $trivia->save();
+
+        DB::transaction(function () {
+            foreach ($this->prizePool as $value) {
+                $this->contest->contestPrizePools()->where('id', $value['id'])->update([
+                    'rank_from' => $value['rank_from'],
+                    'rank_to' => $value['rank_to'],
+                    'prize' => $value['prize'],
+                    'prize_type' => $value['prize_type'],
+                    'each_prize' => $value['each_prize'],
+                    'net_prize' => $value['net_prize']
+                ]);
+            }
+        });
     }
 
     public function addMoreQuestions()
@@ -121,7 +130,6 @@ class EditTrivia extends Component
     public function updated()
     {
         $this->upDated = true;
-       
     }
 
     public function removeMoreQuestions($key)
@@ -132,7 +140,7 @@ class EditTrivia extends Component
     }
 
     public function render()
-    {   
+    {
         $this->upDated = false;
         return view('livewire.gaming.edit-trivia', ['questions' => $this->questions]);
     }
