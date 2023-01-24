@@ -31,6 +31,7 @@ class Trivia extends Model
         return $this->belongsTo(Contest::class);
     }
 
-   
+  
+  
 
 }

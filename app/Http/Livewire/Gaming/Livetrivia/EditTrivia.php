@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Gaming\Livetrivia;
 
 use App\Models\Live\Category;
+use App\Models\Live\ContestPrizePool;
 use App\Models\Live\Trivia;
 use App\Models\Live\TriviaQuestion;
 use Illuminate\Http\Request;
@@ -10,12 +11,16 @@ use Livewire\Component;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Enums\Contest\EntryMode;
+use App\Enums\Contest\PrizeType;
+use App\Models\Live\Contest;
 
 class EditTrivia extends Component
 {
-    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
+    public $trivia, $contest, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $questions;
-    public $upDated, $removedQuestion;
+    public $upDated, $removedQuestion,  $numberOfWinners;
+    public $prizePool, $entryModes, $prizeTypes;
 
     public function mount()
     {
@@ -23,19 +28,27 @@ class EditTrivia extends Component
 
         $this->triviaId = $id;
         $this->trivia = Trivia::find($this->triviaId);
+        $this->contest = Contest::find($this->trivia->contest_id);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;
         $this->entry_fee = $this->trivia->entry_fee;
         $this->questions = $this->getTriviaQuestions();
+        $this->prizePool = $this->getPrizePool()->toArray();
         $this->question_count = count($this->questions);
         $this->game_duration = $this->trivia->game_duration;
         $this->start_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->start_time)));
         $this->end_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->end_time)));
         $this->points_required = $this->trivia->point_eligibility;
         $this->subcategory = Category::where('id', $this->trivia->category_id)->first()->name;
+        $this->numberOfWinners = count( $this->prizePool );
         
         $this->questions = $this->questions->toArray();
+        $this->entryModes = array_column(EntryMode::cases(), 'value');
+        $this->prizeTypes = array_column(PrizeType::cases(), 'value');
+        //$this->prizePool = $this->prizePools->toArray();
+
+        //dd($this->prizePool);
     }
       
     public function editTrivia()
@@ -60,8 +73,15 @@ class EditTrivia extends Component
             ->get();
     }
 
-    private function saveTrivia()
+    private function getPrizePool()
     {
+        return ContestPrizePool::select('rank_from', 'rank_to', 'prize','prize_type', 'each_prize', 'net_prize' )
+            ->where('contest_id', $this->trivia->contest_id)->get();
+    }
+
+    private function saveTrivia()
+    {   
+        dd($this->prizePool);
         $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
         $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
 

@@ -14,6 +14,7 @@ use App\Models\Live\ContestPrizePool;
 use App\Models\Live\Question;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AddTrivia extends Component
 {
@@ -49,7 +50,6 @@ class AddTrivia extends Component
     public function updated()
     {
         $this->error = '';
-      
     }
 
     public function setSelectedQuestions($value)
@@ -59,9 +59,9 @@ class AddTrivia extends Component
     }
 
     public function addTrivia()
-    {   
+    {
         // dd($this->prizeDetails);
-        
+
         $category = Category::where('name', $this->subcategory)->first();
         $start = $this->toTimeZone(strval(Carbon::parse($this->start_time)), 'Africa/Lagos', 'UTC');
         $end = $this->toTimeZone(strval(Carbon::parse($this->end_time)), 'Africa/Lagos', 'UTC');
@@ -85,12 +85,12 @@ class AddTrivia extends Component
         $contest->start_date = $start;
         $contest->end_date = $end;
         $contest->name = $this->name;
-        $contest->description = $this->description ;
-        $contest->display_name = $this->name ;
+        $contest->description = $this->description;
+        $contest->display_name = $this->name;
         $contest->contest_type = ContestType::Livetrivia;
         $contest->entry_mode = $this->entryMode;
         $contest->save();
-       
+
         $trivia = new Trivia;
         $trivia->name =  $this->name;
         $trivia->grand_price =  $this->grand_price;
@@ -127,20 +127,21 @@ class AddTrivia extends Component
                 ]);
             }
         }
-        //optimizeee this don't insert into db in a loop
-        foreach($this->prizeDetails as $value){
-            $prizePool = new ContestPrizePool;
-            $prizePool->contest_id = $contest->id;
-            $prizePool->rank_from = $value['rankFrom'];
-            $prizePool->rank_to = $value['rankTo'];
-            $prizePool->prize = $value['prize'];
-            $prizePool->prize_type = $value['prizeType'];
-            $prizePool->each_prize = $value['eachPrize'];
-            $prizePool->net_prize = $value['netPrize'];
-            $prizePool->save();
 
+        $data = [];
+
+        foreach ($this->prizeDetails as $value) {
+            $data[] = [
+                'contest_id' => $contest->id,
+                'rank_from' => $value['rankFrom'],
+                'rank_to' => $value['rankTo'],
+                'prize' => $value['prize'],
+                'prize_type' => $value['prizeType'],
+                'each_prize' => $value['eachPrize'],
+                'net_prize' => $value['netPrize']
+            ];
         }
-        
+        ContestPrizePool::insert($data);
 
         return redirect()->to('/gaming/trivia');
     }

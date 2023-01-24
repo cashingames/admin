@@ -39,6 +39,12 @@
                 </label>
                 <input wire:model="points_required" type="number" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" value={{$trivia->point_eligibility}}>
             </div>
+            <div class="w-full  px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                    Number of Winners
+                </label>
+                <input wire:model="numberOfWinners" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" value={{$numberOfWinners}} />
+            </div>
 
         </div>
         <div class="mb-6">
@@ -61,6 +67,18 @@
                     <option>300</option>
                 </select>
             </div>
+            <div class="w-full  px-3 mb-6 md:mb-0">
+
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                    Entry Mode
+                </label>
+                <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="entryMode">
+                    <option>{{$contest->entry_mode}}</option>
+                    @foreach ($entryModes as $entryMode)
+                    <option>{{$entryMode}}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="mb-6">
             <div class="w-full  px-3 mb-6 md:mb-0">
@@ -75,8 +93,77 @@
                 </label>
                 <input wire:model="end_time" type="datetime-local" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
             </div>
+            <div class="w-full  px-3 mb-6 md:mb-0">
+
+            </div>
         </div>
+
     </div>
+    <div class="w-full flex flex-row justify-center ">
+        <span class="block uppercase tracking-wide mt-4 text-gray-700 text-l font-bold mb-2">Prize Pool</span>
+    </div>
+
+    <div class="w-full flex flex-row justify-center ">
+        @foreach ($prizePool as $prizePool)
+        <div>
+            <div class="mb-6">
+                <div class="w-full  px-3 mb-6 md:mb-0">
+                    <span class="block uppercase tracking-wide mt-4 text-gray-700 text-l font-bold mb-2">({{$loop->index + 1}})</span>
+                    <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                        Position From
+                    </label>
+                    <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizePool.{{$loop->index}}.rank_from">
+                        <option>{{$prizePool['rank_from']}}</option>
+                        @for($i = 0; $i < $numberOfWinners; $i++ ) <option>{{$i + 1}}</option>
+                            @endfor
+                    </select>
+                </div>
+                <div class="w-full  px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                        Position To
+                    </label>
+                    <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizePool.{{$loop->index}}.rank_to">
+                        <option>{{$prizePool['rank_to']}}</option>
+                        @for($i = 0; $i < $numberOfWinners; $i++ ) <option>{{$i + 1}}</option>
+                            @endfor
+                    </select>
+
+                </div>
+                <div class="w-full  px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
+                        Each Person's Prize
+                    </label>
+                    <input wire:model="prizePool.{{$loop->index}}.each_prize" type="text" class="block appearance-none mb-4 mx-3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value={{$prizePool['each_prize']}}>
+                </div>
+            </div>
+            <div class="mb-6">
+
+                <div class="w-full  px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                        Prize Type
+                    </label>
+                    <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizePool.{{$loop->index}}.prize_type">
+                        <option>{{$prizePool['prize_type']}}</option>
+                        @foreach ($prizeTypes as $prizeType)
+                        <option>{{$prizeType}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
+                    Prize Description
+                </label>
+                <input wire:model="prizePool.{{$loop->index}}.prize" type="text" class="block appearance-none mb-4 mx-3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value={{$prizePool['prize']}}>
+
+                <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
+                    Total Prizes
+                </label>
+                <input wire:model="prizePool.{{$loop->index}}.net_prize" type="text" class="block appearance-none mb-4 mx-3 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value={{$prizePool['net_prize']}}>
+
+            </div>
+        </div>
+        @endforeach
+    </div>
+
     <label class="block uppercase mt-4 text-gray-700 text-xs text-center font-bold mb-2">
         Selected Questions
     </label>
@@ -92,7 +179,7 @@
                     <th class="px-4 py-2"></th>
                 </tr>
             </thead>
-         
+
             <tbody>
                 @foreach($questions as $question)
                 <tr>
@@ -100,13 +187,13 @@
                     <td class="border px-4 py-2">{{$question['level']}}</td>
                     <td class="border px-4 py-2">{{$question['question']}}</td>
                     <td class="border px-4 py-2">
-                    
+
                         <button wire:click='removeMoreQuestions({{$loop->index}})' class="shadow bg-blue-500 text-white font-bold ml-2 px-1 rounded">remove</button>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
-           
+
         </table>
     </div>
     <div class="flex justify-center md:items-center mb-4">

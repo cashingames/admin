@@ -16,7 +16,7 @@ class Contest extends Model
         'name', 'display_name', 'contest_type', 'entry_mode'
     ];
 
-    public function winningPrizePools()
+    public function contestPrizePools()
     {
       return $this->hasMany(ContestPrizePool::class);
     }
