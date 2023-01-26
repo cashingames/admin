@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Gaming\Livetrivia;
 
 use App\Models\Live\Category;
+use App\Models\Live\ContestPrizePool;
 use App\Models\Live\Trivia;
 use App\Models\Live\TriviaQuestion;
 use Illuminate\Http\Request;
@@ -10,12 +11,16 @@ use Livewire\Component;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Enums\Contest\EntryMode;
+use App\Enums\Contest\PrizeType;
+use App\Models\Live\Contest;
 
 class EditTrivia extends Component
 {
-    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
+    public $trivia, $contest, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $questions;
-    public $upDated, $removedQuestion;
+    public $upDated, $removedQuestion,  $numberOfWinners;
+    public $prizePool, $entryModes, $prizeTypes;
 
     public function mount()
     {
@@ -23,21 +28,26 @@ class EditTrivia extends Component
 
         $this->triviaId = $id;
         $this->trivia = Trivia::find($this->triviaId);
+        $this->contest = Contest::find($this->trivia->contest_id);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;
         $this->entry_fee = $this->trivia->entry_fee;
         $this->questions = $this->getTriviaQuestions();
+        $this->prizePool = $this->getPrizePool()->toArray();
         $this->question_count = count($this->questions);
         $this->game_duration = $this->trivia->game_duration;
         $this->start_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->start_time)));
         $this->end_time = date("Y-m-d\TH:i:s", strtotime('+1 hour', strtotime($this->trivia->end_time)));
         $this->points_required = $this->trivia->point_eligibility;
         $this->subcategory = Category::where('id', $this->trivia->category_id)->first()->name;
-        
+        $this->numberOfWinners = count($this->prizePool);
+
         $this->questions = $this->questions->toArray();
+        $this->entryModes = array_column(EntryMode::cases(), 'value');
+        $this->prizeTypes = array_column(PrizeType::cases(), 'value');
     }
-      
+
     public function editTrivia()
     {
         $this->saveTrivia();
@@ -58,6 +68,12 @@ class EditTrivia extends Component
             ->select('questions.label as question', 'questions.level as level', 'questions.id as id')
             ->where('trivia_questions.trivia_id', $this->triviaId)
             ->get();
+    }
+
+    private function getPrizePool()
+    {
+        return ContestPrizePool::select('id', 'rank_from', 'rank_to', 'prize', 'prize_type', 'each_prize', 'net_prize')
+            ->where('contest_id', $this->trivia->contest_id)->get();
     }
 
     private function saveTrivia()
@@ -90,6 +106,19 @@ class EditTrivia extends Component
             $trivia->question_count = count($this->questions);
         }
         $trivia->save();
+
+        DB::transaction(function () {
+            foreach ($this->prizePool as $value) {
+                $this->contest->contestPrizePools()->where('id', $value['id'])->update([
+                    'rank_from' => $value['rank_from'],
+                    'rank_to' => $value['rank_to'],
+                    'prize' => $value['prize'],
+                    'prize_type' => $value['prize_type'],
+                    'each_prize' => $value['each_prize'],
+                    'net_prize' => $value['net_prize']
+                ]);
+            }
+        });
     }
 
     public function addMoreQuestions()
@@ -101,7 +130,6 @@ class EditTrivia extends Component
     public function updated()
     {
         $this->upDated = true;
-       
     }
 
     public function removeMoreQuestions($key)
@@ -112,7 +140,7 @@ class EditTrivia extends Component
     }
 
     public function render()
-    {   
+    {
         $this->upDated = false;
         return view('livewire.gaming.edit-trivia', ['questions' => $this->questions]);
     }
