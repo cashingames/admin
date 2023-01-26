@@ -9,12 +9,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class WalletFunded extends Notification
+class PointsCredited extends Notification
 {
     use Queueable;
 
 
-    public $amount;
+    public $points;
     public $user;
 
     /**
@@ -22,9 +22,9 @@ class WalletFunded extends Notification
      *
      * @return void
      */
-    public function __construct($amount, User $user)
+    public function __construct($points, User $user)
     {
-        $this->amount = $amount;
+        $this->points = $points;
         $this->user = $user;
     }
 
@@ -48,9 +48,9 @@ class WalletFunded extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => "Your wallet has been credited with ₦{$this->amount}",
-            'action_type' => PushNotificationType::Wallet,
-            'action_id' => $this->user->wallet->id
+            'title' => "You have just been credited with {$this->points} points",
+            'action_type' => PushNotificationType::Points,
+            'action_id' => $this->user->id
         ];
     }
 }
