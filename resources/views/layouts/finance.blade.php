@@ -25,7 +25,7 @@
                     <x-jet-nav-link
                         href="{{ route('finance.fund') }}"
                         :active="request()->routeIs('finance.fund')">
-                        {{ __('Fund') }}
+                        {{ __('Payouts') }}
                     </x-jet-nav-link>
                   
                 </div>
