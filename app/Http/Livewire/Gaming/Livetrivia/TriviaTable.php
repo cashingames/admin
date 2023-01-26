@@ -23,7 +23,8 @@ class TriviaTable extends LivewireDatatable
     {
 
         return Trivia::query()
-            ->join('categories', 'categories.id', 'trivias.category_id');
+            ->join('categories', 'categories.id', 'trivias.category_id')
+            ->join('contests', 'contests.id', 'trivias.contest_id');
     }
 
     public function columns()
