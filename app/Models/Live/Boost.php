@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Boost extends Model
 {
     protected $connection = 'mysqllive';
+
+    public function exhibitionBoosts()
+    {
+      return $this->hasMany(ExhibitionBoost::class);
+    }
+    
+
 }

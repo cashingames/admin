@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Gaming\Exhibition;
 
+use App\Models\Live\ExhibitionBoost;
 use App\Models\Live\GameSession;
 use Illuminate\Support\Carbon;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
@@ -16,16 +17,19 @@ class SessionsTable extends LivewireDatatable
     public $persistSort = false;
     public $persistFilters = false;
     const TIMEZONE = 'Africa/Lagos';
-    
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
+
         return GameSession::query()
+            ->whereNull('trivia_id')
             ->join("categories", "categories.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as users", "users.id", "=", "game_sessions.user_id")
-            ->join("{$livedb}.plans as plans", "plans.id", "=", "game_sessions.plan_id")
+            ->leftJoin("{$livedb}.plans as plans", "plans.id", "=", "game_sessions.plan_id")
             ->join("{$livedb}.game_modes as game_modes", "game_modes.id", "=", "game_sessions.game_mode_id")
-            ->whereNull('trivia_id');
+            ->leftJoin("{$livedb}.exhibition_boosts as exhibition_boosts", "exhibition_boosts.game_session_id", "=", "game_sessions.id")
+            ->distinct();
     }
 
     public function columns()
@@ -33,7 +37,7 @@ class SessionsTable extends LivewireDatatable
         return
             [
                 Column::index($this),
-                
+
                 Column::name('game_sessions.id'),
 
                 Column::name('game_sessions.session_token')->searchable()->hide(),
@@ -54,6 +58,14 @@ class SessionsTable extends LivewireDatatable
                 Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 
                 Column::name('plans.name')->label("Plan")->searchable()->hide(),
+
+                Column::callback(['id'], function ($id) {
+                    $exhibitionBoost = ExhibitionBoost::where('game_session_id',$id)->first();
+                    if( is_null($exhibitionBoost)){
+                        return " ";
+                    }
+                    return $exhibitionBoost->usedBoosts();
+                })->label('Used Boost')->hide(),
 
                 Column::name('game_modes.name')->label("Game Mode")->hide(),
 
