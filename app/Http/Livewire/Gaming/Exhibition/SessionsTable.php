@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Gaming\Exhibition;
 use App\Models\Live\ExhibitionBoost;
 use App\Models\Live\GameSession;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -23,17 +24,19 @@ class SessionsTable extends LivewireDatatable
         $livedb = config('database.connections.mysqllive.database');
 
         return GameSession::query()
+            ->with('exhibitionBoosts')
             ->whereNull('trivia_id')
             ->join("categories", "categories.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as users", "users.id", "=", "game_sessions.user_id")
             ->leftJoin("{$livedb}.plans as plans", "plans.id", "=", "game_sessions.plan_id")
             ->join("{$livedb}.game_modes as game_modes", "game_modes.id", "=", "game_sessions.game_mode_id")
             ->leftJoin("{$livedb}.exhibition_boosts as exhibition_boosts", "exhibition_boosts.game_session_id", "=", "game_sessions.id")
-            ->distinct();
+            ->leftJoin("{$livedb}.boosts as boosts", "exhibition_boosts.boost_id", "=", "boosts.id")
+            ->groupBy('game_sessions.id');
     }
 
     public function columns()
-    {
+    {   
         return
             [
                 Column::index($this),
@@ -58,14 +61,8 @@ class SessionsTable extends LivewireDatatable
                 Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 
                 Column::name('plans.name')->label("Plan")->searchable()->hide(),
-
-                Column::callback(['id'], function ($id) {
-                    $exhibitionBoost = ExhibitionBoost::where('game_session_id',$id)->first();
-                    if( is_null($exhibitionBoost)){
-                        return " ";
-                    }
-                    return $exhibitionBoost->usedBoosts();
-                })->label('Used Boost')->hide(),
+                
+                Column::name('boosts.name')->label("Used Boost")->searchable()->hide(),
 
                 Column::name('game_modes.name')->label("Game Mode")->hide(),
 
