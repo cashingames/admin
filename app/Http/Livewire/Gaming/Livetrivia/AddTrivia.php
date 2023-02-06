@@ -81,11 +81,23 @@ class AddTrivia extends Component
             return;
         }
 
+        if(empty($this->prizeDetails)){
+            $this->error = 'All Prize Details Fields Are required ';
+            return;
+        }
+
+        foreach ($this->prizeDetails as $value) {
+            if(count($value) < 6){
+                $this->error = 'All Prize Details Fields Are required ';
+                return;
+            }
+        }
+
         $contest = new Contest;
         $contest->start_date = $start;
         $contest->end_date = $end;
         $contest->name = $this->name;
-        $contest->description = $this->description;
+        $contest->description = is_null($this->description) ? $this->name : $this->description;
         $contest->display_name = $this->name;
         $contest->contest_type = ContestType::Livetrivia;
         $contest->entry_mode = $this->entryMode;
@@ -135,10 +147,10 @@ class AddTrivia extends Component
                 'contest_id' => $contest->id,
                 'rank_from' => $value['rankFrom'],
                 'rank_to' => $value['rankTo'],
-                'prize' => $value['prize'],
+                'prize' => $value['prize']  ,
                 'prize_type' => $value['prizeType'],
-                'each_prize' => $value['eachPrize'],
-                'net_prize' => $value['netPrize']
+                'each_prize' => $value['eachPrize'] ,
+                'net_prize' => $value['netPrize'] 
             ];
         }
         ContestPrizePool::insert($data);

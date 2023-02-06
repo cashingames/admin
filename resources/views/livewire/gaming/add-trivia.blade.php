@@ -2,7 +2,7 @@
     <div>
         <div class="w-full flex flex-row justify-center ">
             <span class="block uppercase tracking-wide mt-4 text-gray-700 text-l font-bold mb-2">Live Trivia Details</span>
-            <span class="block uppercase tracking-wide mt-4 text-red-700 text-l font-bold mb-2">{{$error}}</span>
+            <p class="block uppercase tracking-wide mt-4 text-red-700 text-l font-bold mb-2">{{$error}}</p>
         </div>
         <div class="w-full flex flex-row justify-between ">
             <div class="mb-6">
@@ -121,7 +121,7 @@
                                 Position From
                             </label>
                             <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.0.rankFrom">
-                                <option>select position</option>
+                            <option>select position</option>
                                 @for($i = 0; $i < $numberOfWinners; $i++ ) <option>{{$i + 1}}</option>
                                     @endfor
                             </select>
@@ -131,7 +131,7 @@
                                 Position To
                             </label>
                             <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.0.rankTo">
-                                <option>select position</option>
+                            <option>select position</option>
                                 @for($i = 0; $i < $numberOfWinners; $i++ ) <option>{{$i + 1}}</option>
                                     @endfor
                             </select>
