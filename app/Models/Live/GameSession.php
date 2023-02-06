@@ -36,4 +36,9 @@ class GameSession extends Model
     {
         return $this->hasManyThrough(Question::class, GameSessionQuestion::class);
     }
+
+    public function exhibitionBoosts()
+    {
+      return $this->hasMany(ExhibitionBoost::class);
+    }
 }

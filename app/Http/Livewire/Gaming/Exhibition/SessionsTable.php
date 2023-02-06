@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Gaming\Exhibition;
 
+use App\Models\Live\ExhibitionBoost;
 use App\Models\Live\GameSession;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -16,24 +18,29 @@ class SessionsTable extends LivewireDatatable
     public $persistSort = false;
     public $persistFilters = false;
     const TIMEZONE = 'Africa/Lagos';
-    
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
+
         return GameSession::query()
+            ->with('exhibitionBoosts')
+            ->whereNull('trivia_id')
             ->join("categories", "categories.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as users", "users.id", "=", "game_sessions.user_id")
-            ->join("{$livedb}.plans as plans", "plans.id", "=", "game_sessions.plan_id")
+            ->leftJoin("{$livedb}.plans as plans", "plans.id", "=", "game_sessions.plan_id")
             ->join("{$livedb}.game_modes as game_modes", "game_modes.id", "=", "game_sessions.game_mode_id")
-            ->whereNull('trivia_id');
+            ->leftJoin("{$livedb}.exhibition_boosts as exhibition_boosts", "exhibition_boosts.game_session_id", "=", "game_sessions.id")
+            ->leftJoin("{$livedb}.boosts as boosts", "exhibition_boosts.boost_id", "=", "boosts.id")
+            ->groupBy('game_sessions.id');
     }
 
     public function columns()
-    {
+    {   
         return
             [
                 Column::index($this),
-                
+
                 Column::name('game_sessions.id'),
 
                 Column::name('game_sessions.session_token')->searchable()->hide(),
@@ -54,6 +61,8 @@ class SessionsTable extends LivewireDatatable
                 Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 
                 Column::name('plans.name')->label("Plan")->searchable()->hide(),
+                
+                Column::name('boosts.name')->label("Used Boost")->searchable()->hide(),
 
                 Column::name('game_modes.name')->label("Game Mode")->hide(),
 
