@@ -21,8 +21,8 @@ class AddTrivia extends Component
 
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $selectedQuestion;
-    public $entryMode, $entryModes, $prizeTypes, $prizeDetails;
-    public $description, $displayName, $numberOfWinners;
+    public $entryMode, $entryModes,$prizeType, $prizeTypes, $prizeDetails;
+    public $description, $displayName, $numberOfWinners, $prizeMultiplier;
     public $canChooseQuestions = false;
     public $selectedQuestions = [];
     protected $listeners = ['questionsSelected' => 'setSelectedQuestions'];
@@ -38,6 +38,7 @@ class AddTrivia extends Component
         $this->grand_price = 0;
         $this->game_duration = 60;
         $this->entry_fee = 0;
+        $this->prizeMultiplier = 1;
         $this->subcategory = 'Premier League Clubs';
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->entryModes = array_column(EntryMode::cases(), 'value');
@@ -87,7 +88,7 @@ class AddTrivia extends Component
         }
 
         foreach ($this->prizeDetails as $value) {
-            if(count($value) < 6){
+            if(count($value) < 5){
                 $this->error = 'All Prize Details Fields Are required ';
                 return;
             }
@@ -101,6 +102,7 @@ class AddTrivia extends Component
         $contest->display_name = $this->name;
         $contest->contest_type = ContestType::Livetrivia;
         $contest->entry_mode = $this->entryMode;
+        $contest->prize_type = $this->prizeType;
         $contest->save();
 
         $trivia = new Trivia;
@@ -117,6 +119,7 @@ class AddTrivia extends Component
         $trivia->game_duration = $this->game_duration;
         $trivia->question_count = $this->question_count;
         $trivia->contest_id = $contest->id;
+        $trivia->prize_multiplier = $this->prizeMultiplier;
         $trivia->save();
 
         if (count($this->selectedQuestions) > 0) {
@@ -148,7 +151,6 @@ class AddTrivia extends Component
                 'rank_from' => $value['rankFrom'],
                 'rank_to' => $value['rankTo'],
                 'prize' => $value['prize']  ,
-                'prize_type' => $value['prizeType'],
                 'each_prize' => $value['eachPrize'] ,
                 'net_prize' => $value['netPrize'] 
             ];

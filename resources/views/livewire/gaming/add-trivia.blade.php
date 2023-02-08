@@ -1,8 +1,8 @@
 <div>
     <div>
-        <div class="w-full flex flex-row justify-center ">
-            <span class="block uppercase tracking-wide mt-4 text-gray-700 text-l font-bold mb-2">Live Trivia Details</span>
-            <p class="block uppercase tracking-wide mt-4 text-red-700 text-l font-bold mb-2">{{$error}}</p>
+        <div class="text-center ">
+            <p class="block uppercase mt-4 text-gray-700 text-l font-bold mb-2">Live Trivia Details</p>
+            <p class="block uppercase mt-4 text-red-700 text-l font-bold mb-2">{{$error}}</p>
         </div>
         <div class="w-full flex flex-row justify-between ">
             <div class="mb-6">
@@ -57,6 +57,12 @@
                     </label>
                     <input wire:model="numberOfWinners" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" />
                 </div>
+                <div class="w-full  px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                        Prize Multiplier
+                    </label>
+                    <input wire:model="prizeMultiplier" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" />
+                </div>
             </div>
             <div class="mb-6">
                 <div class="w-full  px-3 mb-6 md:mb-0">
@@ -104,6 +110,17 @@
                     </label>
                     <input wire:model="end_time" type="datetime-local" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" placeholder="Start Time">
                 </div>
+                <div class="w-full  px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                        Prize Type
+                    </label>
+                    <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeType">
+                        <option>select prize type</option>
+                        @foreach ($prizeTypes as $prizeType)
+                        <option>{{$prizeType}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
         </div>
@@ -121,7 +138,7 @@
                                 Position From
                             </label>
                             <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.0.rankFrom">
-                            <option>select position</option>
+                                <option>select position</option>
                                 @for($i = 0; $i < $numberOfWinners; $i++ ) <option>{{$i + 1}}</option>
                                     @endfor
                             </select>
@@ -131,7 +148,7 @@
                                 Position To
                             </label>
                             <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.0.rankTo">
-                            <option>select position</option>
+                                <option>select position</option>
                                 @for($i = 0; $i < $numberOfWinners; $i++ ) <option>{{$i + 1}}</option>
                                     @endfor
                             </select>
@@ -139,18 +156,6 @@
                         </div>
                     </div>
                     <div class="mb-6">
-
-                        <div class="w-full  px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                                Prize Type
-                            </label>
-                            <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.0.prizeType">
-                                <option>select prize type</option>
-                                @foreach ($prizeTypes as $prizeType)
-                                <option>{{$prizeType}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                             Prize Description
                         </label>
@@ -193,18 +198,6 @@
                         </div>
                     </div>
                     <div class="mb-6">
-
-                        <div class="w-full  px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                                Prize Type
-                            </label>
-                            <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.1.prizeType">
-                                <option>select prize type</option>
-                                @foreach ($prizeTypes as $prizeType)
-                                <option>{{$prizeType}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                             Prize Description
                         </label>
@@ -245,18 +238,6 @@
                         </div>
                     </div>
                     <div class="mb-6">
-
-                        <div class="w-full  px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                                Prize Type
-                            </label>
-                            <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.2.prizeType">
-                                <option>select prize type</option>
-                                @foreach ($prizeTypes as $prizeType)
-                                <option>{{$prizeType}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                             Prize Description
                         </label>
@@ -298,18 +279,6 @@
                         </div>
                     </div>
                     <div class="mb-6">
-
-                        <div class="w-full  px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                                Prize Type
-                            </label>
-                            <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.3.prizeType">
-                                <option>select prize type</option>
-                                @foreach ($prizeTypes as $prizeType)
-                                <option>{{$prizeType}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                             Prize Description
                         </label>
@@ -350,18 +319,6 @@
                         </div>
                     </div>
                     <div class="mb-6">
-
-                        <div class="w-full  px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                                Prize Type
-                            </label>
-                            <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizeDetails.4.prizeType">
-                                <option>select prize type</option>
-                                @foreach ($prizeTypes as $prizeType)
-                                <option>{{$prizeType}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                             Prize Description
                         </label>

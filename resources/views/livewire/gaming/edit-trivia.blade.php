@@ -19,6 +19,12 @@
                 </label>
                 <textarea rows="1" , cols="54" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Entry Fee" wire:model="entry_fee"> {{$trivia->entry_fee}}</textarea>
             </div>
+            <div class="w-full  px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                    Prize Multiplier
+                </label>
+                <input wire:model="prize_multiplier" type="number" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
+            </div>
         </div>
 
         <div class="mb-6">
@@ -72,8 +78,8 @@
                 <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
                     Entry Mode
                 </label>
-                <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="entryMode">
-                    <option>{{$contest->entry_mode}}</option>
+                <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="entry_mode">
+                    <option>{{$trivia->contest->entry_mode}}</option>
                     @foreach ($entryModes as $entryMode)
                     <option>{{$entryMode}}</option>
                     @endforeach
@@ -94,7 +100,15 @@
                 <input wire:model="end_time" type="datetime-local" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
             </div>
             <div class="w-full  px-3 mb-6 md:mb-0">
-
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                    Prize Type
+                </label>
+                <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prize_type">
+                    <option>{{$trivia->contest->prize_type}}</option>
+                    @foreach ($prizeTypes as $prizeType)
+                    <option>{{$prizeType}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -129,7 +143,7 @@
                     </select>
 
                 </div>
-                <div class="w-full  px-3 mb-6 md:mb-0">
+                <div class="w-full mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                         Each Person's Prize
                     </label>
@@ -138,17 +152,7 @@
             </div>
             <div class="mb-6">
 
-                <div class="w-full  px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
-                        Prize Type
-                    </label>
-                    <select class="block appearance-none w-full mb-4 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" wire:model="prizePool.{{$loop->index}}.prize_type">
-                        <option>{{$prizePool['prize_type']}}</option>
-                        @foreach ($prizeTypes as $prizeType)
-                        <option>{{$prizeType}}</option>
-                        @endforeach
-                    </select>
-                </div>
+
                 <label class="block uppercase tracking-wide mt-4 ml-4 text-gray-700 text-xs font-bold mb-2">
                     Prize Description
                 </label>
