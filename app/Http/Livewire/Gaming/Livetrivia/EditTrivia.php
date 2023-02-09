@@ -17,9 +17,9 @@ use App\Models\Live\Contest;
 
 class EditTrivia extends Component
 {
-    public $trivia, $contest, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
+    public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $questions;
-    public $upDated, $removedQuestion,  $numberOfWinners;
+    public $upDated, $removedQuestion,  $numberOfWinners, $entry_mode, $prize_type, $prize_multiplier;
     public $prizePool, $entryModes, $prizeTypes;
 
     public function mount()
@@ -28,11 +28,13 @@ class EditTrivia extends Component
 
         $this->triviaId = $id;
         $this->trivia = Trivia::find($this->triviaId);
-        $this->contest = Contest::find($this->trivia->contest_id);
         $this->subcategories = Category::where('category_id', '>', 0)->get();
         $this->name = $this->trivia->name;
         $this->grand_price = $this->trivia->grand_price;
         $this->entry_fee = $this->trivia->entry_fee;
+        $this->prize_multiplier = $this->trivia->prize_multiplier;
+        $this->entry_mode = $this->trivia->contest->entry_mode;
+        $this->prize_type = $this->trivia->contest->prize_type;
         $this->questions = $this->getTriviaQuestions();
         $this->prizePool = $this->getPrizePool()->toArray();
         $this->question_count = count($this->questions);
@@ -72,7 +74,7 @@ class EditTrivia extends Component
 
     private function getPrizePool()
     {
-        return ContestPrizePool::select('id', 'rank_from', 'rank_to', 'prize', 'prize_type', 'each_prize', 'net_prize')
+        return ContestPrizePool::select('id', 'rank_from', 'rank_to', 'prize', 'each_prize', 'net_prize')
             ->where('contest_id', $this->trivia->contest_id)->get();
     }
 
@@ -83,7 +85,7 @@ class EditTrivia extends Component
 
         $category = Category::where('name', $this->subcategory)->first();
 
-        $trivia = Trivia::find($this->trivia->id);
+        $trivia = $this->trivia;
         $trivia->name = $this->name;
         $trivia->category_id = $category->id;
         $trivia->point_eligibility = $this->points_required;
@@ -93,6 +95,10 @@ class EditTrivia extends Component
         $trivia->entry_fee = $this->entry_fee;
         $trivia->start_time = $start;
         $trivia->end_time = $end;
+        $trivia->prize_multiplier = $this->prize_multiplier;
+
+        $trivia->contest->entry_mode = $this->entry_mode;
+        $trivia->contest->prize_type = $this->prize_type;
 
         if ($this->removedQuestion) {
             TriviaQuestion::where('trivia_id', $this->triviaId)->delete();
@@ -105,15 +111,15 @@ class EditTrivia extends Component
             }
             $trivia->question_count = count($this->questions);
         }
+        $trivia->contest->save();
         $trivia->save();
 
-        DB::transaction(function () {
+        DB::transaction(function () use ($trivia) {
             foreach ($this->prizePool as $value) {
-                $this->contest->contestPrizePools()->where('id', $value['id'])->update([
+                $trivia->contest->contestPrizePools()->where('id', $value['id'])->update([
                     'rank_from' => $value['rank_from'],
                     'rank_to' => $value['rank_to'],
                     'prize' => $value['prize'],
-                    'prize_type' => $value['prize_type'],
                     'each_prize' => $value['each_prize'],
                     'net_prize' => $value['net_prize']
                 ]);
