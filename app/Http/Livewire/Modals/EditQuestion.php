@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Modals;
 
 use App\Models\Live\Question;
 use App\Models\Live\Category;
+use App\Models\Live\CategoryQuestion;
 use App\Models\Live\Option;
 use App\Models\QuestionsReviewLog;
 use LivewireUI\Modal\ModalComponent;
@@ -74,8 +75,7 @@ class EditQuestion extends ModalComponent
             }
 
             foreach ($request->selectedSubcategories as $subcategory) {
-                $findCategory = DB::connection('mysqllive')->table('categories_questions')
-                    ->where('question_id', $question->id)->where('category_id', $subcategory)
+                $findCategory = CategoryQuestion::where('question_id', $question->id)->where('category_id', $subcategory)
                     ->first();
 
                 if ($findCategory == null) {
