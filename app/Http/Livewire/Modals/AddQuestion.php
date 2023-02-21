@@ -5,13 +5,12 @@ namespace App\Http\Livewire\Modals;
 use App\Models\Question as AdminQuestion;
 use App\Models\Live\Question as LiveQuestion;
 use App\Models\Live\Category;
+use App\Models\Live\CategoryQuestion;
 use App\Models\Live\GameType;
 use App\Models\Live\Option;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\Console\Question\Question;
 
 class AddQuestion extends ModalComponent
 {
@@ -84,7 +83,6 @@ class AddQuestion extends ModalComponent
         $question->level = $request->level;
         $question->label = $request->question;
         $question->game_type_id = $gameType->id;
-        $question->category_id = $request->selectedSubcategories[0];
         $question->created_by = auth()->user()->id;
         $question->save();
 
@@ -93,13 +91,11 @@ class AddQuestion extends ModalComponent
         foreach ($request->selectedSubcategories as $subcategory) {
             $data[] = [
                 'category_id' => $subcategory,
-                'question_id' => $question->id,
-                'created_at' => now(),
-                'updated_at' => now()
+                'question_id' => $question->id
             ];
         }
 
-        DB::connection('mysqllive')->table('categories_questions')->insert($data);
+        CategoryQuestion::insert($data);
 
         $adminQuestion = new AdminQuestion;
         $adminQuestion->user_id = auth()->user()->id;
@@ -124,19 +120,18 @@ class AddQuestion extends ModalComponent
     }
 
     public function updated()
-    {   
+    {
         if (strlen($this->keyWords) == 0) {
             $this->questionHints = array();
             $this->hasSearched = false;
         }
 
-        if(!$this->hasSearched){
+        if (!$this->hasSearched) {
             if (strlen($this->keyWords) >= 20) {
                 $this->query();
                 $this->hasSearched = true;
             }
         }
-        
     }
 
     public function query()
