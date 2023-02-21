@@ -9,6 +9,7 @@ use App\Models\Live\CategoryQuestion;
 use App\Models\Live\GameType;
 use App\Models\Live\Option;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Validator;
 
@@ -91,7 +92,9 @@ class AddQuestion extends ModalComponent
         foreach ($request->selectedSubcategories as $subcategory) {
             $data[] = [
                 'category_id' => $subcategory,
-                'question_id' => $question->id
+                'question_id' => $question->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ];
         }
 
