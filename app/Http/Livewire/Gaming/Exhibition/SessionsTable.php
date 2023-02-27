@@ -17,6 +17,7 @@ class SessionsTable extends LivewireDatatable
     public $persistSearch = false;
     public $persistSort = false;
     public $persistFilters = false;
+    public $complex = true;
     const TIMEZONE = 'Africa/Lagos';
 
     public function builder()

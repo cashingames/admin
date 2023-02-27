@@ -19,7 +19,7 @@ class EditTrivia extends Component
 {
     public $trivia, $subcategories, $name, $grand_price, $points_required, $entry_fee, $triviaId;
     public $game_duration, $question_count, $start_time, $end_time, $subcategory, $questions;
-    public $upDated, $removedQuestion,  $numberOfWinners, $entry_mode, $prize_type, $prize_multiplier;
+    public $upDated, $removedQuestion,  $numberOfWinners, $description, $entry_mode, $prize_type, $prize_multiplier;
     public $prizePool, $entryModes, $prizeTypes;
 
     public function mount()
@@ -34,6 +34,7 @@ class EditTrivia extends Component
         $this->entry_fee = $this->trivia->entry_fee;
         $this->prize_multiplier = $this->trivia->prize_multiplier;
         $this->entry_mode = $this->trivia->contest->entry_mode;
+        $this->description = $this->trivia->contest->description;
         $this->prize_type = $this->trivia->contest->prize_type;
         $this->questions = $this->getTriviaQuestions();
         $this->prizePool = $this->getPrizePool()->toArray();
@@ -99,6 +100,7 @@ class EditTrivia extends Component
 
         $trivia->contest->entry_mode = $this->entry_mode;
         $trivia->contest->prize_type = $this->prize_type;
+        $trivia->contest->description = $this->description;
 
         if ($this->removedQuestion) {
             TriviaQuestion::where('trivia_id', $this->triviaId)->delete();
