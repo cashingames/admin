@@ -89,6 +89,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.exhibition.sessions');
     })->name('gaming.sessions');
 
+    Route::get('/gaming/user-achievement-badges', function () {
+        return view('gaming.userAchievementBadges');
+    })->name('gaming.userAchievementBadges');
+
     Route::get('/gaming/challenge/sessions', function () {
         return view('gaming.challenge.challengeGameSessions');
     })->name('gaming.challengeGameSessions');

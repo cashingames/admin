@@ -25,6 +25,7 @@
                 </label>
                 <input wire:model="prize_multiplier" type="number" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
             </div>
+            
         </div>
 
         <div class="mb-6">
@@ -51,7 +52,12 @@
                 </label>
                 <input wire:model="numberOfWinners" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" value={{$numberOfWinners}} />
             </div>
-
+            <div class="w-full  px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide mt-4 text-gray-700 text-xs font-bold mb-2">
+                    Description
+                </label>
+                <textarea rows="1" , cols="54" wire:model="description" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Description"> {{$trivia->contest->description}}</textarea>
+            </div>
         </div>
         <div class="mb-6">
             <div class="w-full  px-3 mb-6 md:mb-0">

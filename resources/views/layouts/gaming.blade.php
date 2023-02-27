@@ -13,6 +13,9 @@
                     <x-jet-nav-link href="{{ route('gaming.sessions') }}" :active="request()->routeIs(['gaming.sessions','gaming.challengeGameSessions'])">
                         {{ __('Game Sessions') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('gaming.userAchievementBadges') }}" :active="request()->routeIs(['gaming.userAchievementBadges'])">
+                        {{ __('User Achievement Badges') }}
+                    </x-jet-nav-link>
                     @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'create') )
                     <x-jet-nav-link href="{{ route('gaming.trivia') }}" :active="request()->routeIs('gaming.trivia')">
                         {{ __('Manage Live Trivia') }}
