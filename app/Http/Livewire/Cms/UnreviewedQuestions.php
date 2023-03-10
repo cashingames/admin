@@ -111,14 +111,20 @@ class UnreviewedQuestions extends LivewireDatatable
                     ['question_id'],
                     function ($question_id) {
                         $question = Question::find($question_id);
-                        return view('components.table-actions', [
-                            'id' => $question->id
-                        ]);
+                        if (!is_null($question)) {
+                            return view('components.table-actions', [
+                                'id' => $question->id
+                            ]);
+                        }
                     },
                     ['actions']
                 )->unsortable(),
 
                 Column::callback(['question_id'], function ($question_id) {
+                    $question = Question::find($question_id);
+                    if (!is_null($question)) {
+                        return $question->subcategories();
+                    }
                     return Question::find($question_id)->subcategories();
                 }, ['subcategories'])->label('Subcategories')
                     ->hideable(),

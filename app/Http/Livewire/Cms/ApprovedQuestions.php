@@ -106,15 +106,20 @@ class ApprovedQuestions extends LivewireDatatable
                     ['question_id'],
                     function ($question_id) {
                         $question = Question::find($question_id);
-                        return view('components.table-actions', [
-                            'id' => $question->id
-                        ]);
+                        if (!is_null($question)) {
+                            return view('components.approved-question-table-actions', [
+                                'id' => $question->id, 'level'
+                            ]);
+                        }
                     },
                     ['actions']
                 )->unsortable(),
 
                 Column::callback(['question_id'], function ($question_id) {
-                    return Question::find($question_id)->subcategories();
+                    $question = Question::find($question_id);
+                    if (!is_null($question)) {
+                        return $question->subcategories();
+                    }
                 }, ['subcategories'])->label('Subcategories')
                     ->hideable(),
 
