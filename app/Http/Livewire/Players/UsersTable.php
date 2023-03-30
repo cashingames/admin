@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Players;
 
-
+use App\Enums\PlatformType;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -11,7 +11,7 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 
 class UsersTable extends LivewireDatatable
 {
-    
+
     public $perPage = 100;
     public $persistPerPage = false;
     public $complex = true;
@@ -30,6 +30,7 @@ class UsersTable extends LivewireDatatable
                 "users.phone_verified_at",
                 "users.email_verified_at",
                 "users.last_activity_time",
+                "users.brand_id as source",
                 "profiles.first_name as first_name",
                 "profiles.last_name as last_name",
                 "profiles.gender as gender",
@@ -41,7 +42,6 @@ class UsersTable extends LivewireDatatable
                 "profiles.state as state",
             )
             ->join("{$livedb}.profiles as profiles", "profiles.user_id", "=", "users.id");
-
     }
 
 
@@ -52,17 +52,28 @@ class UsersTable extends LivewireDatatable
                 Column::index($this),
 
                 Column::name('profiles.first_name')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('profiles.last_name')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('username')
                     ->searchable()
                     ->filterable(),
-                
+
+                Column::name('brand_id')
+                    ->searchable()
+                    ->filterable()->label('Source ID'),
+
+                Column::callback(['brand_id'], function ($brand_id) {
+                    $brand = '';
+                    $brand_id == 1 ? $brand = PlatformType::GameArk->value :
+                        $brand = PlatformType::Cashingames->value;
+                    return $brand;
+                })->label('Source'),
+
                 Column::name('last_activity_time')
                     ->searchable()
                     ->filterable(),
@@ -84,32 +95,32 @@ class UsersTable extends LivewireDatatable
                     ->filterable(),
 
                 Column::name('profiles.gender')
-                ->filterable()
-                ->searchable(),
-                
+                    ->filterable()
+                    ->searchable(),
+
                 Column::name('profiles.referral_code')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('profiles.account_name')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('profiles.bank_name')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('profiles.account_number')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('profiles.state')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 Column::name('profiles.referrer')
-                ->filterable()
-                ->searchable(),
+                    ->filterable()
+                    ->searchable(),
 
                 DateColumn::name('created_at')
                     ->searchable()
