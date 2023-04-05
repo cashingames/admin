@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Gaming\Exhibition;
 
+use App\Enums\PlatformType;
 use App\Models\Live\ExhibitionBoost;
 use App\Models\Live\GameSession;
 use Illuminate\Support\Carbon;
@@ -37,7 +38,7 @@ class SessionsTable extends LivewireDatatable
     }
 
     public function columns()
-    {   
+    {
         return
             [
                 Column::index($this),
@@ -57,12 +58,30 @@ class SessionsTable extends LivewireDatatable
 
                 Column::name('users.email')->searchable()->hideable(),
 
+                Column::name('users.brand_id')
+                    ->searchable()
+                    ->filterable()->label('Source ID'),
+
+                Column::callback(['users.brand_id'], function ($brand_id) {
+                    $brand = '';
+                    if ($brand_id == 1) {
+                        $brand = PlatformType::V1->value;
+                    }
+                    if ($brand_id == 2) {
+                        $brand = PlatformType::Cashingames->value;
+                    }
+                    if ($brand_id == 10) {
+                        $brand = PlatformType::GameArk->value;
+                    }
+                    return $brand;
+                })->label('Source'),
+
                 DateColumn::name('users.created_at')->label('Joined On')->filterable()->hideable(),
 
                 Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
 
                 Column::name('plans.name')->label("Plan")->searchable()->hide(),
-                
+
                 Column::name('boosts.name')->label("Used Boost")->searchable()->hide(),
 
                 Column::name('game_modes.name')->label("Game Mode")->hide(),

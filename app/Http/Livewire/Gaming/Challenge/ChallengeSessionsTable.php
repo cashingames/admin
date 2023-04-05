@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Gaming\Challenge;
 
+use App\Enums\PlatformType;
 use App\Models\Live\ChallengeGameSession;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
@@ -49,6 +50,24 @@ class ChallengeSessionsTable extends LivewireDatatable
                 Column::name('live_users.phone_number')->searchable()->hideable(),
 
                 Column::name('live_users.email')->searchable()->hideable(),
+
+                Column::name('users.brand_id')
+                    ->searchable()
+                    ->filterable()->label('Source ID'),
+
+                Column::callback(['users.brand_id'], function ($brand_id) {
+                    $brand = '';
+                    if ($brand_id == 1) {
+                        $brand = PlatformType::V1->value;
+                    }
+                    if ($brand_id == 2) {
+                        $brand = PlatformType::Cashingames->value;
+                    }
+                    if ($brand_id == 10) {
+                        $brand = PlatformType::GameArk->value;
+                    }
+                    return $brand;
+                })->label('Source'),
 
                 DateColumn::name('live_users.created_at')->label('Joined On')->filterable()->hideable(),
 

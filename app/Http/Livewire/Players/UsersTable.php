@@ -69,8 +69,15 @@ class UsersTable extends LivewireDatatable
 
                 Column::callback(['brand_id'], function ($brand_id) {
                     $brand = '';
-                    $brand_id == 1 ? $brand = PlatformType::GameArk->value :
+                    if($brand_id == 1) {
+                        $brand = PlatformType::V1->value ;
+                    }
+                    if($brand_id == 2){
                         $brand = PlatformType::Cashingames->value;
+                    }
+                    if($brand_id == 10){
+                        $brand = PlatformType::GameArk->value ;
+                    }
                     return $brand;
                 })->label('Source'),
 
