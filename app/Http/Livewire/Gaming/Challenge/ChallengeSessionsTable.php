@@ -51,11 +51,11 @@ class ChallengeSessionsTable extends LivewireDatatable
 
                 Column::name('live_users.email')->searchable()->hideable(),
 
-                Column::name('users.brand_id')
+                Column::name('live_users.brand_id')
                     ->searchable()
                     ->filterable()->label('Source ID'),
 
-                Column::callback(['users.brand_id'], function ($brand_id) {
+                Column::callback(['live_users.brand_id'], function ($brand_id) {
                     $brand = '';
                     if ($brand_id == 1) {
                         $brand = PlatformType::V1->value;
