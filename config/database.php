@@ -82,7 +82,15 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-
+        // 'mysqllive' => [
+        //     'driver' => 'sqlite',
+        //     'url' => env('DATABASE_URL_PROD'),
+        //     'database' => env('DB_DATABASE_PROD', database_path('database_prod.sqlite')),
+        //     'prefix' => '',
+        //     'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        //           'strict' => false,
+        // ],
+        
         'mysqlstg' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL_STG'),
