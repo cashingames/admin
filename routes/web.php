@@ -46,6 +46,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms.unreviewedQuestions');
     })->name('cms.unreviewedQuestions');
 
+    Route::get('/cms/questions/upload', function () {
+        return view('cms.upload-questions');
+    })->name('cms.uploadQuestions');
+
     Route::get('/cms/questions/approved', function () {
         return view('cms.approvedQuestions');
     })->name('cms.approvedQuestions');
@@ -101,7 +105,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.livetrivia.triviaGameSessions');
     })->name('gaming.triviaGameSessions');
  
- 
+    
     Route::get('/gaming/trivia', function () {
         return view('gaming.livetrivia.trivia');
     })->name('gaming.trivia');
