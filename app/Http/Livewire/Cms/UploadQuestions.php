@@ -36,7 +36,7 @@ class UploadQuestions extends Component
            
         $this->file->storeAs('questions','questionFile.xlsx');
 
-        $inputFileName = storage_path('app\questions\questionFile.xlsx');
+        $inputFileName = storage_path('app/questions/questionFile.xlsx');
     
         $reader = IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(TRUE);
