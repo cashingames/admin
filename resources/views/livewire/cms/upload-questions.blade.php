@@ -7,10 +7,11 @@
             Upload Question
         </label>
         <label class="block tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
-           SELECT CATEGORY
+            SELECT CATEGORY
         </label>
         <div class="relative">
             <select wire:model="category" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option>Select Category</option>
                 @foreach ($categories as $category )
                 <option>{{$category->name}}</option>
                 @endforeach
@@ -19,7 +20,10 @@
         <div class='text-blue-700' wire:loading wire:target="file">Saving selected file, hold on...</div>
         <div class="mt-4 relative">
             <input wire:model="file" type="file" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-            <x-jet-button class="mb-4" type="submit">Upload</x-jet-button>
+            <x-jet-button class="mb-4" type="submit" wire:loading.attr="disabled">Upload</x-jet-button>
         </div>
     </form>
+    <div class="mb-4 w/50 text-blue-500 text-center font-bold">
+        <span class="info">{{ $info }}</span>
+    </div>
 </div>

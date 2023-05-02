@@ -20,11 +20,12 @@ class UploadQuestions extends Component
     public $file;
     public $category;
     public $categories;
-    public $message;
+    public $info;
 
     public function mount()
     {
         $this->categories = Category::where('category_id', '>', 0)->get();
+        $this->info = '';
     }
     public function upload()
     {
@@ -33,9 +34,10 @@ class UploadQuestions extends Component
             'file'=> 'required|mimes:xlsx, csv, xls'
          ]);
            
-        $this->file->store('questions');
+        $this->file->storeAs('questions','questionFile.xlsx');
 
-        $inputFileName = base_path($this->category . '.xlsx');
+        $inputFileName = storage_path('app\questions\questionFile.xlsx');
+    
         $reader = IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(TRUE);
         $spreadsheet = $reader->load($inputFileName);
@@ -51,7 +53,7 @@ class UploadQuestions extends Component
 
         $category = Category::where('name', $this->category)->first();
         if ($category == null) {
-            $this->message = "Category cannot be found";
+            $this->info = "Category cannot be found";
             return;
         }
 
@@ -60,33 +62,27 @@ class UploadQuestions extends Component
 
             $level = trim($workSheet->getCell([1, $i])->getValue());
             if ($level == '' || ctype_space($level)) {
-                echo "Row " . $i . " level is empty \n";
+               $this->info = "Row " . $i . " level is empty \n";
                 continue;
             }
 
             $label = trim($workSheet->getCell([2, $i])->getValue());
             if ($label == '' || ctype_space($label)) {
-                echo "Row " . $i . " question is empty \n";
+               $this->info = "Row " . $i . " question is empty \n";
                 continue;
             }
 
             $answer = trim($workSheet->getCell([7, $i])->getValue());
             if ($answer == '' || ctype_space($answer)) {
-                echo "Row " . $i . " answer is empty \n";
+               $this->info = "Row " . $i . " answer is empty \n";
                 continue;
             }
 
             $question = new Question;
+            $question->game_type_id = 2;
             $question->level = strtolower($level);
             $question->label = $label;
-
-            $categoryQuestion = new CategoryQuestion;
-            $categoryQuestion->category_id = $category->id;
-            $categoryQuestion->question_id = $question->id;
-
-            $adminQuestion = new AdminQuestion;
-            $adminQuestion->user_id = auth()->user()->id;
-            $adminQuestion->question_id = $question->id;
+            $question->is_published = true;
 
             $options = [];
             $hasCorrectAnswer = false;
@@ -114,17 +110,33 @@ class UploadQuestions extends Component
             }
 
             if ($hasCorrectAnswer) {
-                DB::transaction(function () use ($question,$categoryQuestion,$adminQuestion,$options) {
+                $categoryQuestion = new CategoryQuestion;
+                $adminQuestion = new AdminQuestion;
+
+                DB::transaction(function () use ($question,$options) {
                     $question->save();
-                    $categoryQuestion->save();
-                    $adminQuestion->save();
                     $question->options()->saveMany($options);
                 });
+                $categoryQuestion->category_id = $category->id;
+                $categoryQuestion->question_id = $question->id;
+              
+                $adminQuestion->user_id = auth()->user()->id;
+                $adminQuestion->question_id = $question->id;
+                $categoryQuestion->save();
+                $adminQuestion->save();
+                $this->info = "Upload Complete";
+                
             } else {
-                echo "R" . $i . " does not have a correct answer \n";
+                $this->info = "R" . $i . " does not have a correct answer \n";
                 continue;
             }
         }
+    }
+
+    public function updated()
+    {
+        $this->info = " ";
+        
     }
 
     public function render()

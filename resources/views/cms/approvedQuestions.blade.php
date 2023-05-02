@@ -2,9 +2,9 @@
     <button onclick='Livewire.emit("openModal", "modals.add-question")' class="shadow bg-blue-500 text-white font-bold mb-4 py-2 px-4 rounded">
         + Add Question Manually
     </button>
-    <button onclick='Livewire.emit("openModal", "modals.upload-questions")' class="shadow bg-blue-500 text-white font-bold mb-4 py-2 px-4 rounded">
+    <a href="{{ url('/cms/questions/upload') }}" class="shadow bg-blue-500 text-white font-bold mb-4 py-2 px-4 rounded">
         + Upload File
-    </button>
+    </a>
 
     <ul class="hidden text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
         <li class="w-full">
