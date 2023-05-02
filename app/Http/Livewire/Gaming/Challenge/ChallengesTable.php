@@ -14,21 +14,27 @@ class ChallengesTable extends LivewireDatatable
 {
     public $perPage = 100;
     public $persistPerPage = false;
-    
+
     public $exportable = true;
     public $hideable = 'select';
     public $complex = true;
     public $persistHiddenColumns = false;
     public $defaultSortColumn = 'created_at';
-   
+
     public $groupLabels = [
-         'opponent' => 'TOGGLE OPPONENT DETAILS'
+        'opponent' => 'TOGGLE OPPONENT DETAILS'
+    ];
+    public $searchable = [
+        'categories.name', 'request.request_username', 'request.request_email_address',
+        'request.request_phone_number', 'request.request_amount_staked', 'request.request_amount_won',
+        'opponent.username', 'user_op.phone_number', 'user_op.email', 'opponent.amount', 'opponent.score',
+        'opponent.amount_won', 'request.created_at'
     ];
 
     public function builder()
     {
         return ChallengeRequest::select('request.*', 'opponent.user_id', 'user_o.phone_number as opponent_phonenumber', 'user_o.email as opponent_email', 'user_o.username as opponet_username', 'opponent.score as opponet_score', 'opponent.amount_won as opponent_amount_won')
-            ->join(DB::raw('(select users.username as request_username, challenge_requests.created_at, session_token as request_session, amount as request_amount_staked, amount_won as request_amount_won, score as request_score, user_id as request_user_id, users.phone_number as request_phone_number, users.email as request_email_address, users.is_a_bot as request_bot, users.created_at as request_joined_on from challenge_requests, users where users.id = challenge_requests.user_id group by session_token) as request'), 'request.request_session', '=', 'challenge_requests.session_token')
+            ->join(DB::raw('(select users.username as request_username, challenge_requests.created_at, session_token as request_session, amount as request_amount_staked, amount_won as request_amount_won, status as request_status, score as request_score, user_id as request_user_id, users.phone_number as request_phone_number, users.email as request_email_address, users.is_a_bot as request_bot, users.created_at as request_joined_on from challenge_requests, users where users.id = challenge_requests.user_id group by session_token) as request'), 'request.request_session', '=', 'challenge_requests.session_token')
             ->join('users as user_o', 'user_o.id', '=', 'challenge_requests.user_id')
             ->join('categories', 'categories.id', '=', 'challenge_requests.category_id')
             ->join('challenge_requests as opponent', function ($join) {
@@ -43,6 +49,13 @@ class ChallengesTable extends LivewireDatatable
             [
                 Column::name('request.created_at')->filterable()->label('Time Played'),
                 Column::name('categories.name')->filterable()->label('Category'),
+                Column::callback(['request.request_status','opponent.status'], function ($request_score, $opponent_score) {
+                    if ($request_score && $opponent_score == 'COMPLETED') {
+                        return "COMPLETED";
+                    }
+                    return "ONGOING";
+                })->filterable()->filterOn(['request.request_status','opponent.status'])->label('Status'),
+
                 BooleanColumn::name('request.request_bot')->label('Player 1 Bot Status')->filterable(),
                 Column::name('request.request_username')->filterable()->label('Player 1 username'),
                 Column::name('request.request_phone_number')->filterable()->label('Player 1 Phone')->hide(),
