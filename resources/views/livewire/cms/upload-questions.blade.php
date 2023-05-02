@@ -16,6 +16,7 @@
                 @endforeach
             </select>
         </div>
+        <div class='text-blue-700' wire:loading wire:target="file">Saving selected file, hold on...</div>
         <div class="mt-4 relative">
             <input wire:model="file" type="file" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
             <x-jet-button class="mb-4" type="submit">Upload</x-jet-button>
