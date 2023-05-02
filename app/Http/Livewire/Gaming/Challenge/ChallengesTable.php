@@ -72,7 +72,7 @@ class ChallengesTable extends LivewireDatatable
                 Column::name('opponent.amount')->filterable()->label('Player 2 Amount Staked')->group('opponent'),
                 Column::name('opponent.amount_won')->filterable()->label('Player 2 Amount Won')->group('opponent'),
                 Column::name('opponent.score')->filterable()->label('Player 2 Score')->group('opponent'),
-                Column::name('user_op.created_at')->filterable()->label('Player 2 Joied On')->group('opponent')->hide(),
+                Column::name('user_op.created_at')->filterable()->label('Player 2 Joined On')->group('opponent')->hide(),
             ];
     }
 }
