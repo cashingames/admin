@@ -78,7 +78,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 
     Route::get('/gaming', function () {
-        return redirect()->route('gaming.sessions');
+        return redirect()->route('gaming.challenges');
     })->name('gaming');
 
     // Route::get('/gaming/dashboard', function () {
@@ -86,7 +86,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // })->name('gaming.dashboard');
     
     Route::get('/gaming/dashboard', function () {
-        return redirect()->route('gaming.sessions');
+        return redirect()->route('gaming.challenges');
     })->name('gaming.dashboard');
 
     Route::get('/gaming/exhibition/sessions', function () {
