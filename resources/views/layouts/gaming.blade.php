@@ -10,11 +10,11 @@
                     <!-- <x-jet-nav-link href="{{ route('gaming.dashboard') }}" :active="request()->routeIs('gaming.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link> -->
-                    <x-jet-nav-link href="{{ route('gaming.sessions') }}" :active="request()->routeIs(['gaming.sessions'])">
-                        {{ __('Exhibition Sessions') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('gaming.challenges') }}" :active="request()->routeIs('gaming.challenges')">
                         {{ __('Challenges') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('gaming.sessions') }}" :active="request()->routeIs(['gaming.sessions'])">
+                        {{ __('Exhibition Sessions') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('gaming.userAchievementBadges') }}" :active="request()->routeIs(['gaming.userAchievementBadges'])">
                         {{ __('User Achievement Badges') }}

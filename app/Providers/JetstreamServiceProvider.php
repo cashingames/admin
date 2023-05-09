@@ -63,6 +63,7 @@ class JetstreamServiceProvider extends ServiceProvider
             'cms:reject',
             'cms:delete',
             'cms:update',
+            'cms:upload'
         ])->description('Administrator users can perform any action.');
 
         Jetstream::role('data-analysis', 'Data Analysis', [
@@ -76,6 +77,7 @@ class JetstreamServiceProvider extends ServiceProvider
             'update',
             'cms:view',
             'finance:view',
+            'cms:upload'
         ])->description('Moderator users have the ability to perform moderation actions and additionally publish any content.');
 
         Jetstream::role('content-creator', 'Content Creator', [
