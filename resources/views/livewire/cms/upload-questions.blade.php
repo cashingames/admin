@@ -4,8 +4,18 @@
     </div>
     <form class="w-full  px-3 mb-6 md:mb-0" wire:submit.prevent="upload">
         <label class="text-center block uppercase tracking-wide mb-8 text-gray-700 text-xl font-bold mb-2">
-            Upload Question
+            Upload Questions
         </label>
+        <label class="block tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
+            SELECT DESTINATION APP
+        </label>
+        <div class="relative">
+            <select wire:model="appDestination" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option>Select App</option>
+                <option>Cashingames</option>
+                <option>GameArk</option>
+            </select>
+        </div>
         <label class="block tracking-wide mt-2 text-gray-700 text-xs font-bold mb-2" for="grid-state">
             SELECT CATEGORY
         </label>
