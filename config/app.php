@@ -54,6 +54,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
     'api_url' => env('APP_API_URL','https://stg-api.cashingames.com'),
+    'gameark_api_url' => env('GAMEARK_API_URL','https://stg-gameark-api.cashingames.com'),
 
     'asset_url' => env('ASSET_URL', null),
 

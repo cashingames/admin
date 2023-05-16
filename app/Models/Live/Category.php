@@ -65,4 +65,8 @@ class Category extends Model
   {
     return $this->questions()->where('questions.level', 'hard')->count();
   }
+  public function expertQuestions()
+  {
+    return $this->questions()->where('questions.level', 'expert')->count();
+  }
 }
