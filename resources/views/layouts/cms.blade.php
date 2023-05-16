@@ -11,7 +11,7 @@
                     <x-jet-nav-link href="{{ route('cms.dashboard') }}" :active="request()->routeIs('cms.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('cms.unreviewedQuestions') }}" :active="request()->routeIs('cms.unreviewedQuestions')">
+                    <x-jet-nav-link href="{{ route('cms.publishedQuestions') }}" :active="request()->routeIs('cms.publishedQuestions')">
                         {{ __('Questions Manager') }}
                     </x-jet-nav-link>
                     @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:publish') )

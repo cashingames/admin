@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CmsController;
 use App\Http\Livewire\Cms\CategoryManager;
+use App\Http\Livewire\Cms\GameArk\CategoryManager As GameArkCategoryManager;
 use App\Http\Livewire\Finance\Transactions;
 use App\Http\Livewire\Modals\AddComment;
 use App\Http\Livewire\Modals\AddQuestion;
@@ -41,6 +42,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/cms/categories', function () {
         return view('cms');
     })->name('cms.categories');
+    Route::get('/cms/gameark/categories', function () {
+        return view('cms.gameark.categories');
+    })->name('cms.gameark.categories');
 
     Route::get('/cms/questions/unreviewed', function () {
         return view('cms.unreviewedQuestions');
@@ -62,9 +66,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('cms.publishedQuestions');
     })->name('cms.publishedQuestions');
 
+    Route::get('/cms/gameark/questions/published', function () {
+        return view('cms.gameark.publishedQuestions');
+    })->name('cms.gameark.publishedQuestions');
+
     Route::get('/cms/dashboard', function () {
         return view('cms.dashboard');
     })->name('cms.dashboard');
+
+    Route::get('/cms/gameark/stats', function () {
+        return view('cms.gameark.stats');
+    })->name('cms.gameark-stats');
 
     Route::get('/cms/question/view/{id}', ViewQuestion::class)->name('question.view');
     Route::post('/cms/question/edit', [EditQuestion::class, 'editQuestion']);
@@ -74,6 +86,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/cms/question/add', [AddQuestion::class, 'addQuestion']);
     Route::post('/cms/comment/add', [AddComment::class, 'addComment']);
     Route::post('/cms/category/add', [CategoryManager::class, 'addCategory']);
+    Route::post('/cms/gameark/category/add', [GameArkCategoryManager::class, 'addCategory']);
     Route::post('/cms/category/edit', [EditCategory::class, 'editCategory']);
 
 

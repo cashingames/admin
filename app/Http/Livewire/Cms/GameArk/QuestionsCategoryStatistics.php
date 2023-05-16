@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Cms;
+namespace App\Http\Livewire\Cms\GameArk;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
-use App\Models\Live\Category;
-use App\Models\Live\CategoryQuestion;
-use App\Models\Live\Question;
+use App\Models\Live\GameArk\Category;
+use App\Models\Live\GameArk\CategoryQuestion;
+use App\Models\Live\GameArk\Question;
 
 class QuestionsCategoryStatistics extends LivewireDatatable
 {   
@@ -49,12 +49,11 @@ class QuestionsCategoryStatistics extends LivewireDatatable
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->hardQuestions();
             }, ['hard'])->label('Hard Questions Count'),
-            
+
             Column::callback(['id'], function ($id) {
                 return Category::find($id)->expertQuestions();
             }, ['expert'])->label('Expert Questions Count'),
 
-          
         ];
     }
 }

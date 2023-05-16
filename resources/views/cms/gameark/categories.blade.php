@@ -7,7 +7,7 @@
             <a href="{{ route('cms.gameark.categories') }}" aria-current="page" class="inline-block p-4 w-full bg-white hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none uppercase dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">GameArk</a>
         </li>
     </ul>
-    @livewire('cms.category-manager')
+    @livewire('cms.game-ark.category-manager')
     <x-jet-section-border />
     {{-- @livewire('cms.mutiple-choice-manager') --}}
 </x-cms-layout>
