@@ -42,9 +42,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/cms/categories', function () {
         return view('cms');
     })->name('cms.categories');
+
     Route::get('/cms/gameark/categories', function () {
         return view('cms.gameark.categories');
-    })->name('cms.gameark.categories');
+    })->name('cms.gameark-categories');
 
     Route::get('/cms/questions/unreviewed', function () {
         return view('cms.unreviewedQuestions');
