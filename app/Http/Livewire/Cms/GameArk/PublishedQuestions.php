@@ -23,7 +23,7 @@ class PublishedQuestions extends LivewireDatatable
     public function builder()
     {
         DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
-        $livedb = config('database.connections.mysqllive.database');
+        $livedb = config('database.connections.mysqlGameark.database');
 
         // if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:view')) {
             return Question::query()
