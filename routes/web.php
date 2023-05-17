@@ -12,6 +12,7 @@ use App\Http\Livewire\Modals\EditQuestion;
 use App\Http\Livewire\Modals\ConfirmDeleteQuestion;
 use App\Http\Livewire\Modals\EditApprovedQuestion;
 use App\Http\Livewire\Modals\EditCategory;
+use App\Http\Livewire\Modals\EditGameArkCategory;
 use App\Http\Livewire\Modals\EditRejectedQuestion;
 
 /*
@@ -89,6 +90,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/cms/category/add', [CategoryManager::class, 'addCategory']);
     Route::post('/cms/gameark/category/add', [GameArkCategoryManager::class, 'addCategory']);
     Route::post('/cms/category/edit', [EditCategory::class, 'editCategory']);
+    Route::post('/cms/gameark/category/edit', [EditGameArkCategory::class, 'editCategory']);
 
 
     Route::get('/gaming', function () {

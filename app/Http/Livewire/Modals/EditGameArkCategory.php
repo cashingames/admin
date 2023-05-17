@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Modals;
 
-use App\Models\Live\Category;
+use App\Models\Live\GameArk\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use LivewireUI\Modal\ModalComponent;
 
 
-class EditCategory extends ModalComponent
+class EditGameArkCategory extends ModalComponent
 {   
     public $category, $parentCategory, $parentCategories;
 
@@ -21,8 +21,7 @@ class EditCategory extends ModalComponent
 
 
     public function editCategory(Request $request)
-    {
-
+    {   
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'description' => 'required|string',
@@ -33,7 +32,7 @@ class EditCategory extends ModalComponent
       
 
         if ($validator->fails()) {
-            return redirect()->to('/cms/categories')->withErrors($validator);
+            return redirect()->to('/cms/gameark/categories')->withErrors($validator);
         }
 
         $category = Category::find($request->category_id);
@@ -41,7 +40,6 @@ class EditCategory extends ModalComponent
         $category->description = $request->description;
 
         if ($request->has('parentCategory')) {
-            
             $_parentCategory = Category::where('name', $request->parentCategory)->first();
             $category->category_id = $_parentCategory->id ?? 0;
         }
@@ -54,11 +52,11 @@ class EditCategory extends ModalComponent
 
         $category->save();
 
-        return redirect()->to('/cms/categories');
+        return redirect()->to('/cms/gameark/categories');
     }
 
     public function render()
     {
-        return view('livewire.modals.edit-category');
+        return view('livewire.modals.edit-game-ark-category');
     }
 }

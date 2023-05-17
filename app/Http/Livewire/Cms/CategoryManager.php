@@ -32,22 +32,23 @@ class CategoryManager extends Component
         $_parentCategory = Category::where('name', $request->parentCategory)->first();
 
         $request->has('parentCategory') ?
-            $category->category_id = 0 :
-            $category->category_id = $_parentCategory->id;
+            $category->category_id = $_parentCategory->id ?? 0
+            :
+            $category->category_id = 0;
+
 
         $category->created_at = Carbon::now();
         $category->updated_at = Carbon::now();
         $category->save();
 
-        if($request->hasFile('icon') ){
+        if ($request->hasFile('icon')) {
 
             $icon = $request->file('icon');
 
             Http::attach('icon', file_get_contents($icon), 'icon.jpg')
-            ->post(config('app.api_url') . '/api/v3/category/icon/save',  $request->all());
-
+                ->post(config('app.api_url') . '/api/v3/category/icon/save',  $request->all());
         }
-          
+
         return redirect()->to('/cms/categories');
     }
 

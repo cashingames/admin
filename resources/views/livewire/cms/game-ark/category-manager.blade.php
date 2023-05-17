@@ -10,7 +10,7 @@
 @endif
 <div class="mt-8 shadow bg-blue-100 mb-4 py-2 px-4 rounded ">
     <div class="shadow text-center text-gray-600 font-bold mb-4 py-2 px-4 rounded">
-        {{ __('All Categories') }}
+        {{ __('GameArk Categories') }}
     </div>
     <livewire:cms.game-ark.categories-table />
 </div>
