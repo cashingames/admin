@@ -35,14 +35,14 @@ class FundWallet extends Component
         }
 
         DB::transaction(function () use ($user)  {
-            $user->wallet->non_withdrawable_balance += $this->amount;
+            $user->wallet->non_withdrawable += $this->amount;
             $user->wallet->save();
 
             WalletTransaction::create([
                 'wallet_id' => $user->wallet->id,
                 'transaction_type' => 'CREDIT',
                 'amount' => $this->amount,
-                'balance' => $user->wallet->non_withdrawable_balance,
+                'balance' => $user->wallet->non_withdrawable,
                 'description' => 'Fund Wallet',
                 'reference' =>  Str::random(10),
             ]);

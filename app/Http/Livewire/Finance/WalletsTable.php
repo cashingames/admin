@@ -41,9 +41,11 @@ class WalletsTable extends LivewireDatatable
 
                 Column::name('users.phone_number')->group('user')->hide(),
 
-                NumberColumn::name('non_withdrawable_balance')->label('Inflow Cash')->filterable()->enableSummary(),
+                NumberColumn::name('non_withdrawable')->label('Inflow Cash')->filterable()->enableSummary(),
 
-                NumberColumn::name('withdrawable_balance')->label('Outflow Cash')->filterable()->enableSummary(),
+                NumberColumn::name('withdrawable')->label('Outflow Cash')->filterable()->enableSummary(),
+
+                NumberColumn::name('bonus')->label('Bonus Cash')->filterable()->enableSummary(),
 
                 DateColumn::callback('updated_at', function ($updatedAt) {
                     return Carbon::parse($updatedAt)->setTimezone('Africa/Lagos');
