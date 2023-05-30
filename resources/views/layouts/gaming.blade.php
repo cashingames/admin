@@ -14,7 +14,7 @@
                         {{ __('Challenges') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('gaming.sessions') }}" :active="request()->routeIs(['gaming.sessions'])">
-                        {{ __('Exhibition Sessions') }}
+                        {{ __('Game Sessions') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('gaming.userAchievementBadges') }}" :active="request()->routeIs(['gaming.userAchievementBadges'])">
                         {{ __('User Achievement Badges') }}

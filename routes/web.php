@@ -109,6 +109,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.exhibition.sessions');
     })->name('gaming.sessions');
 
+    Route::get('/gameark/sessions', function () {
+        return view('gaming.gameark.sessions');
+    })->name('gameark.sessions');
+
     Route::get('/gaming/user-achievement-badges', function () {
         return view('gaming.userAchievementBadges');
     })->name('gaming.userAchievementBadges');
@@ -201,6 +205,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/customers/list', function () {
         return view('customers');
     })->name('customers.list');
+
+    Route::get('/gameark/customers/list', function () {
+        return view('customers.gamearkCustomers');
+    })->name('gameark-customers.list');
 
     Route::get('customers/general/data', function () {
         return view('customers.generalData');
