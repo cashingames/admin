@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Players;
+namespace App\Http\Livewire\Players\Gameark;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
-use App\Models\Live\User;
-use App\Models\Live\Profile;
-use App\Models\Live\GameSession;
+use App\Models\Live\GameArk\User;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
 class UsersWithNoGames extends LivewireDatatable

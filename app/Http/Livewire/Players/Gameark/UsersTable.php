@@ -100,35 +100,7 @@ class UsersTable extends LivewireDatatable
                 Column::name('phone_verified_at')
                     ->searchable()
                     ->filterable(),
-
-                Column::name('profiles.gender')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.referral_code')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.account_name')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.bank_name')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.account_number')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.state')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.referrer')
-                    ->filterable()
-                    ->searchable(),
-
+        
                 DateColumn::name('created_at')
                     ->searchable()
                     ->filterable()

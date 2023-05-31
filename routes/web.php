@@ -214,6 +214,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('customers.generalData');
     })->name('customers.general.data');
 
+    Route::get('gameark/customers/general/data', function () {
+        return view('customers.gamearkGeneralData');
+    })->name('gameark-customers.general.data');
+
     // Route::get('/customers/dashboard', function () {
     //     return view('customers.dashboard');
     // })->name('customers.dashboard');

@@ -78,9 +78,7 @@ class SessionsTable extends LivewireDatatable
 
                 DateColumn::name('users.created_at')->label('Joined On')->filterable()->hideable(),
 
-                Column::name('categories.name')->label("Subcategory")->searchable()->hide(),
-
-                Column::name('plans.name')->label("Plan")->searchable()->hide(),
+                Column::name('categories.name')->label("Subcategory")->searchable()->hideable(),
 
                 Column::name('boosts.name')->label("Used Boost")->searchable()->hide(),
 
@@ -91,10 +89,6 @@ class SessionsTable extends LivewireDatatable
                 NumberColumn::name('correct_count'),
 
                 NumberColumn::name('points_gained'),
-
-                Column::name('odd_multiplier'),
-
-                Column::name('odd_condition'),
 
                 NumberColumn::callback(['start_time', 'end_time'], function ($startTime, $endTime) {
                     return Carbon::parse($startTime)->diffInSeconds(Carbon::parse($endTime));

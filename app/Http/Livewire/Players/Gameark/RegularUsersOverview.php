@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Players;
+namespace App\Http\Livewire\Players\Gameark;
 
-use App\Models\Live\GameSession;
+use App\Models\Live\GameArk\GameSession;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
-use App\Models\Live\User;
+use App\Models\Live\GameArk\User;
 use App\Models\Live\Profile;
 use App\Models\Live\UserBoost;
 use App\Models\Live\UserPlan;
