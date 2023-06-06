@@ -45,6 +45,8 @@ class FundWallet extends Component
                 'balance' => $user->wallet->non_withdrawable,
                 'description' => 'Fund Wallet',
                 'reference' =>  Str::random(10),
+                'balance_type' => 'CREDIT_BALANCE',
+                'transaction_action' => 'WALLET_FUNDED'
             ]);
            
         });
