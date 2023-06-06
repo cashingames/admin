@@ -63,23 +63,23 @@ class UsersTable extends LivewireDatatable
                     ->searchable()
                     ->filterable(),
 
-                Column::name('brand_id')
-                    ->searchable()
-                    ->filterable()->label('Source ID'),
+                // Column::name('brand_id')
+                //     ->searchable()
+                //     ->filterable()->label('Source ID'),
 
-                Column::callback(['brand_id'], function ($brand_id) {
-                    $brand = '';
-                    if($brand_id == 1) {
-                        $brand = PlatformType::V1->value ;
-                    }
-                    if($brand_id == 2){
-                        $brand = PlatformType::Cashingames->value;
-                    }
-                    if($brand_id == 10){
-                        $brand = PlatformType::GameArk->value ;
-                    }
-                    return $brand;
-                })->label('Source'),
+                // Column::callback(['brand_id'], function ($brand_id) {
+                //     $brand = '';
+                //     if($brand_id == 1) {
+                //         $brand = PlatformType::V1->value ;
+                //     }
+                //     if($brand_id == 2){
+                //         $brand = PlatformType::Cashingames->value;
+                //     }
+                //     if($brand_id == 10){
+                //         $brand = PlatformType::GameArk->value ;
+                //     }
+                //     return $brand;
+                // })->label('Source'),
 
                 Column::name('last_activity_time')
                     ->searchable()
