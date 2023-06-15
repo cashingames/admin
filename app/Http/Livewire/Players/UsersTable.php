@@ -101,6 +101,10 @@ class UsersTable extends LivewireDatatable
                     ->searchable()
                     ->filterable(),
 
+                Column::name('profiles.referral_code')
+                    ->filterable()
+                    ->searchable(),
+                    
                 Column::name('profiles.referrer')
                     ->filterable()
                     ->searchable(),

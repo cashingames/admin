@@ -63,24 +63,6 @@ class UsersTable extends LivewireDatatable
                     ->searchable()
                     ->filterable(),
 
-                // Column::name('brand_id')
-                //     ->searchable()
-                //     ->filterable()->label('Source ID'),
-
-                // Column::callback(['brand_id'], function ($brand_id) {
-                //     $brand = '';
-                //     if($brand_id == 1) {
-                //         $brand = PlatformType::V1->value ;
-                //     }
-                //     if($brand_id == 2){
-                //         $brand = PlatformType::Cashingames->value;
-                //     }
-                //     if($brand_id == 10){
-                //         $brand = PlatformType::GameArk->value ;
-                //     }
-                //     return $brand;
-                // })->label('Source'),
-
                 Column::name('last_activity_time')
                     ->searchable()
                     ->filterable(),
@@ -89,18 +71,18 @@ class UsersTable extends LivewireDatatable
                     ->filterable()
                     ->searchable(),
 
-                Column::name('email_verified_at')
-                    ->searchable()
-                    ->filterable(),
-
                 Column::name('phone_number')
                     ->filterable()
                     ->searchable(),
 
-                Column::name('phone_verified_at')
-                    ->searchable()
-                    ->filterable(),
-        
+                Column::name('profiles.referral_code')
+                    ->filterable()
+                    ->searchable(),
+
+                Column::name('profiles.referrer')
+                    ->filterable()
+                    ->searchable(),
+
                 DateColumn::name('created_at')
                     ->searchable()
                     ->filterable()
