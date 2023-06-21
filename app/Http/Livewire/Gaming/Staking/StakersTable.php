@@ -62,6 +62,8 @@ class StakersTable extends LivewireDatatable
 
                 NumberColumn::name('points_gained')->hide(),
 
+                Column::name('live_stakings.fund_source')->label('Fund Source')->enableSummary(),
+
                 NumberColumn::name('live_stakings.amount_staked')->enableSummary(),
 
                 NumberColumn::name('live_stakings.amount_won')->enableSummary(),
