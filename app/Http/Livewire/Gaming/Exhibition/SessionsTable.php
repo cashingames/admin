@@ -61,8 +61,6 @@ class SessionsTable extends LivewireDatatable
 
                 Column::name('boosts.name')->label("Used Boost")->searchable()->hide(),
 
-                Column::name('game_modes.name')->label("Game Mode")->hide(),
-
                 Column::name('state')->label('Progress')->searchable(),
 
                 NumberColumn::name('correct_count'),

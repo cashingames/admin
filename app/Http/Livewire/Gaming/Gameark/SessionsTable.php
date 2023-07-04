@@ -29,7 +29,6 @@ class SessionsTable extends LivewireDatatable
             ->with('exhibitionBoosts')
             ->join("categories", "categories.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as users", "users.id", "=", "game_sessions.user_id")
-            ->join("{$livedb}.game_modes as game_modes", "game_modes.id", "=", "game_sessions.game_mode_id")
             ->leftJoin("{$livedb}.exhibition_boosts as exhibition_boosts", "exhibition_boosts.game_session_id", "=", "game_sessions.id")
             ->leftJoin("{$livedb}.boosts as boosts", "exhibition_boosts.boost_id", "=", "boosts.id")
             ->groupBy('game_sessions.id');
@@ -59,8 +58,6 @@ class SessionsTable extends LivewireDatatable
                 Column::name('categories.name')->label("Subcategory")->searchable()->hideable(),
 
                 Column::name('boosts.name')->label("Used Boost")->searchable()->hide(),
-
-                Column::name('game_modes.name')->label("Game Mode")->hide(),
 
                 Column::name('state')->label('Progress')->searchable(),
 
