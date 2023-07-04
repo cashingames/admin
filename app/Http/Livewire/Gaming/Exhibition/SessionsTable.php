@@ -27,11 +27,8 @@ class SessionsTable extends LivewireDatatable
 
         return GameSession::query()
             ->with('exhibitionBoosts')
-            ->whereNull('trivia_id')
             ->join("categories", "categories.id", "=", "game_sessions.category_id")
             ->join("{$livedb}.users as users", "users.id", "=", "game_sessions.user_id")
-            ->leftJoin("{$livedb}.plans as plans", "plans.id", "=", "game_sessions.plan_id")
-            ->join("{$livedb}.game_modes as game_modes", "game_modes.id", "=", "game_sessions.game_mode_id")
             ->leftJoin("{$livedb}.exhibition_boosts as exhibition_boosts", "exhibition_boosts.game_session_id", "=", "game_sessions.id")
             ->leftJoin("{$livedb}.boosts as boosts", "exhibition_boosts.boost_id", "=", "boosts.id")
             ->groupBy('game_sessions.id');

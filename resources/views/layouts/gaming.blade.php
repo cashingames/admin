@@ -20,11 +20,6 @@
                         {{ __('User Achievement Badges') }}
                     </x-jet-nav-link>
                     @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'create') )
-                    <x-jet-nav-link href="{{ route('gaming.trivia') }}" :active="request()->routeIs('gaming.trivia')">
-                        {{ __('Manage Live Trivia') }}
-                    </x-jet-nav-link>
-                    @endif
-                    @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'create') )
                     <x-jet-nav-link href="{{ route('gaming.odds') }}" :active="request()->routeIs('gaming.odds')">
                         {{ __('Manage Odds') }}
                     </x-jet-nav-link>

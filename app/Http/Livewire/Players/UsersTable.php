@@ -65,38 +65,28 @@ class UsersTable extends LivewireDatatable
 
                 Column::name('meta_data->device_brand')
                     ->group('Tracking Data')
-                    ->searchable()
                     ->hide()
-                    ->label('Device Brand')
-                    ->filterable(),
+                    ->label('Device Brand'),
 
                 Column::name('meta_data->device_model')
                     ->group('Tracking Data')
-                    ->searchable()
                     ->hide()
-                    ->label('Device Model')
-                    ->filterable(),
+                    ->label('Device Model'),
 
                 Column::name('meta_data->device_token')
                     ->group('Tracking Data')
-                    ->searchable()
                     ->hide()
-                    ->label('Device Token')
-                    ->filterable(),
+                    ->label('Device Token'),
 
                 Column::name('meta_data->registration_ip_address')
                     ->group('Tracking Data')
-                    ->searchable()
                     ->hide()
-                    ->label('Registration IP')
-                    ->filterable(),
+                    ->label('Registration IP'),
                
                 Column::name('meta_data->login_ip_address')
                     ->group('Tracking Data')
-                    ->searchable()
                     ->hide()
-                    ->label('Login IP')
-                    ->filterable(),
+                    ->label('Login IP'),
 
                 Column::name('last_activity_time')
                     ->searchable()
