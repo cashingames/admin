@@ -10,7 +10,7 @@ class WalletTransaction extends Model
 
         protected $fillable = [
                 'wallet_id', 'transaction_type', 'amount', 'description', 
-                'reference', 'balance','viable_date','settled_at'
+                'reference', 'balance','viable_date','settled_at', 'transaction_action'
             ];
         
         public function wallet()

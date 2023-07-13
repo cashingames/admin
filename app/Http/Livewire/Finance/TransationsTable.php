@@ -24,7 +24,7 @@ class TransationsTable extends LivewireDatatable
         'users.phone_number'
     ];
     public $groupLabels = [
-         'user' => 'TOGGLE USER DETAILS'
+        'user' => 'TOGGLE USER DETAILS'
     ];
 
     public function builder()
@@ -42,22 +42,33 @@ class TransationsTable extends LivewireDatatable
                 DateColumn::callback('created_at', function ($createdAt) {
                     return Carbon::parse($createdAt)->setTimezone('Africa/Lagos');
                 })
-                ->label("Transaction Date")
-                ->filterable(),
+                    ->label("Transaction Date")
+                    ->filterable(),
 
                 Column::name('reference')->hide(),
 
-                Column::name('description')->filterable([
-                    'Fund Wallet',
-                    'Sign Up Bonus',
-                    'Winnings Withdrawal Made',
-                    'Placed a staking',
-                    'Paid entrance fee for live trivia',
-                    'games',
-                    'boosts'
-                ]),
+                // Column::name('description')->filterable([
+                //     'Fund Wallet',
+                //     'Sign Up Bonus',
+                //     'Winnings Withdrawal Made',
+                //     'Placed a staking',
+                //     'Paid entrance fee for live trivia',
+                //     'games',
+                //     'boosts'
+                // ]),
+                Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT']),
 
-                Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT'])->hide(),
+
+                Column::name('transaction_action')->filterable([
+                    'BOOST_BOUGHT',
+                    'WALLET_FUNDED',
+                    'WINNINGS_CREDITED',
+                    'WINNINGS_WITHDRAWN',
+                    'STAKING_PLACED',
+                    'BONUS_CREDITED',
+                    'FUNDS_REVERSED',
+                    'BONUS_TURNOVER_MIGRATED'
+                ]),
 
                 NumberColumn::callback(['amount', 'transaction_type'], function ($amount, $transactionType) {
                     return $transactionType == 'CREDIT' ? $amount : -$amount;
@@ -73,8 +84,8 @@ class TransationsTable extends LivewireDatatable
                 Column::name('users.phone_number')->group('user'),
 
                 DateColumn::name('users.created_at')->group('user')
-                ->label('Joined On')
-                ->filterable(),
+                    ->label('Joined On')
+                    ->filterable(),
             ];
     }
 }

@@ -4,9 +4,6 @@
             <span class="font-semibold text-xl mb-4 text-gray-800 leading-tight basis-1/4">Fund Wallet</span>
             <livewire:finance.fund-wallet />
         </div>
-        <div>
-            <span class="font-semibold text-xl mb-4 text-gray-800 leading-tight basis-1/4">Credit Points</span>
-            <livewire:finance.credit-points />
-        </div>
+       
     </div>
 </x-finance-layout>

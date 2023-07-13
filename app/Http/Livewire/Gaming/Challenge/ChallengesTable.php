@@ -54,6 +54,7 @@ class ChallengesTable extends LivewireDatatable
         return
             [
                 DateColumn::name('challenge_requests.created_at')->filterable()->label('Time Played'),
+                Column::name('challenge_requests.request_mode')->filterable()->label('Category'),
                 Column::name('categories.name')->filterable()->label('Category'),
                 Column::callback(['cr2.user_id', 'cr2.username'], function ($id, $player) {
                     $username = '';
@@ -61,14 +62,13 @@ class ChallengesTable extends LivewireDatatable
                     return $username;
                 })->label('Player')->filterable(),
 
-                // Column::callbackname('cr2.username')->filterable()->label('Player')->searchable(),
                 Column::name('cr2.score')->filterable()->label('Player Score')->searchable(),
                 Column::callback(['challenge_requests.user_id', 'challenge_requests.username'], function ($id, $opponent) {
                     $username = '';
                     $id == 1 ? $username = "BOT" : $username = $opponent;
                     return $username;
                 })->label('Opponent')->filterable(),
-                // Column::name('challenge_requests.username')->filterable()->label('Opponent')->searchable(),
+            
                 Column::name('challenge_requests.score')->filterable()->label('Opponent Score')->searchable(),
                 Column::name('cr2.status')->filterable()->label('Player Status')->searchable(),
                 Column::name('challenge_requests.status')->filterable()->label('Opponent Status')->searchable(),

@@ -42,7 +42,7 @@ class UserBonusesTable extends LivewireDatatable
 
                 Column::name('users.email')->group('user')->hide(),
 
-                Column::name('users.phone_number')->group('user')->hide(),
+                Column::name('users.phone_number')->group('user'),
 
                 Column::name('bonus.name')->label('Bonus Type')->filterable()->searchable(),
 
