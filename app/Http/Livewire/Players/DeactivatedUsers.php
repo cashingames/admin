@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\Players;
 
+use App\Enums\PlatformType;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\User;
+use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 
-class UsersTable extends LivewireDatatable
+class DeactivatedUsers extends LivewireDatatable
 {
 
     public $perPage = 100;
@@ -39,7 +42,8 @@ class UsersTable extends LivewireDatatable
                 "profiles.bank_name as bank_name",
                 "profiles.state as state",
             )
-            ->join("{$livedb}.profiles as profiles", "profiles.user_id", "=", "users.id");
+            ->join("{$livedb}.profiles as profiles", "profiles.user_id", "=", "users.id")
+            ->whereNotNull('users.deleted_at');
     }
 
 
@@ -80,7 +84,7 @@ class UsersTable extends LivewireDatatable
                     ->group('Tracking Data')
                     ->hide()
                     ->label('Registration IP'),
-               
+
                 Column::name('meta_data->login_ip_address')
                     ->group('Tracking Data')
                     ->hide()
@@ -116,7 +120,7 @@ class UsersTable extends LivewireDatatable
 
                 DateColumn::name('created_at')
                     ->searchable()
-                    ->filterable()
+                    ->filterable(),
 
             ];
     }

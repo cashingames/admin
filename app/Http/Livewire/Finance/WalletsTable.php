@@ -26,7 +26,7 @@ class WalletsTable extends LivewireDatatable
     public function builder()
     {
         return Wallet::query()
-            ->join('users', 'users.id', 'wallets.user_id');
+            ->join('users', 'users.id', 'wallets.user_id')->where('wallets.user_id','!=', 1);
     }
 
     public function columns()

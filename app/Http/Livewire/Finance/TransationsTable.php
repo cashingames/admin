@@ -31,7 +31,7 @@ class TransationsTable extends LivewireDatatable
     {
         return WalletTransaction::query()
             ->leftJoin('wallets', 'wallets.id', 'wallet_transactions.wallet_id')
-            ->leftJoin('users', 'users.id', 'wallets.user_id');
+            ->leftJoin('users', 'users.id', 'wallets.user_id')->where('wallets.user_id','!=', 1);
     }
 
     public function columns()

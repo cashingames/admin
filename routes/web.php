@@ -210,6 +210,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('customers');
     })->name('customers.list');
 
+    Route::get('/cashingames/customers/deactivated', function () {
+        return view('customers.cashingamesDeactivatedUsers');
+    })->name('customers.deactivated');
+
     Route::get('/gameark/customers/list', function () {
         return view('customers.gamearkCustomers');
     })->name('gameark-customers.list');

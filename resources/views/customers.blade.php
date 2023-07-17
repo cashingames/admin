@@ -8,7 +8,7 @@
         </li>
     </ul>
     <div class="mt-4">
-        <livewire:players.users-table exportable hideable="select" />
+        <x-cashingames-users-layout/>
     </div>
 
 </x-customers-layout>

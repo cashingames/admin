@@ -29,7 +29,7 @@ class UserBonusesTable extends LivewireDatatable
     {
         return UserBonus::query()
             ->join('users', 'users.id', 'user_bonuses.user_id')
-            ->join('bonuses','bonuses.id', 'user_bonuses.bonus_id');
+            ->join('bonuses','bonuses.id', 'user_bonuses.bonus_id')->where('users.id','!=', 1);
     }
 
     public function columns()
