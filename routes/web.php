@@ -162,6 +162,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.livetrivia.edit-trivia');
     })->name('trivia.edit');
 
+    Route::get('/cashingames/users/edit/{id}', function () {
+        return view('customers.edit-details');
+    })->name('customers.edit');
+
     Route::get('/gaming/session/details', function () {
         return view('gaming.session-details');
     })->name('session.details');

@@ -49,6 +49,16 @@ class UsersTable extends LivewireDatatable
             [
                 Column::index($this),
 
+                Column::callback(
+                    ['id'],
+                    function ($id) {
+                        return view('components.users-table-actions', [
+                            'id' => $id
+                        ]);
+                    },
+                    ['actions']
+                )->unsortable(),
+
                 Column::name('profiles.first_name')
                     ->filterable()
                     ->searchable(),
@@ -80,7 +90,7 @@ class UsersTable extends LivewireDatatable
                     ->group('Tracking Data')
                     ->hide()
                     ->label('Registration IP'),
-               
+
                 Column::name('meta_data->login_ip_address')
                     ->group('Tracking Data')
                     ->hide()
@@ -105,10 +115,6 @@ class UsersTable extends LivewireDatatable
                 Column::name('phone_verified_at')
                     ->searchable()
                     ->filterable(),
-
-                Column::name('profiles.referral_code')
-                    ->filterable()
-                    ->searchable(),
 
                 Column::name('profiles.referrer')
                     ->filterable()
