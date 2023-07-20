@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 class EditUserDetails extends Component
 {
-    public $user, $firstName, $lastName, $username, $email, $phone;
+    public $user, $firstName, $lastName;
+    public $username, $email, $phone , $message;
     public function mount()
     {
         $id = Route::current()->parameter('id');
@@ -20,9 +21,14 @@ class EditUserDetails extends Component
         $this->phone = $this->user->phone_number;
     }
 
+    public function updated()
+    {
+        $this->message = '';
+    }
+
     public function editUser()
     {
-
+        
         $user = $this->user;
         $user->profile->first_name = $this->firstName;
         $user->profile->last_name = $this->lastName;
@@ -32,7 +38,9 @@ class EditUserDetails extends Component
 
         $user->profile->save();
         $user->save();
-        return redirect()->to('/cashingames/users/edit/' . $this->user->id);
+
+        $this->message = 'Details Saved';
+
     }
 
     public function render()

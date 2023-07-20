@@ -14,6 +14,14 @@ class UsersTable extends LivewireDatatable
     public $persistPerPage = false;
     public $complex = true;
 
+    public $searchable = [
+        'users.email', 'users.username', 'users.phone_number',
+        'profiles.first_name', 'profiles.last_name',
+        'profiles.referrer', 'users.meta_data', 'users.last_activity_time',
+        'users.phone_verified_at', 'users.email_verified_at', 'users.created_at'
+    ];
+
+
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
@@ -60,68 +68,39 @@ class UsersTable extends LivewireDatatable
                 )->unsortable(),
 
                 Column::name('profiles.first_name')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('profiles.last_name')
-                    ->filterable()
-                    ->searchable(),
-
-                Column::name('username')
-                    ->searchable()
                     ->filterable(),
 
-                Column::name('meta_data->device_brand')
-                    ->group('Tracking Data')
-                    ->hide()
-                    ->label('Device Brand'),
+                Column::name('profiles.last_name')
+                    ->filterable(),
 
-                Column::name('meta_data->device_model')
+                Column::name('username')
+                    ->filterable(),
+                    
+                Column::name("meta_data")
                     ->group('Tracking Data')
+                    ->filterable()
                     ->hide()
-                    ->label('Device Model'),
-
-                Column::name('meta_data->device_token')
-                    ->group('Tracking Data')
-                    ->hide()
-                    ->label('Device Token'),
-
-                Column::name('meta_data->registration_ip_address')
-                    ->group('Tracking Data')
-                    ->hide()
-                    ->label('Registration IP'),
-
-                Column::name('meta_data->login_ip_address')
-                    ->group('Tracking Data')
-                    ->hide()
-                    ->label('Login IP'),
+                    ->label('Tracking Data'),
 
                 Column::name('last_activity_time')
-                    ->searchable()
                     ->filterable(),
 
                 Column::name('email')
-                    ->filterable()
-                    ->searchable(),
+                    ->filterable(),
 
                 Column::name('email_verified_at')
-                    ->searchable()
                     ->filterable(),
 
                 Column::name('phone_number')
-                    ->filterable()
-                    ->searchable(),
+                    ->filterable(),
 
                 Column::name('phone_verified_at')
-                    ->searchable()
                     ->filterable(),
 
                 Column::name('profiles.referrer')
-                    ->filterable()
-                    ->searchable(),
+                    ->filterable(),
 
                 DateColumn::name('created_at')
-                    ->searchable()
                     ->filterable()
 
             ];

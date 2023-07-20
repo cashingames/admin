@@ -7,7 +7,7 @@ use App\Models\Live\Profile;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Model
-{       
+{
         use Notifiable;
 
         protected $connection = 'mysqllive';
@@ -15,6 +15,9 @@ class User extends Model
                 'profile'
         ];
 
+        protected $casts = [
+                'meta_data' => 'array',
+        ];
         public function profile()
         {
                 return $this->hasOne(Profile::class);
@@ -22,12 +25,12 @@ class User extends Model
 
         public function wallet()
         {
-            return $this->hasOne(Wallet::class);
+                return $this->hasOne(Wallet::class);
         }
-    
+
         public function transactions()
         {
-            return $this->hasManyThrough(WalletTransaction::class, Wallet::class);
+                return $this->hasManyThrough(WalletTransaction::class, Wallet::class);
         }
 
         public function gameSessions()
@@ -40,7 +43,7 @@ class User extends Model
                 return $this->hasMany(ChallengeGameSession::class);
         }
 
-        
+
         public function plans()
         {
                 return $this->hasMany(UserPlan::class);
@@ -60,10 +63,9 @@ class User extends Model
         {
                 return $this->initiatedChallenges()->union($this->recievedChallenges()->toBase());
         }
-        
+
         public function notifications()
         {
-            return $this->morphMany(UserNotification::class, 'notifiable')->orderBy('created_at', 'desc');
+                return $this->morphMany(UserNotification::class, 'notifiable')->orderBy('created_at', 'desc');
         }
-
 }
