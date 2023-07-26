@@ -68,17 +68,17 @@ class UsersTable extends LivewireDatatable
                 )->unsortable(),
 
                 Column::name('profiles.first_name')
-                    ->filterable(),
+                    ->filterable()->searchable(),
 
                 Column::name('profiles.last_name')
-                    ->filterable(),
+                    ->filterable()->searchable(),
 
                 Column::name('username')
-                    ->filterable(),
+                    ->filterable()->searchable(),
                     
                 Column::name("meta_data")
                     ->group('Tracking Data')
-                    ->filterable()
+                    ->filterable()->searchable()
                     ->hide()
                     ->label('Tracking Data'),
 
