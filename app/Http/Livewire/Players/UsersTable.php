@@ -14,14 +14,6 @@ class UsersTable extends LivewireDatatable
     public $persistPerPage = false;
     public $complex = true;
 
-    public $searchable = [
-        'users.email', 'users.username', 'users.phone_number',
-        'profiles.first_name', 'profiles.last_name',
-        'profiles.referrer', 'users.meta_data', 'users.last_activity_time',
-        'users.phone_verified_at', 'users.email_verified_at', 'users.created_at'
-    ];
-
-
     public function builder()
     {
         $livedb = config('database.connections.mysqllive.database');
@@ -92,13 +84,13 @@ class UsersTable extends LivewireDatatable
                     ->filterable(),
 
                 Column::name('phone_number')
-                    ->filterable(),
+                    ->filterable()->searchable(),
 
                 Column::name('phone_verified_at')
                     ->filterable(),
 
                 Column::name('profiles.referrer')
-                    ->filterable(),
+                    ->filterable()->searchable(),
 
                 DateColumn::name('created_at')
                     ->filterable()
