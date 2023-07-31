@@ -9,7 +9,7 @@ class WalletTransaction extends Model
         protected $connection = 'mysqllive';
 
         protected $fillable = [
-                'wallet_id', 'transaction_type', 'amount', 'description', 
+                'wallet_id', 'transaction_type', 'amount', 'description', 'balance_type',
                 'reference', 'balance','viable_date','settled_at', 'transaction_action'
             ];
         
