@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class FundWallet extends Component
 {
     public $username, $amount, $walletType, $bonusType;
-    public $message, $error, $bonuses;
+    public $message, $error, $bonuses, $notificationMessage;
 
     public function mount()
     {
@@ -22,6 +22,7 @@ class FundWallet extends Component
         $this->amount = 0;
         $this->walletType = 'Fundable Wallet';
         $this->bonuses = Bonus::all();
+        $this->notificationMessage = "Your wallet has been credited";
     }
 
     public function updated()
@@ -63,7 +64,7 @@ class FundWallet extends Component
         $this->message = 'Wallet funded';
 
         //database notification
-        $user->notify(new WalletFunded($this->amount, $user));
+        $user->notify(new WalletFunded($this->amount, $user, $this->notificationMessage));
         $user->notifications()->where('notifiable_type', 'App\Models\Live\User')->update([
             'notifiable_type' => 'App\Models\User'
         ]);

@@ -16,16 +16,18 @@ class WalletFunded extends Notification
 
     public $amount;
     public $user;
+    public $message;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($amount, User $user)
+    public function __construct($amount, User $user, string $message)
     {
         $this->amount = $amount;
         $this->user = $user;
+        $this->message = $message;
     }
 
     /**
@@ -48,7 +50,7 @@ class WalletFunded extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => "Your wallet has been credited with ₦{$this->amount}",
+            'title' => $this->message,
             'action_type' => PushNotificationType::Wallet,
             'action_id' => $this->user->wallet->id
         ];
