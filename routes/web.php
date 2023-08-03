@@ -97,10 +97,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return redirect()->route('gaming.challenges');
     })->name('gaming');
 
-    // Route::get('/gaming/dashboard', function () {
-    //     return view('gaming.dashboard');
-    // })->name('gaming.dashboard');
-    
     Route::get('/gaming/dashboard', function () {
         return redirect()->route('gaming.challenges');
     })->name('gaming.dashboard');
@@ -117,19 +113,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('gaming.userAchievementBadges');
     })->name('gaming.userAchievementBadges');
 
-    // Route::get('/gaming/challenge/sessions', function () {
-    //     return view('gaming.challenge.challengeGameSessions');
-    // })->name('gaming.challengeGameSessions');
-
-    Route::get('/gaming/live-trivia/sessions', function () {
-        return view('gaming.livetrivia.triviaGameSessions');
-    })->name('gaming.triviaGameSessions');
- 
-    
-    Route::get('/gaming/trivia', function () {
-        return view('gaming.livetrivia.trivia');
-    })->name('gaming.trivia');
-
     Route::get('/gaming/challenges', function () {
         return view('gaming.challenge.challenges');
     })->name('gaming.challenges');
@@ -145,22 +128,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/gaming/stakings', function () {
         return view('gaming.staking.stakings');
     })->name('gaming.stakings');
-
-    Route::get('/gaming/challenges/data', function () {
-        return view('gaming.challenge.challengeUserData');
-    })->name('gaming.challengeUserData');
-
-    Route::get('/gaming/trivia/create', function () {
-        return view('gaming.livetrivia.add-trivia');
-    })->name('trivia.create');
-
-    Route::get('/gaming/trivia/select-questions/{id}', function () {
-        return view('gaming.livetrivia.select-questions');
-    })->name('trivia.select-questions');
-
-    Route::get('/gaming/trivia/edit/{id}', function () {
-        return view('gaming.livetrivia.edit-trivia');
-    })->name('trivia.edit');
 
     Route::get('/cashingames/users/edit/{id}', function () {
         return view('customers.edit-details');

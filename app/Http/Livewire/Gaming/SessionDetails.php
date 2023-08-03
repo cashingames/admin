@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Gaming;
 
-use App\Models\Live\ChallengeGameSession;
 use App\Models\Live\GameSession;
 use Livewire\Component;
 
@@ -16,7 +15,7 @@ class SessionDetails extends Component
     public function mount()
     {   
        
-        $this->gameMode = null;
+        $this->gameMode = 'Exhibition';
         $this->sessionId = null;
         $this->data = [];
     }
@@ -31,7 +30,7 @@ class SessionDetails extends Component
             return $this->err = 'Game mode and session id is needed';
         }
 
-        if ($this->gameMode == 'Live Trivia' || $this->gameMode == 'Exhibition'){
+        if ($this->gameMode == 'Exhibition'){
             $this->data = GameSession::join('game_session_questions', 'game_session_questions.game_session_id', 'game_sessions.id')
             ->join('questions','questions.id','game_session_questions.question_id')
             ->join('options','options.id','game_session_questions.option_id')

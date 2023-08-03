@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         //
-        Commands\PublishLiveTrivia::class
+      
     ];
 
     /**
@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('trivia:publish')->everyMinute();
+       //
     }
 
     /**

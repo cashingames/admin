@@ -33,31 +33,9 @@ class User extends Model
         {
                 return $this->hasMany(GameSession::class);
         }
-
-        public function challengeGameSessions()
-        {
-                return $this->hasMany(ChallengeGameSession::class);
-        }
-
-        
         public function plans()
         {
                 return $this->hasMany(UserPlan::class);
-        }
-
-        public function initiatedChallenges()
-        {
-                return $this->hasMany(Challenge::class);
-        }
-
-        public function recievedChallenges()
-        {
-                return $this->hasMany(Challenge::class, 'opponent_id');
-        }
-
-        public function challenges()
-        {
-                return $this->initiatedChallenges()->union($this->recievedChallenges()->toBase());
         }
         
         public function notifications()
