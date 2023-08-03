@@ -4,10 +4,7 @@ namespace App\Http\Livewire\Cms\GameArk;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
-use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\GameArk\Category;
-use App\Models\Live\GameArk\CategoryQuestion;
-use App\Models\Live\GameArk\Question;
 
 class QuestionsCategoryStatistics extends LivewireDatatable
 {   

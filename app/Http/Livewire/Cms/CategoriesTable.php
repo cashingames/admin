@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Cms;
 use App\Models\Live\Category;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
-use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Illuminate\Support\Carbon;

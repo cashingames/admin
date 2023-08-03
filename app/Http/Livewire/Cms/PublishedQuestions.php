@@ -4,15 +4,8 @@ namespace App\Http\Livewire\Cms;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
-use Mediconesystems\LivewireDatatables\NumberColumn;
-use Mediconesystems\LivewireDatatables\BooleanColumn;
-use Illuminate\Support\Facades\Gate;
 use App\Models\Live\Question;
-use App\Models\Question as AdminQuestion;
-use App\Models\Live\Category;
-use App\Models\User;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PublishedQuestions extends LivewireDatatable

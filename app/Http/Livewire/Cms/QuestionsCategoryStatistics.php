@@ -4,10 +4,7 @@ namespace App\Http\Livewire\Cms;
 
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
-use Mediconesystems\LivewireDatatables\NumberColumn;
 use App\Models\Live\Category;
-use App\Models\Live\CategoryQuestion;
-use App\Models\Live\Question;
 
 class QuestionsCategoryStatistics extends LivewireDatatable
 {   
