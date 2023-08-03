@@ -31,7 +31,7 @@ class TransationsTable extends LivewireDatatable
     {
         return WalletTransaction::query()
             ->leftJoin('wallets', 'wallets.id', 'wallet_transactions.wallet_id')
-            ->leftJoin('users', 'users.id', 'wallets.user_id')->where('wallets.user_id','!=', 1);
+            ->leftJoin('users', 'users.id', 'wallets.user_id')->where('wallets.user_id', '!=', 1);
     }
 
     public function columns()
@@ -46,19 +46,7 @@ class TransationsTable extends LivewireDatatable
                     ->filterable(),
 
                 Column::name('reference')->hide(),
-
-                // Column::name('description')->filterable([
-                //     'Fund Wallet',
-                //     'Sign Up Bonus',
-                //     'Winnings Withdrawal Made',
-                //     'Placed a staking',
-                //     'Paid entrance fee for live trivia',
-                //     'games',
-                //     'boosts'
-                // ]),
                 Column::name('transaction_type')->filterable(['CREDIT', 'DEBIT']),
-
-
                 Column::name('transaction_action')->filterable([
                     'BOOST_BOUGHT',
                     'WALLET_FUNDED',

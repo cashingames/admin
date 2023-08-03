@@ -11,9 +11,4 @@ class Bonus extends Model
     protected $connection = 'mysqllive';
 
     protected $fillable = ['name', 'trigger', 'duration_count','duration_measurement'];
-
-    public function userBonuses()
-    {
-        return $this->hasMany(UserBonus::class);
-    }
 }

@@ -18,9 +18,6 @@
                     <x-jet-nav-link href="{{ route('finance.wallets') }}" :active="request()->routeIs('finance.wallets')">
                         {{ __('Wallets') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('finance.bonuses') }}" :active="request()->routeIs('finance.bonuses')">
-                        {{ __('User Bonuses') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('finance.fund') }}" :active="request()->routeIs('finance.fund')">
                         {{ __('Payouts') }}
                     </x-jet-nav-link>

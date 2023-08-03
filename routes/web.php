@@ -186,10 +186,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('finance.pay');
     })->name('finance.fund');
 
-    Route::get('/finance/bonuses', function () {
-        return view('finance.bonuses');
-    })->name('finance.bonuses');
-
     Route::get('/finance/transactions/wallet-funds', function () {
         return view('finance.fundTransactions');
     })->name('finance.fundings');

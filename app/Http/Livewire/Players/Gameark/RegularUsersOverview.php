@@ -48,23 +48,8 @@ class RegularUsersOverview extends LivewireDatatable
                 }, ['games'])->label('No Of Games Played'),
 
                 Column::callback(['id'], function ($id) {
-                    return User::find($id)->gameSessions()->whereNotNull('trivia_id')->count();
-                     
-                }, ['trivia'])->label('No Of Trivia played'),
-
-                Column::callback(['id'], function ($id) {
-                    return User::find($id)->transactions()->where(function ($query) {
-                        $query->where('description', 'Bought TIME FREEZE boosts')
-                            ->orWhere('description', 'Bought SKIP boosts')
-                            ->orWhere('description', 'Bought BOMB boosts');
-                    })->count();
-                }, ['boost'])->label('Number of Boosts Bought'),
-
-                Column::callback(['id'], function ($id) {
-                    return User::find($id)->plans()->where('plan_id', '>', 1)
-                    ->where('user_id', $id)->count();
-
-                }, ['games_bought'])->label('Number of Bought Games'),
+                    return User::find($id)->transactions()->where('transaction_action', 'BOOST_BOUGHT')->count();
+                }, ['boost'])->label('Number of Boosts Bought')
 
             ];
     }
