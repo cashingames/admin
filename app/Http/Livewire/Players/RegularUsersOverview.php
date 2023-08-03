@@ -31,12 +31,7 @@ class RegularUsersOverview extends LivewireDatatable
                     ->label('Email')
                     ->filterable()
                     ->searchable(),
-
-                Column::name('phone_number')
-                    ->label('Phone Number')
-                    ->filterable()
-                    ->searchable(),
-
+                    
                 Column::callback(['id'], function ($id) {
                    return User::find($id)->gameSessions()->count();     
                 }, ['games'])->label('No Of Games Played'),

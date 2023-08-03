@@ -70,11 +70,7 @@ class UsersTable extends LivewireDatatable
                 Column::name('email')
                     ->filterable()
                     ->searchable(),
-
-                Column::name('phone_number')
-                    ->filterable()
-                    ->searchable(),
-
+                    
                 Column::name('profiles.referral_code')
                     ->filterable()
                     ->searchable(),
