@@ -26,7 +26,6 @@ class UsersTable extends LivewireDatatable
                 "users.created_at",
                 "users.username",
                 "users.email",
-                "users.phone_number",
                 "users.phone_verified_at",
                 "users.email_verified_at",
                 "users.last_activity_time",

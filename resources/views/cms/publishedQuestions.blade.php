@@ -1,7 +1,13 @@
 <x-cms-layout>
-    {{--<button onclick='Livewire.emit("openModal", "modals.add-question")' class="shadow bg-blue-500 text-white font-bold mb-4 py-2 px-4 rounded">
-        + Add Question Manually
-    </button> --}}
+    @if ($errors->any())
+    <div class="mb-4 w/50 text-red-500 font-bold">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     @if (Auth::user()->hasTeamPermission(Auth::user()->currentTeam, 'cms:upload') )
     <a href="{{ url('/cms/questions/upload') }}" class="shadow bg-blue-500 text-white font-bold mb-4 py-2 px-4 rounded">
         + Upload File

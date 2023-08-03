@@ -57,7 +57,7 @@ class EditQuestion extends ModalComponent
         });
 
         if ($validator->fails()) {
-            return redirect()->to('/cms/questions/unreviewed')->withErrors($validator);
+            return redirect()->to('/cms/questions/published')->withErrors($validator);
         }
 
         $question = Question::find($request->question_id);
@@ -122,7 +122,7 @@ class EditQuestion extends ModalComponent
 
         QuestionsReviewLog::create(['question_id' => $question->id, 'review_type' => 'EDITED']);
 
-        return redirect()->to('/cms/questions/unreviewed');
+        return redirect()->to('/cms/questions/published');
     }
 
     public function shouldAddOption()

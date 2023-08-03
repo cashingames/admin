@@ -29,7 +29,7 @@ class ConfirmDeleteQuestion extends ModalComponent
             'question_id' => $this->question_id,
             'review_type' => 'DELETED'
         ]);
-        return redirect()->to('/cms/questions/unreviewed');
+        return redirect()->to('/cms/questions/published');
     }
 
     public function render()
