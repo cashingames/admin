@@ -20,7 +20,7 @@ class FundWallet extends Component
     {
         $this->username = '';
         $this->amount = 0;
-        $this->walletType = 'Fundable Wallet';
+        $this->walletType = '';
         $this->bonuses = Bonus::all();
         $this->notificationMessage = "Your wallet has been credited";
     }
@@ -43,21 +43,28 @@ class FundWallet extends Component
 
             if ($this->walletType == 'Fundable Wallet') {
                 $user->wallet->non_withdrawable += $this->amount;
-            } else {
+            } elseif($this->walletType == 'Bonus Wallet') {
                 $user->wallet->bonus += $this->amount;
+            }
+            else {
+                return $this->error = 'Invalid Wallet Type';
             }
 
             $user->wallet->save();
-
+            $balance = ($this->walletType == 'Fundable Wallet' ? $user->wallet->non_withdrawable : $user->wallet->bonus);
+            $description = ($this->walletType == 'Fundable Wallet' ? 'Wallet Top-up' : 'Bonus Top-up');
+            $balanceType = ($this->walletType == 'Fundable Wallet' ? 'CREDIT_BALANCE' : 'BONUS_BALANCE');
+            $transactionAction = ($this->walletType == 'Fundable Wallet' ? 'WALLET_FUNDED' : 'BONUS_CREDITED');
+        
             WalletTransaction::create([
                 'wallet_id' => $user->wallet->id,
                 'transaction_type' => 'CREDIT',
                 'amount' => $this->amount,
-                'balance' => ($this->walletType == 'Fundable Wallet' ? $user->wallet->non_withdrawable : $user->wallet->bonus),
-                'description' => ($this->walletType == 'Fundable Wallet' ? 'Wallet Top-up' : 'Bonus Top-up'),
+                'balance' => $balance,
+                'description' => $description,
                 'reference' =>  Str::random(10),
-                'balance_type' => ($this->walletType == 'Fundable Wallet' ? 'CREDIT_BALANCE' : 'BONUS_BALANCE'),
-                'transaction_action' => ($this->walletType == 'Fundable Wallet' ? 'WALLET_FUNDED' : 'BONUS_CREDITED')
+                'balance_type' => $balanceType,
+                'transaction_action' => $transactionAction
             ]);
         });
 
