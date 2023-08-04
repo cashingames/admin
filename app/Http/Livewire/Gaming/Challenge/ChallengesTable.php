@@ -53,7 +53,7 @@ class ChallengesTable extends LivewireDatatable
     {
         return
             [
-                DateColumn::name('challenge_requests.created_at')->filterable()->label('Time Played'),
+                DateColumn::name('challenge_requests.created_at')->format('Y-m-d H:i:s')->filterable()->label('Time Played'),
                 Column::name('challenge_requests.request_mode')->filterable()->label('Mode'),
                 Column::name('categories.name')->filterable()->label('Category'),
                 Column::callback(['cr2.user_id', 'cr2.username'], function ($id, $player) {
