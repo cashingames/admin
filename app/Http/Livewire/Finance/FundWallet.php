@@ -39,34 +39,42 @@ class FundWallet extends Component
             return $this->error = 'Username does not exist';
         }
 
-        DB::transaction(function () use ($user) {
+        if ($this->walletType == 'Fundable Wallet') {
+            DB::transaction(function () use ($user) {
 
-            if ($this->walletType == 'Fundable Wallet') {
                 $user->wallet->non_withdrawable += $this->amount;
-            } elseif($this->walletType == 'Bonus Wallet') {
-                $user->wallet->bonus += $this->amount;
-            }
-            else {
-                return $this->error = 'Invalid Wallet Type';
-            }
+                $user->wallet->save();
 
-            $user->wallet->save();
-            $balance = ($this->walletType == 'Fundable Wallet' ? $user->wallet->non_withdrawable : $user->wallet->bonus);
-            $description = ($this->walletType == 'Fundable Wallet' ? 'Wallet Top-up' : 'Bonus Top-up');
-            $balanceType = ($this->walletType == 'Fundable Wallet' ? 'CREDIT_BALANCE' : 'BONUS_BALANCE');
-            $transactionAction = ($this->walletType == 'Fundable Wallet' ? 'WALLET_FUNDED' : 'BONUS_CREDITED');
-        
-            WalletTransaction::create([
-                'wallet_id' => $user->wallet->id,
-                'transaction_type' => 'CREDIT',
-                'amount' => $this->amount,
-                'balance' => $balance,
-                'description' => $description,
-                'reference' =>  Str::random(10),
-                'balance_type' => $balanceType,
-                'transaction_action' => $transactionAction
-            ]);
-        });
+                WalletTransaction::create([
+                    'wallet_id' => $user->wallet->id,
+                    'transaction_type' => 'CREDIT',
+                    'amount' => $this->amount,
+                    'balance' => $user->wallet->non_withdrawable,
+                    'description' => 'Wallet Top-up',
+                    'reference' =>  Str::random(10),
+                    'balance_type' => 'CREDIT_BALANCE',
+                    'transaction_action' => 'WALLET_FUNDED'
+                ]);
+            });
+        } elseif ($this->walletType == 'Bonus Wallet') {
+            DB::transaction(function () use ($user) {
+                $user->wallet->bonus += $this->amount;
+                $user->wallet->save();
+                
+                WalletTransaction::create([
+                    'wallet_id' => $user->wallet->id,
+                    'transaction_type' => 'CREDIT',
+                    'amount' => $this->amount,
+                    'balance' => $user->wallet->bonus,
+                    'description' => 'Bonus Top-up',
+                    'reference' =>  Str::random(10),
+                    'balance_type' => 'BONUS_BALANCE',
+                    'transaction_action' => 'BONUS_CREDITED'
+                ]);
+            });
+        } else {
+            return $this->error = 'Invalid Wallet Type';
+        }
 
         $this->message = 'Wallet funded';
 
