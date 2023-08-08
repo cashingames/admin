@@ -78,8 +78,8 @@ class ChallengesTable extends LivewireDatatable
                 Column::name('cr2.amount')->filterable()->label('Player Amount Staked')->searchable()->hide(),
                 DateColumn::name('player_user.created_at')->filterable()->label('Player Joined On')->searchable(),
                 DateColumn::name('opponent_user.created_at')->filterable()->label('Opponent Joined On')->searchable(),
-                Column::name('player_user.phone_number')->filterable()->label('Player Phone')->searchable()->hide(),
-                Column::name('opponent_user.phone_number')->filterable()->label('Opponent Phone')->searchable()->hide(),
+                Column::name('player_user.phone_number')->filterable()->label('Player Phone')->searchable(),
+                Column::name('opponent_user.phone_number')->filterable()->label('Opponent Phone')->searchable(),
                 Column::name('player_user.email')->filterable()->label('Player Email')->searchable()->hide(),
                 Column::name('opponent_user.email')->filterable()->label('Opponent Email')->searchable()->hide(),
             ];
