@@ -62,6 +62,10 @@ class UsersTable extends LivewireDatatable
                     ->searchable()
                     ->filterable(),
 
+                Column::name('user_type')
+                    ->searchable()
+                    ->filterable(),
+
                 Column::name('last_activity_time')
                     ->searchable()
                     ->filterable(),
@@ -69,7 +73,7 @@ class UsersTable extends LivewireDatatable
                 Column::name('email')
                     ->filterable()
                     ->searchable(),
-                    
+
                 Column::name('profiles.referral_code')
                     ->filterable()
                     ->searchable(),
