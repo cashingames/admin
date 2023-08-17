@@ -48,6 +48,9 @@ class SessionsTable extends LivewireDatatable
                     return Carbon::parse($createdAt)->setTimezone(self::TIMEZONE);
                 })->label('Played At')->filterable(),
 
+                Column::name('users.user_type')
+                    ->searchable()->filterable(),
+
                 Column::name('users.username')
                     ->searchable(),
 
