@@ -37,9 +37,9 @@ class WalletsTable extends LivewireDatatable
 
                 Column::name('users.username')->filterable()->group('user'),
 
-                Column::name('users.email')->group('user')->hide(),
+                Column::name('users.email')->group('user'),
 
-                Column::name('users.phone_number')->group('user')->hide(),
+                Column::name('users.phone_number')->group('user'),
 
                 NumberColumn::name('non_withdrawable')->label('Inflow Cash')->filterable()->enableSummary(),
 
