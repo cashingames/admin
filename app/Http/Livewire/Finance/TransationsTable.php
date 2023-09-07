@@ -57,6 +57,17 @@ class TransationsTable extends LivewireDatatable
                     'FUNDS_REVERSED',
                     'BONUS_TURNOVER_MIGRATED'
                 ]),
+                Column::name('description')->filterable([
+                    'Cashdrop Lucky Winning',
+                    'Challenge game Winnings credited',
+                    'Challenge game stake debited',
+                    'Challenge game stake refund',
+                    'Successful Withdrawal',
+                    'Wallet Top-up',
+                    'Trivia challenge staking refund',
+                    'Trivia challenge staking request',
+                    'Trivia challenge staking winning'
+                ]),
 
                 NumberColumn::callback(['amount', 'transaction_type'], function ($amount, $transactionType) {
                     return $transactionType == 'CREDIT' ? $amount : -$amount;
