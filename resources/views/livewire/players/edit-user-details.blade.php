@@ -45,6 +45,13 @@
             <button wire:click="editUser" wire:loading.attr="disabled" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
                 Save
             </button>
+            <button wire:click="verifyUser" wire:loading.attr="disabled" class="shadow bg-blue-500 text-white font-bold ml-4 py-2 px-4 rounded">
+                @if(isset($user->meta_data['kyc_verified']) && $user->meta_data['kyc_verified'])
+                Verified
+            @else
+                Verify
+            @endif
+            </button>
         </div>
 
 
